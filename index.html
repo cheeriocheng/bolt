@@ -1,129 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>seashell</title>
-        <meta charset="utf-8">
-        <meta property="og:title" content="sea shell generator"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:image" content="assets/image.png"/>
-        <link rel="icon" href="assets/favicon.png">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <style>
-            body {
-                margin: 0px;
-                overflow: hidden;
-                height: 100%;
-                font-family: Arial, Helvetica, sans-serif
-            }
-            
-            #controlPanel {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 260px;
-                height: 100%;
-                background-color: rgba(50, 50, 50, 0.8) ; 
-                border-left: 0px ;
-                padding: 20px;
-                overflow-y: scroll;
-                
-            }
-            
-           .title {
-                font-weight: lighter;
-                font-size: 20px;
-                text-align: center;
-                color: rgb(220,220,220);
-                margin-bottom: 20px;
-            }
+  <head>
+    <title>seashell</title>
+    <meta charset="utf-8">
+    <meta property="og:title" content="sea shell generator"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="assets/image.png"/>
+    <link rel="icon" href="assets/favicon.png">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link href="./style.css" type="text/css" rel="stylesheet"/>
+    <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+  </head>
+  
+  <body>
+    <form id="nl-form" class="nl-form">
+      I am 
+      <input type="text" name="fullname"/>
+	  <br /> I work at the
+      <input type="text" name="employeelocation"/>
+      I've worked at W for
+      <input type="text" name="tenure"/>
+      years.
+	  <div class="nl-submit-wrap">
+		<button class="nl-submit" type="submit">Make my bolt</button>
+	  </div>
+	  <div class="nl-overlay"></div>
+    </form>
 
-            .text {
-                font-weight: lighter;
-                font-size: 16px;
-                text-align: left;
-                color: rgb(220,220,220);
-                margin-bottom: 20px;
-            }
+    <script type="text/javascript" src="js/third-party/threejs/three.js"></script>
+    <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
+    <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
+    <script type="text/javascript" src="js/utils/helpers.js"></script>
+    <script type="text/javascript" src= "js/geometries/AirShell.js"></script>
+    <script type="text/javascript" src= "js/geometries/OBJExporter.js"></script>
+    <script type="text/javascript" src = "js/ui/controlPanel.js"></script>
+    <script type="text/javascript" src = "js/script.js"></script>
 
-            #info {
-                color: #fff;
-                position: absolute;
-                top: 10px;
-                width: 100%;
-                text-align: center;
-                z-index: 100;
-                display: block;
-            }
-
-            form{
-                margin-top: 40px;
-            }
-
-            .slider {
-                width: 180px;
-            }
-
-            div.floating {
-                color : #ffffff;
-                background : #000000;
-                opacity : 0.8;
-                width : 80%;
-                height : 80%;
-                position : absolute;
-                left : 10%;
-                top : 10%;
-                border : 1px solid #555555;
-                padding : 10px;
-                display : none;
-                overflow : auto;
-                z-index: 100;
-            }
-
-            .sliderIcon{
-                height: 30px;
-                width: 30px; 
-            }
-
-            button {
-                background-color: #555;
-                border: none;
-                color: white;
-                padding: 15px 32px;
-                width:240px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 30px 2px;
-                cursor: pointer;
-                padding: 10px;
-            }
-
-            span.link {
-
-                color: skyblue;
-                cursor: pointer;
-                text-decoration : underline;
-            }
-
-            a {
-                color: skyblue
-            }
-
-        </style>
-    </head>
-    <body>
-
-      
-
-        <script type="text/javascript" src="js/third-party/threejs/three.js"></script>
-        <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
-        <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
-        <script type="text/javascript" src="js/utils/helpers.js"></script>
-        <script type="text/javascript" src= "js/geometries/AirShell.js"></script>
-        <script type="text/javascript" src= "js/geometries/OBJExporter.js"></script>
-        <script type="text/javascript" src = "js/ui/controlPanel.js"></script>
-        <script type="text/javascript" src = "js/script.js"></script>
-
-    </body>
+  </body>
 </html>
