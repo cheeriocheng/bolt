@@ -1,5 +1,5 @@
 //add export button 
-$('.nl-submit').addEventListener ("click", function() {
+$('.nl-submit').on("click", function() {
   exportToObj();
 });
 
