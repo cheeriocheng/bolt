@@ -24,8 +24,8 @@ function init() {
   document.body.appendChild(renderer.domElement);
   
   //field of view, aspect ratio,  near and far clipping plane.
-  camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000); 
-  camera.position.set(0, 0, 40); 
+  camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);  //0.1-1000
+  camera.position.set(0, 0, 50); 
   
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.autoRotate = false;
@@ -52,7 +52,7 @@ function init() {
   var r = 10; 
   var steps = 10;
   var deltaTheta = 2*Math.PI/steps;
-  for (var i=0; i< steps; i++){
+  for (var i=0; i<= steps/2; i++){
       var theta = deltaTheta*i; 
       var x = r * Math.cos(theta);
       var y = r * Math.sin(theta);
@@ -63,6 +63,19 @@ function init() {
 
   var lineObject = new THREE.Line(line, material);
   scene.add(lineObject);    
+
+  var line1 = new THREE.Geometry();
+  r = r/50*60;
+  for (var i=steps/2; i <= steps; i++){
+      var theta = deltaTheta*i; 
+      var x = r * Math.cos(theta);
+      var y = r * Math.sin(theta);
+      line1.vertices.push(new THREE.Vector3(x,y,-10));
+  }
+  var material1 = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  scene.add(new THREE.Line(line1, material1));    
+
+
 
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
