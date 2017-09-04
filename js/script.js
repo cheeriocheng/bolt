@@ -75,7 +75,19 @@ function init() {
   var material1 = new THREE.LineBasicMaterial({ color: 0xff0000 });
   scene.add(new THREE.Line(line1, material1));    
 
+  //// svg 
+ /// Global : group
+  group = new THREE.Group();
+  scene.add( group );
 
+  var obj = initSVGObject();
+  addGeoObject( group, obj );
+
+  //helpers
+  // backgroup grids
+  var helper = new THREE.GridHelper( 80, 10 );
+  helper.rotation.x = Math.PI / 2;
+  scene.add( helper );
 
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
