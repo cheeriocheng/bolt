@@ -355,27 +355,27 @@ var addLogoObject = function( group, svgObject ) {
             dashSize: 5,
             gapSize: 5,
         } );
-    var pointsMaterial = new THREE.PointsMaterial( {
-            color: 0x0080ff,
-            size: 5,
-            alphaTest: 0.5
-        } );
+    // var pointsMaterial = new THREE.PointsMaterial( {
+    //         color: 0x0080ff,
+    //         size: 5,
+    //         alphaTest: 0.5
+    //     } );
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
         var points = path.getPoints();
         len1 = points.length;
 
         var line = new THREE.Geometry();
-        var pointsGeometry = new THREE.Geometry();
+    //    var pointsGeometry = new THREE.Geometry();
         for (j = 0; j < len1; j++ ){
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
-            pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
+      //      pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
         }
         //TODO close the line ? 
         line.vertices.push(line.vertices[0]);
 
         group.add(new THREE.Line(line, lineDashedMaterial));
-        group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
+        //group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
     }
      // debugger;
 };
@@ -400,7 +400,7 @@ var addLineObject = function( group, svgObject ) {
         } );
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
-        var points = path.getPoints();
+        var points = path.getPoints(5); //reduce amount of points on curves..
         len1 = points.length;
 
         var line = new THREE.Geometry();
@@ -408,7 +408,7 @@ var addLineObject = function( group, svgObject ) {
         for (j = 0; j < len1; j++ ){
             x = points[j].x - theCenter.x; 
             y = -points[j].y + theCenter.y; 
-            z = getRandomInt(0,-30);
+            z = getRandomInt(100,-200);
             scale = (CAMERA_Z-z)/CAMERA_Z; 
             x = x*scale;
             y = y*scale;

@@ -17,11 +17,15 @@ animate();
  */
 
 function init() {
-  renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer = new THREE.WebGLRenderer({
+    antialias: true,
+     alpha: true
+  });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0)
-  document.body.appendChild(renderer.domElement);
+  renderer.setClearColor(0x000000, 0.0);
+   document.getElementById('canvas').appendChild(renderer.domElement);
+   // document.body.appendChild(renderer.domElement);
   
   //field of view, aspect ratio,  near and far clipping plane.
   camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);  //0.1-1000
@@ -47,34 +51,16 @@ function init() {
   
   var ambientLight = new THREE.AmbientLight( 0x333333 ); // soft white light  
   scene.add( ambientLight );
+  //helpers
+  // backgroup grids
+  // var helper = new THREE.GridHelper( 80, 10 );
+  // helper.rotation.x = Math.PI / 2;
+  // scene.add( helper );
 
-  //line experiments 
-  var line = new THREE.Geometry();
-  var r = 10; 
-  var steps = 10;
-  var deltaTheta = 2*Math.PI/steps;
-  for (var i=0; i<= steps/2; i++){
-      var theta = deltaTheta*i; 
-      var x = r * Math.cos(theta);
-      var y = r * Math.sin(theta);
-      line.vertices.push(new THREE.Vector3(x,y,0));
-  }
+  var axisHelper = new THREE.AxisHelper( 5 );
+  scene.add( axisHelper );
 
-  var material = new THREE.LineBasicMaterial({ color: 0xffff00 });
 
-  var lineObject = new THREE.Line(line, material);
-  scene.add(lineObject);    
-
-  var line1 = new THREE.Geometry();
-  r = r/50*60;
-  for (var i=steps/2; i <= steps; i++){
-      var theta = deltaTheta*i; 
-      var x = r * Math.cos(theta);
-      var y = r * Math.sin(theta);
-      line1.vertices.push(new THREE.Vector3(x,y,-10));
-  }
-  var material1 = new THREE.LineBasicMaterial({ color: 0xff0000 });
-  scene.add(new THREE.Line(line1, material1));    
 
   //// svg 
  /// Global : group
@@ -85,14 +71,7 @@ function init() {
   addLogoObject(group, obj);
   addLineObject( group, obj );
 
-  //helpers
-  // backgroup grids
-  var helper = new THREE.GridHelper( 80, 10 );
-  helper.rotation.x = Math.PI / 2;
-  scene.add( helper );
-
-  var axisHelper = new THREE.AxisHelper( 5 );
-  scene.add( axisHelper );
+  
 
 
 }
