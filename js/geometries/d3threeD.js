@@ -69,7 +69,7 @@ function transformSVGPath(pathStr) {
     activeCmd = pathStr[0];
     while (idx <= len) {
         canRepeat = true;
-        console.log(activeCmd)
+       // console.log(activeCmd)
         switch (activeCmd) {
             // moveto commands, become lineto's if repeated
             case 'M':
@@ -336,47 +336,11 @@ var addGeoObject = function( group, svgObject ) {
     }
 };
 
-// var init3d = function(){
-
-//     /// Global : renderer
-//     renderer = new THREE.WebGLRenderer( { antialias: true } );
-//     renderer.setClearColor( 0xb0b0b0 );
-//     renderer.setPixelRatio( window.devicePixelRatio );
-//     renderer.setSize( window.innerWidth, window.innerHeight );
-
-//     /// Global : scene
-//     scene = new THREE.Scene();
-
-//     /// Global : camera
-//     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-//     camera.position.set( 0, 0, 200 );
-
-//     /// Global : group
-//     group = new THREE.Group();
-//     scene.add( group );
-
-//     /// direct light
-//     var light = new THREE.DirectionalLight( 0x404040 );
-//     light.position.set( 0.75, 0.75, 1.0 ).normalize();
-//     scene.add( light );
-
-//     /// ambient light
-//     var ambientLight = new THREE.AmbientLight(0x404040);
-//     scene.add( ambientLight );
-
-//     /// backgroup grids
-//     var helper = new THREE.GridHelper( 80, 10 );
-//     helper.rotation.x = Math.PI / 2;
-//     group.add( helper );
-
-//     var obj = initSVGObject();
-//     addGeoObject( group, obj );
-// };
 
 var initSVGObject = function() {
     var obj = {};
 
-    obj.paths = ["M330.08,247.72H147.42L213.34,0H79.14L2.61,287.91c-11.44,43.3,15.85,78.74,60.64,78.74H146.5L93.25,568.28a2.37,2.37,0,0,0,4.18,2"];
+    obj.paths = ["M330.08,247.72H147.42L213.34,0H79.14L2.61,287.91c-11.44,43.3,15.85,78.74,60.64,78.74H146.5L93.25,568.28Z"];
 //a2.37,2.37,0,0,0,4.18,2L334.78,257.17A5.89,5.89,0,0,0,330.08,247.72ZM57.6,309.46l75.88-282.2h11.28l-73,271.3H232.08a5.45,5.45,0,0,1,5.45,5.45h0a5.45,5.45,0,0,1-5.45,5.45Z
     // /// The geo data from Taipei City, Keelung City, Taipei County in SVG form
     // obj.paths = [
@@ -413,7 +377,7 @@ var initSVGObject = function() {
 
     obj.amounts = [ 19, 20, 21 ];
     obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
-    obj.center = { x:365, y:125 };
+    obj.center = { x:100, y:220 };
 
     return obj;
 };
