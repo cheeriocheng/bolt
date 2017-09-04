@@ -81,7 +81,7 @@ function init() {
   scene.add( group );
 
   var obj = initSVGObject();
-  addGeoObject( group, obj );
+  addLineObject( group, obj );
 
   //helpers
   // backgroup grids

@@ -2,7 +2,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
+//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_extrude_shapes2.html 
 function d3threeD(exports) {
 
 const DEGS_TO_RADS = Math.PI / 180, UNIT_SIZE = 100;
@@ -310,6 +310,7 @@ var addGeoObject = function( group, svgObject ) {
     len = thePaths.length;
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
+
         color = new THREE.Color( theColors[i] ); 
         material = new THREE.MeshLambertMaterial({
             color: color,
@@ -334,6 +335,55 @@ var addGeoObject = function( group, svgObject ) {
             group.add(mesh);
         }
     }
+};
+
+var addLineObject = function( group, svgObject ) {
+    var i,j, len, len1;
+    var path, mesh, color, material, amount, simpleShapes, simpleShape, shape3d, x, toAdd, results = [];
+    var thePaths = svgObject.paths;
+    var theAmounts = svgObject.amounts;
+    var theColors = svgObject.colors;
+    var theCenter = svgObject.center;
+
+    len = thePaths.length;
+    var material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    for (i = 0; i < len; ++i) {
+        path = $d3g.transformSVGPath( thePaths[i] );
+        var points = path.getPoints();
+        len1 = points.length;
+        var line = new THREE.Geometry();
+        for (j = 0; j < len1; j++ ){
+            line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
+        }
+        //TODO close the line ? 
+        line.vertices.push(line.vertices[0]);
+      
+        group.add(new THREE.Line(line, material));
+        // color = new THREE.Color( theColors[i] ); 
+        // material = new THREE.MeshLambertMaterial({
+        //     color: color,
+        //     emissive: color,
+        // });
+        // amount = theAmounts[i];
+        // simpleShapes = path.toShapes(true);
+        // len1 = simpleShapes.length;
+        // for (j = 0; j < len1; ++j) {
+        //     simpleShape = simpleShapes[j];
+        //     shape3d = simpleShape.extrude({
+        //         amount: amount,
+        //         bevelEnabled: false
+        //     });
+        //     mesh = new THREE.Mesh(shape3d, material);
+        //     mesh.rotation.x = Math.PI;
+        //     // mesh.translateZ( - amount - 1);
+        //     mesh.translateZ( -10);
+
+        //     mesh.translateX( - theCenter.x);
+        //     mesh.translateY( - theCenter.y);
+        //     group.add(mesh);
+        // }
+    }
+    // debugger;
 };
 
 
@@ -377,7 +427,7 @@ var initSVGObject = function() {
 
     obj.amounts = [ 19, 20, 21 ];
     obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
-    obj.center = { x:100, y:220 };
+    obj.center = { x:168, y:285.5 };
 
     return obj;
 };
