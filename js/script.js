@@ -44,10 +44,7 @@ function init() {
  // buildScene();
   scene = new THREE.Scene();
  
-  //add light to the scene
-  var directionalLight = new THREE.DirectionalLight(0xffffff);
-  directionalLight.position.set(-1, 1.5, -0.5);
-  scene.add(directionalLight);
+  createLights();
   
   var ambientLight = new THREE.AmbientLight( 0x333333 ); // soft white light  
   scene.add( ambientLight );
@@ -70,11 +67,44 @@ function init() {
   var obj = initSVGObject();
   addLogoObject(group, obj);
   addLineObject( group, obj );
-
+  //addGeoObject( group, obj );
   
-
+  createPlanet();
 
 }
+function createLights() {
+  light = new THREE.HemisphereLight(0xffffff, 0xffffff, .5)
+
+  shadowLight = new THREE.DirectionalLight(0xffffff, .8);
+  shadowLight.position.set(200, 200, 200);
+  shadowLight.castShadow = true;
+  shadowLight.shadowDarkness = .2;
+
+  backLight = new THREE.DirectionalLight(0xffffff, .4);
+  backLight.position.set(-100, 200, 50);
+  backLight.shadowDarkness = .1;
+  backLight.castShadow = true;
+
+  scene.add(backLight);
+  scene.add(light);
+  scene.add(shadowLight);
+}
+
+
+function createPlanet(){
+  moonMat =  new THREE.MeshPhongMaterial ({
+    color: 0x4c00b4,
+    wireframe: false,
+    
+  });
+
+  var moonGeometry = new THREE.IcosahedronGeometry(30, 1 );
+  moon = new THREE.Mesh(moonGeometry, moonMat);
+  moon.translateZ(-20);
+  scene.add( moon );
+}
+
+
 
 function buildScene() {
   // scene = new THREE.Scene();
