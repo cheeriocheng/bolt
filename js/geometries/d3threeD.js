@@ -346,19 +346,30 @@ var addLineObject = function( group, svgObject ) {
     var theCenter = svgObject.center;
 
     len = thePaths.length;
-    var material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    var pointsMaterial = new THREE.PointsMaterial( {
+            color: 0x0080ff,
+            size: 5,
+            alphaTest: 0.5
+        } );
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
         var points = path.getPoints();
         len1 = points.length;
+
         var line = new THREE.Geometry();
+        var pointsGeometry = new THREE.Geometry();
         for (j = 0; j < len1; j++ ){
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
+            pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
         }
         //TODO close the line ? 
         line.vertices.push(line.vertices[0]);
-      
-        group.add(new THREE.Line(line, material));
+
+        group.add(new THREE.Line(line, lineMaterial));
+        group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
+
+
         // color = new THREE.Color( theColors[i] ); 
         // material = new THREE.MeshLambertMaterial({
         //     color: color,
@@ -383,7 +394,7 @@ var addLineObject = function( group, svgObject ) {
         //     group.add(mesh);
         // }
     }
-    // debugger;
+     // debugger;
 };
 
 
