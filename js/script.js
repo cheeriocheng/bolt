@@ -6,7 +6,7 @@ var scene;      //scene is the stage we put things in
 var camera;     //camera defines how we look at the scene 
 var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
-var airShell;   //airshell instance
+var CAMERA_Z;
 
 init();
 animate();
@@ -25,7 +25,8 @@ function init() {
   
   //field of view, aspect ratio,  near and far clipping plane.
   camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);  //0.1-1000
-  camera.position.set(0, 0, 450); 
+  CAMERA_Z = 450;
+  camera.position.set(0, 0, CAMERA_Z); 
   
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.autoRotate = false;
@@ -81,6 +82,7 @@ function init() {
   scene.add( group );
 
   var obj = initSVGObject();
+  addLogoObject(group, obj);
   addLineObject( group, obj );
 
   //helpers

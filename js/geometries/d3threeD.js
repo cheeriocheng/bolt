@@ -337,16 +337,24 @@ var addGeoObject = function( group, svgObject ) {
     }
 };
 
-var addLineObject = function( group, svgObject ) {
+
+////draw the original logo 
+var addLogoObject = function( group, svgObject ) {
     var i,j, len, len1;
-    var path, mesh, color, material, amount, simpleShapes, simpleShape, shape3d, x, toAdd, results = [];
+   
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
     var theColors = svgObject.colors;
     var theCenter = svgObject.center;
-
+    
     len = thePaths.length;
-    var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    var lineDashedMaterial = new THREE.LineDashedMaterial( {
+            color: 0xffffff,
+            linewidth: 1,
+            scale: 1,
+            dashSize: 5,
+            gapSize: 5,
+        } );
     var pointsMaterial = new THREE.PointsMaterial( {
             color: 0x0080ff,
             size: 5,
@@ -366,33 +374,53 @@ var addLineObject = function( group, svgObject ) {
         //TODO close the line ? 
         line.vertices.push(line.vertices[0]);
 
+        group.add(new THREE.Line(line, lineDashedMaterial));
+        group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
+    }
+     // debugger;
+};
+
+//back broject the logo into zigzag lines 
+var addLineObject = function( group, svgObject ) {
+    var i,j, len, len1;
+   
+    var thePaths = svgObject.paths;
+    var theAmounts = svgObject.amounts;
+    var theColors = svgObject.colors;
+    var theCenter = svgObject.center;
+
+    var x, y, z, scale; 
+
+    len = thePaths.length;
+    var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+    var pointsMaterial = new THREE.PointsMaterial( {
+            color: 0x0080ff,
+            size: 5,
+            alphaTest: 0.5
+        } );
+    for (i = 0; i < len; ++i) {
+        path = $d3g.transformSVGPath( thePaths[i] );
+        var points = path.getPoints();
+        len1 = points.length;
+
+        var line = new THREE.Geometry();
+        var pointsGeometry = new THREE.Geometry();
+        for (j = 0; j < len1; j++ ){
+            x = points[j].x - theCenter.x; 
+            y = -points[j].y + theCenter.y; 
+            z = getRandomInt(0,-30);
+            scale = (CAMERA_Z-z)/CAMERA_Z; 
+            x = x*scale;
+            y = y*scale;
+            line.vertices.push(new THREE.Vector3(x, y, z));
+            pointsGeometry.vertices.push (new THREE.Vector3(x, y, z));
+
+        }
+        //TODO close the line ? 
+        line.vertices.push(line.vertices[0]);
+
         group.add(new THREE.Line(line, lineMaterial));
         group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
-
-
-        // color = new THREE.Color( theColors[i] ); 
-        // material = new THREE.MeshLambertMaterial({
-        //     color: color,
-        //     emissive: color,
-        // });
-        // amount = theAmounts[i];
-        // simpleShapes = path.toShapes(true);
-        // len1 = simpleShapes.length;
-        // for (j = 0; j < len1; ++j) {
-        //     simpleShape = simpleShapes[j];
-        //     shape3d = simpleShape.extrude({
-        //         amount: amount,
-        //         bevelEnabled: false
-        //     });
-        //     mesh = new THREE.Mesh(shape3d, material);
-        //     mesh.rotation.x = Math.PI;
-        //     // mesh.translateZ( - amount - 1);
-        //     mesh.translateZ( -10);
-
-        //     mesh.translateX( - theCenter.x);
-        //     mesh.translateY( - theCenter.y);
-        //     group.add(mesh);
-        // }
     }
      // debugger;
 };
