@@ -24,7 +24,7 @@ function init() {
   document.body.appendChild(renderer.domElement);
   
   //field of view, aspect ratio,  near and far clipping plane.
-  camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);  //0.1-1000
+  camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 10000);  //0.1-1000
   camera.position.set(0, 0, 450); 
   
   controls = new THREE.OrbitControls(camera, renderer.domElement);
