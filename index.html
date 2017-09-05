@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>seashell</title>
+    <title>bolt!</title>
     <meta charset="utf-8">
-    <meta property="og:title" content="sea shell generator"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:image" content="assets/image.png"/>
-    <link rel="icon" href="assets/favicon.png">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="w3.css"> 
     <link href="./style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
   </head>
   
   <body>
-    <form id="nl-form" class="nl-form">
-      I am 
-      <input type="text" name="fullname"/>
-	  <br /> I work at the
-      <input type="text" name="employeelocation"/>
-      I've worked at W for
-      <input type="text" name="tenure"/>
-      years.
-	  <div class="nl-submit-wrap">
-		<button class="nl-submit" type="submit">Make my bolt</button>
-	  </div>
-	  <div class="nl-overlay"></div>
-    </form>
+    <div class="w30container w3-display-bottomleft">
+      <form id="nl-form" class="nl-form">
+        I am 
+        <input type="text" name="fullname" id="fullname" placeholder="John Doe"/>
+	    <br /> I work at the
+        <input type="text" name="employeelocation" id="employeelocation" placeholder="Bentonville Location"/>
+        <br />
+        I've worked at W for
+        <input type="text" name="tenure" id="tenure" placeholder="15"/>
+        years.
+	    <div class="nl-submit-wrap">
+		  <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
+	    </div>
+	    <div class="nl-overlay"></div>
+      </form>
+    </div>
+
 
     <div id="canvas"></div>
 

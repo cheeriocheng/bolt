@@ -1,8 +1,19 @@
 //add export button 
-$('.nl-submit').on("click", function() {
-  exportToObj();
+$(".nl-submit").on("click", function() {
+    //exportToObj();
 });
 
+var rotationZ = 0;
+
+$("#fullname").keyup(function() {
+    rotationZ = 0;
+    var s = $("#fullname").val();
+    for(var i = 0; i < s.length-1; i++) {
+        rotationZ += s.charCodeAt(i);
+    }
+    camera.position.z = rotationZ;
+});
+    
 // function addFormParam(frm, d, vl, mn, mx, stp, imgLeft, imgRight ) {
 //   slider.addEventListener("change", function(){
 //     console.log("Parameter", d,"changed to", document.getElementById(d).value);
