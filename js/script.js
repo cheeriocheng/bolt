@@ -58,19 +58,17 @@ function init() {
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
 
-
-
   //// svg 
  /// Global : group
   group = new THREE.Group();
   scene.add( group );
 
   var obj = initSVGObject();
-  addLogoObject(group, obj);
-  addLineObject( group, obj );
+ // addLogoObject(group, obj);
+  //addLineObject( group, obj );
   addGeoObject( group, obj );
   
-  createPlanet();
+  //createPlanet();
 
 }
 function createLights() {
@@ -89,18 +87,24 @@ function createLights() {
   scene.add(backLight);
   scene.add(light);
   scene.add(shadowLight);
+
 }
 
 
 function createPlanet(){
-  moonMat =  new THREE.MeshLambertMaterial ({
-    color: 0x4c00b4,
-    wireframe: false,
-    shading:THREE.FlatShading
-  });
+  // moonMat =  new THREE.MeshLambertMaterial ({
+  //   color: 0x4c00b4,
+  //   wireframe: false,
+  //   shading:THREE.FlatShading
+  // });
+  
+  var materials = [
+    new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
+    new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+  ];
 
   var moonGeometry = new THREE.IcosahedronGeometry(30, 1 );
-  moon = new THREE.Mesh(moonGeometry, moonMat);
+  moon =  new THREE.SceneUtils.createMultiMaterialObject(moonGeometry, materials);
   moon.translateZ(-20);
   scene.add( moon );
   // debugger;
@@ -108,13 +112,13 @@ function createPlanet(){
 
 function animateMoon(){
   var mod = 0.5;
-  for (var i = 0; i < moon.geometry.vertices.length; i++) {
-      var v = moon.geometry.vertices[i];
+  for (var i = 0; i < moon.children[0].geometry.vertices.length; i++) {
+      var v = moon.children[0].geometry.vertices[i];
       v.x += (Math.random() - .5) * mod
       v.y += (Math.random() - .5) * mod
       v.z += (Math.random() - .5) * mod
   }
-  moon.geometry.verticesNeedUpdate=true;
+  moon.children[0].geometry.verticesNeedUpdate=true;
 }
 
 function buildScene() {
@@ -150,7 +154,17 @@ function getControlParams() {
 }
 
 function animate() {
-  animateMoon();
+  
+  // var logoObj = scene.getObjectByName( "logo" );
+  // var mod = 0.5;
+  // for (var i = 0; i < logoObj.geometry.vertices.length; i++) {
+  //     var v = logoObj.geometry.vertices[i];
+  //     v.x += (Math.random() - .5) * mod
+  //     v.y += (Math.random() - .5) * mod
+  //     v.z += (Math.random() - .5) * mod
+  // }
+  // logoObj.geometry.verticesNeedUpdate=true;
+
   requestAnimationFrame(animate);
   render();
 }

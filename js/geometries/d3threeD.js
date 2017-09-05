@@ -256,23 +256,42 @@ d3threeD($d3g);
 /// Graphic Engine and Geo Data Init Functions
 
 var addGeoObject = function( group, svgObject ) {
-    var i,j, len, len1;
+    var i,j,k, len, len1, len2;
     var path, mesh, color, material, amount, simpleShapes, simpleShape, shape3d, x, toAdd, results = [];
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
     var theColors = svgObject.colors;
     var theCenter = svgObject.center;
 
+    var x, y , z , v; 
+
+
+  var materials = [
+    // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
+    new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.6, //0.2
+            side: THREE.DoubleSide ,
+            transparent: true,
+            blending: THREE.AdditiveBlending } ),
+
+    new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+  ];
+
+
+
     len = thePaths.length;
+
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
 
         color = new THREE.Color( theColors[i] ); 
-        material = new THREE.MeshLambertMaterial({
-            color: color,
-            emissive: color,
-            wireframe: true,
-        });
+        // material = new THREE.MeshLambertMaterial({
+        //     color: color,
+        //     emissive: color,
+        //     wireframe: true,
+        // });
+
+
+
 
         amount = theAmounts[i];
         simpleShapes = path.toShapes(true);
@@ -283,13 +302,24 @@ var addGeoObject = function( group, svgObject ) {
                 amount: amount,
                 bevelEnabled: false
             });
-            mesh = new THREE.Mesh(shape3d, material);
-            mesh.rotation.x = Math.PI;
-            // mesh.translateZ( - amount - 1);
-            // mesh.translateZ( -10);
 
-            mesh.translateX( - theCenter.x);
-            mesh.translateY( - theCenter.y);
+            len2 = shape3d.vertices.length;
+            for (k = 0; k < len2; k++ ){
+                //rotate from svg coordiantes to threejs
+                v= shape3d.vertices[k]; 
+                x = v.x - theCenter.x; 
+                y = -v.y + theCenter.y; 
+
+                z = getRandomInt(100,-200);
+                scale = (CAMERA_Z-z)/CAMERA_Z; 
+                v.x = x*scale;
+                v.y = y*scale;
+                v.z = z;
+                                  
+            }
+
+            mesh = new THREE.SceneUtils.createMultiMaterialObject(shape3d, materials);
+            mesh.name = 'logo';
             group.add(mesh);
         }
     }
@@ -390,7 +420,7 @@ var initSVGObject = function() {
     obj.paths = ["M330.08,247.72H147.42L213.34,0H79.14L2.61,287.91c-11.44,43.3,15.85,78.74,60.64,78.74H146.5L93.25,568.28Z"];
     //a2.37,2.37,0,0,0,4.18,2L334.78,257.17A5.89,5.89,0,0,0,330.08,247.72ZM57.6,309.46l75.88-282.2h11.28l-73,271.3H232.08a5.45,5.45,0,0,1,5.45,5.45h0a5.45,5.45,0,0,1-5.45,5.45Z
     
-    obj.amounts = [ 19, 20, 21 ];
+    obj.amounts = [ 0, 20, 21 ];
     obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
     obj.center = { x:168, y:285.5 };
 
