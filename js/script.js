@@ -7,6 +7,7 @@ var camera;     //camera defines how we look at the scene
 var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
 var CAMERA_Z;
+var moon; 
 
 init();
 animate();
@@ -92,19 +93,29 @@ function createLights() {
 
 
 function createPlanet(){
-  moonMat =  new THREE.MeshPhongMaterial ({
+  moonMat =  new THREE.MeshLambertMaterial ({
     color: 0x4c00b4,
     wireframe: false,
-    
+    shading:THREE.FlatShading
   });
 
   var moonGeometry = new THREE.IcosahedronGeometry(30, 1 );
   moon = new THREE.Mesh(moonGeometry, moonMat);
   moon.translateZ(-20);
   scene.add( moon );
+  // debugger;
 }
 
-
+function animateMoon(){
+  var mod = 2;
+  for (var i = 0; i < moon.geometry.vertices.length; i++) {
+      var v = moon.geometry.vertices[i];
+      v.x += (Math.random() - .5) * mod
+      v.y += (Math.random() - .5) * mod
+      v.z += (Math.random() - .5) * mod
+  }
+  moon.geometry.verticesNeedUpdate=true;
+}
 
 function buildScene() {
   // scene = new THREE.Scene();
@@ -139,6 +150,7 @@ function getControlParams() {
 }
 
 function animate() {
+  animateMoon();
   requestAnimationFrame(animate);
   render();
 }
