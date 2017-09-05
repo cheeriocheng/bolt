@@ -3,15 +3,20 @@ $(".nl-submit").on("click", function() {
     //exportToObj();
 });
 
-var rotationZ = 0;
+var typed = false; 
 
 $("#fullname").keyup(function() {
-    rotationZ = 0;
+    typedVal = 0;
     var s = $("#fullname").val();
     for(var i = 0; i < s.length-1; i++) {
-        rotationZ += s.charCodeAt(i);
+
+        typedVal += s.charCodeAt(i);
+        typed = true;
+        // typedVal = s.charCodeAt(i);
     }
-    camera.position.z = rotationZ;
+   
+    // camera.rotationZ = rotationZ;
+
 });
     
 // function addFormParam(frm, d, vl, mn, mx, stp, imgLeft, imgRight ) {

@@ -273,7 +273,7 @@ var addGeoObject = function( group, svgObject ) {
             transparent: true,
             blending: THREE.AdditiveBlending } ),
 
-    new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+    // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
   ];
 
 

@@ -8,6 +8,7 @@ var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
 var CAMERA_Z;
 var moon; 
+var typedVal = 0;
 
 init();
 animate();
@@ -72,21 +73,20 @@ function init() {
 
 }
 function createLights() {
-  light = new THREE.HemisphereLight(0xffffff, 0xffffff, .5)
-
-  shadowLight = new THREE.DirectionalLight(0xffffff, .8);
-  shadowLight.position.set(200, 200, 200);
-  shadowLight.castShadow = true;
-  shadowLight.shadowDarkness = .2;
-
-  backLight = new THREE.DirectionalLight(0xffffff, .4);
-  backLight.position.set(-100, 200, 50);
-  backLight.shadowDarkness = .1;
-  backLight.castShadow = true;
-
-  scene.add(backLight);
-  scene.add(light);
-  scene.add(shadowLight);
+  var ambientLight = new THREE.AmbientLight(0x999999 );
+  scene.add(ambientLight);
+  
+  var lights = [];
+  lights[0] = new THREE.DirectionalLight( 0xffffff, 1 );
+  lights[0].position.set( 1, 0, 0 );
+  lights[1] = new THREE.DirectionalLight( 0x11E8BB, 1 );
+  lights[1].position.set( 0.75, 1, 0.5 );
+  lights[2] = new THREE.DirectionalLight( 0x8200C9, 1 );
+  lights[2].position.set( -0.75, -1, 0.5 );
+  scene.add( lights[0] );
+  scene.add( lights[1] );
+  scene.add( lights[2] );
+    
 
 }
 
@@ -154,17 +154,30 @@ function getControlParams() {
 }
 
 function animate() {
-  
-  // var logoObj = scene.getObjectByName( "logo" );
-  // var mod = 0.5;
-  // for (var i = 0; i < logoObj.geometry.vertices.length; i++) {
-  //     var v = logoObj.geometry.vertices[i];
-  //     v.x += (Math.random() - .5) * mod
-  //     v.y += (Math.random() - .5) * mod
-  //     v.z += (Math.random() - .5) * mod
-  // }
-  // logoObj.geometry.verticesNeedUpdate=true;
+  if(typed){
+    scene.rotateY(-10*Math.random()*Math.PI/180.0);
+    scene.rotateX( 4 *(Math.random()-0.5)*Math.PI/180.0)
+    // var t = typedVal/10;
+    // camera.position.z = CAMERA_Z ;
+    // camera.position.x += t
+    // camera.position.y += t 
+    // camera.lookAt( scene.position );
 
+
+    // var logoObj = scene.getObjectByName( "logo" );
+    // var mod = 0.5;
+    // for (var i = 0; i < logoObj.children[0].geometry.vertices.length; i++) {
+    //     var v = logoObj.children[0].geometry.vertices[i];
+    //     v.x += t * mod
+    //     v.y += t * mod
+    //     v.z += t * mod
+    // }
+    // logoObj.children[0].geometry.verticesNeedUpdate=true;
+    typed = false ;
+
+  }
+ 
+  
   requestAnimationFrame(animate);
   render();
 }
