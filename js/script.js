@@ -68,7 +68,7 @@ function init() {
   var obj = initSVGObject();
   addLogoObject(group, obj);
   addLineObject( group, obj );
-  //addGeoObject( group, obj );
+  addGeoObject( group, obj );
   
   createPlanet();
 
@@ -107,7 +107,7 @@ function createPlanet(){
 }
 
 function animateMoon(){
-  var mod = 2;
+  var mod = 0.5;
   for (var i = 0; i < moon.geometry.vertices.length; i++) {
       var v = moon.geometry.vertices[i];
       v.x += (Math.random() - .5) * mod
