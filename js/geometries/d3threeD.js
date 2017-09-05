@@ -271,8 +271,9 @@ var addGeoObject = function( group, svgObject ) {
         material = new THREE.MeshLambertMaterial({
             color: color,
             emissive: color,
+            wireframe: true,
         });
-        
+
         amount = theAmounts[i];
         simpleShapes = path.toShapes(true);
         len1 = simpleShapes.length;
