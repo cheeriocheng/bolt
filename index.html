@@ -6,20 +6,23 @@
     <meta property="og:type" content="website"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="w3.css"> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
     <link href="./style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
   </head>
   
   <body>
-    <div class="w30container w3-display-bottomleft">
+    <div class="w30container w3-display-middle">
       <form id="nl-form" class="nl-form">
-        I am 
-        <input type="text" name="fullname" id="fullname" placeholder="John Doe"/>
-	    <br /> I work at the
-        <input type="text" name="employeelocation" id="employeelocation" placeholder="Bentonville Location"/>
+        <span class="bigger">Hello!</span>
         <br />
-        I've worked at W for
-        <input type="text" name="tenure" id="tenure" placeholder="15"/>
+        I'm 
+        <input type="text" name="fullname" id="fullname" placeholder="Sam Walton"/>
+	    <br /> from the
+        <input type="text" name="employeelocation" id="employeelocation" placeholder="Rogers, AK Location"/>
+        ,<br />
+        and I've worked at W for
+        <input type="text" name="tenure" maxlength="2" size="2" id="tenure" placeholder="30"/>
         years.
 	    <div class="nl-submit-wrap">
 		  <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
