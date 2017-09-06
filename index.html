@@ -12,22 +12,28 @@
   </head>
   
   <body>
-    <div class="w30container w3-display-middle">
-      <form id="nl-form" class="nl-form">
-        <span class="bigger">Hello!</span>
-        <br />
-        I'm 
-        <input type="text" name="fullname" id="fullname" placeholder="Sam Walton"/>
-	    <br /> from the
-        <input type="text" name="employeelocation" id="employeelocation" placeholder="Rogers, AK Location"/>
-        ,<br />
-        and I've worked at W for
-        <input type="text" name="tenure" maxlength="2" size="2" id="tenure" placeholder="30"/>
-        years.
-	    <div class="nl-submit-wrap">
-		  <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
-	    </div>
-	    <div class="nl-overlay"></div>
+    <div class="w3-container w3-display-middle">
+      <div class="greeting w3-row w3-col s12">
+        Hello, Recruit! Let’s empower your good work
+        and find a home for your superpower!
+      </div>
+      <div class="w3-row w3-col s12">
+        <form id="nl-form" class="nl-form">
+          <br />
+          I'm 
+          <input type="text" name="fullname" id="fullname" placeholder="Name, ex. Sam Walton"/>
+	      <br /> based in
+          <input type="text" name="employeelocation" size="25" id="employeelocation" placeholder="Location, ex. Bentonville, AR"/>
+          ,<br />
+          and my super power is
+          <div class="nobr">
+            <input type="text" name="tenure" size="48" id="superpower" placeholder="Special skill or business function, ex. Entrepreneurship"/>.
+          </div>
+	      <div class="nl-submit-wrap">
+		    <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
+	      </div>
+	      <div class="nl-overlay"></div>
+      </div>
       </form>
     </div>
 
