@@ -1,6 +1,6 @@
 html {
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   background: #11e8bb; /* Old browsers */
   background: -moz-linear-gradient(top,  #11e8bb 0%, #8200c9 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top,  #11e8bb 0%,#8200c9 100%); /* Chrome10-25,Safari5.1-6 */
@@ -62,14 +62,32 @@ body {
 }
 
 .greeting {
-    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vh;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
     font-size: 45;
     color: white;
     font-family: 'Roboto', sans-serif;
-    font-weight: bolder;
+    font-weight: thin;
     font-size: 36px;
+    text-align: center;
+}
+
+#greeting-button {
+    padding: 1px 50px 1px 50px;
+    background: rgb(255, 255, 255); /* Fallback for older browsers without RGBA-support */
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .nobr {
     white-space: nowrap;
+}
+
+.bigger {
+    font-size: 125%;
+    font-weight: bolder;
 }

@@ -10,16 +10,25 @@
     <link href="./style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
     <script src="./js/submitform.js"> </script>
   </head>
   
   <body>
-    <div class="w3-container w3-display-middle">
-      <div class="greeting w3-row w3-col s12">
-        Hello, Recruit! Let’s empower your good work
-        and find a home for your superpower!
+    <div class="w3-container">
+      <div class="greeting">
+        <div class="bigger w3-row w3-col s8">
+          Hello, Recruit!
+        </div>
+        <div class="w3-row w3-col s10">
+          Let’s empower your good work<br />
+          and find a home for your superpower!
+        </div>
+        <div>
+          <button id="greeting-button" class="w3-btn" type="submit" onClick="$(window).scrollTo($('#form'),1000);">Let's do it!</button>
+        </div>
       </div>
-      <div class="w3-row w3-col s12">
+      <div class="w3-row w3-col s12" id="form">
         <form class="nl-form" action="https://script.google.com/macros/s/AKfycbz5AdFxHmrX4_xpqxwQnBVkNm1pqw-64VH32VtdslW416itf8Ad/exec" method="POST" id="nl-form">
           <br />
           I'm 
@@ -35,23 +44,18 @@
 		    <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
 	      </div>
 	      <div class="nl-overlay"></div>
+        </form>
       </div>
-      </form>
+      <div id="canvas">
+        <script type="text/javascript" src="js/third-party/threejs/three.js"></script>
+        <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
+        <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
+        <script type="text/javascript" src="js/utils/helpers.js"></script>
+        <script type="text/javascript" src= "js/geometries/OBJExporter.js"></script>
+        <script type="text/javascript" src= "js/geometries/d3threeD.js"></script>
+        <script type="text/javascript" src = "js/ui/controlPanel.js"></script>
+        <script type="text/javascript" src = "js/script.js"></script>
+      </div>
     </div>
-
-
-    <div id="canvas"></div>
-
-    <script type="text/javascript" src="js/third-party/threejs/three.js"></script>
-    <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
-    <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
-    <script type="text/javascript" src="js/utils/helpers.js"></script>
-    <script type="text/javascript" src= "js/geometries/OBJExporter.js"></script>
-    <script type="text/javascript" src= "js/geometries/d3threeD.js"></script>
-    <script type="text/javascript" src = "js/ui/controlPanel.js"></script>
-    <script type="text/javascript" src = "js/script.js"></script>
-
- 
-
   </body>
 </html>
