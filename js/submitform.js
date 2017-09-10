@@ -56,6 +56,7 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
         return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
     xhr.send(encoded);
+    window.location=`https://careers.walmart.com/results?q=${$('#superpower').val()}&sort=rank&jobState=${$('#employeelocation').val()}`;
 }
 
 jQuery(document).ready(function loaded() {
