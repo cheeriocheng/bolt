@@ -9,6 +9,7 @@ var controls;   //help rotate the scene with mouse
 var CAMERA_Z;
 var moon; 
 var typedVal = 0;
+var materials; 
 
 init();
 animate();
@@ -59,6 +60,7 @@ function init() {
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
 
+
   //// svg 
   var obj = initSVGObject();
 
@@ -68,16 +70,30 @@ function init() {
   group2D.name = "logo2D";
   scene.add( group2D);  
   addLogoObject(group2D, obj);
+
   
   //3D
-  // var group3D = new THREE.Group();
-  // group3D.name = "logo3D"; 
-  // scene.add( group3D);
-  // addGeoObject( group3D, obj );
+  materials = [
+        new THREE.MeshBasicMaterial( { 
+                color: 0x4c00b4, 
+                opacity:0, //0.2
+                side: THREE.DoubleSide ,
+                transparent: true,
+                blending: THREE.AdditiveBlending ,
+                needsUpdate: true
+        } ),
 
+        new THREE.MeshBasicMaterial( { 
+            color: 0xffffff, 
+            wireframe: true, 
+            transparent: true ,
+            needsUpdate: true 
+        } )
+    ];
   var triangles = new THREE.Group();
   triangles.name = "logo3D"; 
   scene.add(triangles);
+ // triangles.traverse( function ( object ) { object.visible = false; } );
   addTriangleObjects(triangles, obj);
 
   
@@ -131,6 +147,32 @@ function getControlParams() {
   };
 }
 
+//TODO how to trigger this with space bar
+function scroll(){
+  
+  //take 1 second to scroll down 
+  $(window).scrollTo($('#form'),1000);
+
+  // var logo = scene.getObjectByName("logo3D"); 
+  // logo.traverse( function ( object ) { 
+  //   object.visible = true; 
+
+  // } );
+
+  
+  
+
+  for(var i = 0 ; i <materials.length; i++){
+   // materials[i].opacity = 0.5;  // Math.sin(new Date().getTime() * .0025); ;
+      new TWEEN.Tween( materials[i] ).to( 
+        {opacity: 0.5}
+        , 2000 )
+      .easing( TWEEN.Easing.Elastic.Out).start();
+      
+  }
+
+}
+
 function animate() {
   //transform the 3d logo 
   if(typed){
@@ -154,6 +196,7 @@ function animate() {
 }
 
 function render() {
+  TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
 }

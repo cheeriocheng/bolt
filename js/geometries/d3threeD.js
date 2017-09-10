@@ -252,85 +252,12 @@ function d3threeD(exports) {
 var $d3g = {};
 d3threeD($d3g);
 
-/// Part from g0v/twgeojson
-var addGeoObject = function( group, svgObject ) {
-    var i,j,k, len, len1, len2;
-    var scale = 1; 
-    var path, mesh, color, amount, simpleShapes, simpleShape, shape3d;
-    var materials; 
-    var thePaths = svgObject.paths;
-    var theAmounts = svgObject.amounts;
-    var theColors = svgObject.colors;
-    var theCenter = svgObject.center;
-
-    var x, y , z , v; 
-
-    //multi-material 
-    // var materials = [
-    //     // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
-    //     new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.4, //0.2
-    //             side: THREE.DoubleSide ,
-    //             transparent: true,
-    //             blending: THREE.AdditiveBlending } ),
-
-    //     // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-    // ];
-
-    len = thePaths.length; //multiple paths 
-
-    for (i = 0; i < len; ++i) {
-        path = $d3g.transformSVGPath( thePaths[i] );
-      //  color = new THREE.Color( theColors[i] ); 
-      //new THREE.Color("hsl(0, 100%, 50%)");
-        color = new THREE.Color("hsl(0, 100%," + getRandomInt(0,100)+"%)");
-        amount = theAmounts[i]; //integer. Depth to extrude the shape
-        simpleShapes = path.toShapes(true);
-        len1 = simpleShapes.length;
-        materials = [
-            // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
-            new THREE.MeshBasicMaterial( { color: color, opacity:0.4, //0.2
-                    side: THREE.DoubleSide ,
-                    transparent: true,
-                    blending: THREE.AdditiveBlending } ),
-
-            // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-        ];
-
-        for (j = 0; j < len1; ++j) {
-            simpleShape = simpleShapes[j];
-            shape3d = simpleShape.extrude({
-                amount: amount,
-                bevelEnabled: false
-            });
-
-            len2 = shape3d.vertices.length;
-            for (k = 0; k < len2; k++ ){
-                //rotate from svg coordiantes to threejs
-                v= shape3d.vertices[k]; 
-                x = v.x - theCenter.x; 
-                y = -v.y + theCenter.y; 
-                // // if(z==amount)
-                // z = getRandomInt(400,-400);
-                // scale = (CAMERA_Z-z)/CAMERA_Z; 
-                v.x = x*scale;
-                v.y = y*scale;
-                // v.z = z;
-                                  
-            }
-            // debugger;
-
-            mesh = new THREE.SceneUtils.createMultiMaterialObject(shape3d, materials);
-            mesh.name = 'logo';
-            group.add(mesh);
-        }
-    }
-};
 
 var addTriangleObjects = function( group, svgObject ) {
      var i,j,k, len, len1, len2;
     var scale = 1; 
     var path, mesh, amount, simpleShapes, simpleShape, shape3d;
-    var materials; 
+    //var materials; 
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
     var theColors = svgObject.colors;
@@ -352,18 +279,6 @@ var addTriangleObjects = function( group, svgObject ) {
 
     //color.fromArray(hslToRgb(Math.random(),0.5,0.5));
     
-    materials = [
-        new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.4, //0.2
-                side: THREE.DoubleSide ,
-                transparent: true,
-                blending: THREE.AdditiveBlending } ),
-
-        new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-    ];
-
-
-
-
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
       //  color = new THREE.Color( theColors[i] ); 
@@ -389,16 +304,10 @@ var addTriangleObjects = function( group, svgObject ) {
                  && vertices[faces[k].c].z == 0 ){                  
                    //     console.log("face " + k + " index: a " + faces[k].a  + ". b " + faces[k].b + ". c " +faces[k].c);
                    //   console.log("coordinate for a: x" + vertices[faces[k].a].x +" y"+vertices[faces[k].a].y + " z " +vertices[faces[k].a].z );
-                      // v1 = new THREE.Vector3();
-                      // v2 = new THREE.Vector3();
-                      // v3 = new THREE.Vector3();
-                      //    v1.copy(vertices[faces[k].a]);
-                      //    v2.copy(vertices[faces[k].b]);
-                      //    v3.copy(vertices[faces[k].c]);
 
-                      v1 = unprojectVector(vertices[faces[k].a], theCenter);
-                      v2 = unprojectVector(vertices[faces[k].b],theCenter);
-                      v3 = unprojectVector(vertices[faces[k].c],theCenter);
+                    v1 = unprojectVector(vertices[faces[k].a], theCenter);
+                    v2 = unprojectVector(vertices[faces[k].b],theCenter);
+                    v3 = unprojectVector(vertices[faces[k].c],theCenter);
                          
                      //v    console.log("coordinate v1" + v1.x +" "+ v1.y + " z " +v1.z );
                     ind = geom.vertices.length;
@@ -423,18 +332,15 @@ var addTriangleObjects = function( group, svgObject ) {
 
     mesh = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
     group.add(mesh);
-                   
-                   
-
 };
 
-
+//take a vector (v) at z=0, project to a new depth, while maitaining the same contour giving current camera
 var unprojectVector = function( v, theCenter ){
     var x, y , z; 
     x = v.x - theCenter.x; 
     y = -v.y + theCenter.y; 
     // if(z==amount)
-    z = getRandomInt(100,-400);
+    z = getRandomInt(100,-200);
     scale = (CAMERA_Z-z)/CAMERA_Z; 
     x = x*scale;
     y = y*scale;
