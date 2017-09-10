@@ -12,6 +12,7 @@ function getFormData() {
         return self.indexOf(item) == pos && item;
     });
     var data = {};
+    console.log("everything is fine");
     fields.forEach(function(k){
         data[k] = elements[k].value;
         var str = ""; // declare empty string outside of loop to allow
@@ -56,7 +57,7 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
         return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
     xhr.send(encoded);
-    window.location=`https://careers.walmart.com/results?q=${$('#superpower').val()}&sort=rank&jobState=${$('#employeelocation').val()}`;
+    window.location=`https://careers.walmart.com/results?q=${$('#superpower').val()}&sort=rank&jobState=${$('#location').val()}`;
 }
 
 jQuery(document).ready(function loaded() {
