@@ -60,16 +60,27 @@ function init() {
   scene.add( axisHelper );
 
   //// svg 
- /// Global : group
-  group = new THREE.Group();
-  scene.add( group );
-
   var obj = initSVGObject();
- // addLogoObject(group, obj);
-  //addLineObject( group, obj );
-  addGeoObject( group, obj );
+
+  ///// add the svg to 2 groups so they can manipulated differently
+  ///2D 
+  var group2D = new THREE.Group();
+  group2D.name = "logo2D";
+  scene.add( group2D);  
+  addLogoObject(group2D, obj);
   
-  //createPlanet();
+  //3D
+  // var group3D = new THREE.Group();
+  // group3D.name = "logo3D"; 
+  // scene.add( group3D);
+  // addGeoObject( group3D, obj );
+
+  var triangles = new THREE.Group();
+  triangles.name = "logo3D"; 
+  scene.add(triangles);
+  addTriangleObjects(triangles, obj);
+
+  
 
 }
 function createLights() {
@@ -86,39 +97,6 @@ function createLights() {
   scene.add( lights[0] );
   scene.add( lights[1] );
   scene.add( lights[2] );
-    
-
-}
-
-
-function createPlanet(){
-  // moonMat =  new THREE.MeshLambertMaterial ({
-  //   color: 0x4c00b4,
-  //   wireframe: false,
-  //   shading:THREE.FlatShading
-  // });
-  
-  var materials = [
-    new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
-    new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-  ];
-
-  var moonGeometry = new THREE.IcosahedronGeometry(30, 1 );
-  moon =  new THREE.SceneUtils.createMultiMaterialObject(moonGeometry, materials);
-  moon.translateZ(-20);
-  scene.add( moon );
-  // debugger;
-}
-
-function animateMoon(){
-  var mod = 0.5;
-  for (var i = 0; i < moon.children[0].geometry.vertices.length; i++) {
-      var v = moon.children[0].geometry.vertices[i];
-      v.x += (Math.random() - .5) * mod
-      v.y += (Math.random() - .5) * mod
-      v.z += (Math.random() - .5) * mod
-  }
-  moon.children[0].geometry.verticesNeedUpdate=true;
 }
 
 function buildScene() {
@@ -154,15 +132,10 @@ function getControlParams() {
 }
 
 function animate() {
+  //transform the 3d logo 
   if(typed){
-    scene.rotateY(-10*Math.random()*Math.PI/180.0);
-    scene.rotateX( 4 *(Math.random()-0.5)*Math.PI/180.0)
-    // var t = typedVal/10;
-    // camera.position.z = CAMERA_Z ;
-    // camera.position.x += t
-    // camera.position.y += t 
-    // camera.lookAt( scene.position );
-
+    scene.getObjectByName("logo3D").rotateY(-10*Math.random()*Math.PI/180.0);
+    scene.getObjectByName("logo3D").rotateX( 4 *(Math.random()-0.5)*Math.PI/180.0)
 
     // var logoObj = scene.getObjectByName( "logo" );
     // var mod = 0.5;
@@ -174,9 +147,7 @@ function animate() {
     // }
     // logoObj.children[0].geometry.verticesNeedUpdate=true;
     typed = false ;
-
   }
- 
   
   requestAnimationFrame(animate);
   render();

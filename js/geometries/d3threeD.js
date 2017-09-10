@@ -253,11 +253,11 @@ var $d3g = {};
 d3threeD($d3g);
 
 /// Part from g0v/twgeojson
-/// Graphic Engine and Geo Data Init Functions
-
 var addGeoObject = function( group, svgObject ) {
     var i,j,k, len, len1, len2;
-    var path, mesh, color, material, amount, simpleShapes, simpleShape, shape3d, x, toAdd, results = [];
+    var scale = 1; 
+    var path, mesh, color, amount, simpleShapes, simpleShape, shape3d;
+    var materials; 
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
     var theColors = svgObject.colors;
@@ -265,37 +265,37 @@ var addGeoObject = function( group, svgObject ) {
 
     var x, y , z , v; 
 
+    //multi-material 
+    // var materials = [
+    //     // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
+    //     new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.4, //0.2
+    //             side: THREE.DoubleSide ,
+    //             transparent: true,
+    //             blending: THREE.AdditiveBlending } ),
 
-  var materials = [
-    // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
-    new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.6, //0.2
-            side: THREE.DoubleSide ,
-            transparent: true,
-            blending: THREE.AdditiveBlending } ),
+    //     // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+    // ];
 
-    // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-  ];
-
-
-
-    len = thePaths.length;
+    len = thePaths.length; //multiple paths 
 
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
-
-        color = new THREE.Color( theColors[i] ); 
-        // material = new THREE.MeshLambertMaterial({
-        //     color: color,
-        //     emissive: color,
-        //     wireframe: true,
-        // });
-
-
-
-
-        amount = theAmounts[i];
+      //  color = new THREE.Color( theColors[i] ); 
+      //new THREE.Color("hsl(0, 100%, 50%)");
+        color = new THREE.Color("hsl(0, 100%," + getRandomInt(0,100)+"%)");
+        amount = theAmounts[i]; //integer. Depth to extrude the shape
         simpleShapes = path.toShapes(true);
         len1 = simpleShapes.length;
+        materials = [
+            // new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
+            new THREE.MeshBasicMaterial( { color: color, opacity:0.4, //0.2
+                    side: THREE.DoubleSide ,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending } ),
+
+            // new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+        ];
+
         for (j = 0; j < len1; ++j) {
             simpleShape = simpleShapes[j];
             shape3d = simpleShape.extrude({
@@ -309,14 +309,15 @@ var addGeoObject = function( group, svgObject ) {
                 v= shape3d.vertices[k]; 
                 x = v.x - theCenter.x; 
                 y = -v.y + theCenter.y; 
-
-                z = getRandomInt(100,-200);
-                scale = (CAMERA_Z-z)/CAMERA_Z; 
+                // // if(z==amount)
+                // z = getRandomInt(400,-400);
+                // scale = (CAMERA_Z-z)/CAMERA_Z; 
                 v.x = x*scale;
                 v.y = y*scale;
-                v.z = z;
+                // v.z = z;
                                   
             }
+            // debugger;
 
             mesh = new THREE.SceneUtils.createMultiMaterialObject(shape3d, materials);
             mesh.name = 'logo';
@@ -325,8 +326,124 @@ var addGeoObject = function( group, svgObject ) {
     }
 };
 
+var addTriangleObjects = function( group, svgObject ) {
+     var i,j,k, len, len1, len2;
+    var scale = 1; 
+    var path, mesh, amount, simpleShapes, simpleShape, shape3d;
+    var materials; 
+    var thePaths = svgObject.paths;
+    var theAmounts = svgObject.amounts;
+    var theColors = svgObject.colors;
+    var theCenter = svgObject.center;
 
-////draw the original logo 
+    var x, y , z , v; 
+
+//for tirangles 
+    var vertices, faces;
+    var geom = new THREE.Geometry(); ;
+    var v1 = new THREE.Vector3();
+    var v2 = new THREE.Vector3();
+    var v3 = new THREE.Vector3();
+    var ind; 
+    var color  = new THREE.Color();
+    var newFace = new THREE.Face3();
+
+    len = thePaths.length; //multiple paths ]
+
+    //color.fromArray(hslToRgb(Math.random(),0.5,0.5));
+    
+    materials = [
+        new THREE.MeshBasicMaterial( { color: 0x4c00b4, opacity:0.4, //0.2
+                side: THREE.DoubleSide ,
+                transparent: true,
+                blending: THREE.AdditiveBlending } ),
+
+        new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
+    ];
+
+
+
+
+    for (i = 0; i < len; ++i) {
+        path = $d3g.transformSVGPath( thePaths[i] );
+      //  color = new THREE.Color( theColors[i] ); 
+        amount = theAmounts[i]; //integer. Depth to extrude the shape
+        simpleShapes = path.toShapes(true);
+
+        len1 = simpleShapes.length;
+        for (j = 0; j < len1; ++j) {
+            simpleShape = simpleShapes[j];
+            shape3d = simpleShape.extrude({
+                amount: amount,
+                bevelEnabled: false
+            });
+            
+            //for each tiangles on shape3d
+            vertices = shape3d.vertices; 
+            faces = shape3d.faces; 
+            len2 = faces.length;
+            for (k = 0; k < len2; k++) {
+                //pick one layer of the triangles 
+                if (vertices[faces[k].a].z == 0
+                 && vertices[faces[k].b].z == 0 
+                 && vertices[faces[k].c].z == 0 ){                  
+                   //     console.log("face " + k + " index: a " + faces[k].a  + ". b " + faces[k].b + ". c " +faces[k].c);
+                   //   console.log("coordinate for a: x" + vertices[faces[k].a].x +" y"+vertices[faces[k].a].y + " z " +vertices[faces[k].a].z );
+                      // v1 = new THREE.Vector3();
+                      // v2 = new THREE.Vector3();
+                      // v3 = new THREE.Vector3();
+                      //    v1.copy(vertices[faces[k].a]);
+                      //    v2.copy(vertices[faces[k].b]);
+                      //    v3.copy(vertices[faces[k].c]);
+
+                      v1 = unprojectVector(vertices[faces[k].a], theCenter);
+                      v2 = unprojectVector(vertices[faces[k].b],theCenter);
+                      v3 = unprojectVector(vertices[faces[k].c],theCenter);
+                         
+                     //v    console.log("coordinate v1" + v1.x +" "+ v1.y + " z " +v1.z );
+                    ind = geom.vertices.length;
+                    geom.vertices.push(v1);
+                    geom.vertices.push(v2);
+                    geom.vertices.push(v3);
+
+                    newFace = new  THREE.Face3( ind, ind+1, ind+2 );
+                    // newFace.color = hslToRgb(Math.random(),0.5,0.5) ;
+                    // console.log(newFace.color);
+                    geom.faces.push( newFace );
+                    geom.computeFaceNormals();
+
+                  
+                }
+
+            }
+
+         
+        }
+    }
+
+    mesh = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
+    group.add(mesh);
+                   
+                   
+
+};
+
+
+var unprojectVector = function( v, theCenter ){
+    var x, y , z; 
+    x = v.x - theCenter.x; 
+    y = -v.y + theCenter.y; 
+    // if(z==amount)
+    z = getRandomInt(100,-400);
+    scale = (CAMERA_Z-z)/CAMERA_Z; 
+    x = x*scale;
+    y = y*scale;
+   // console.log ("old " + v.x + "" + v.y  , " new " + x + " " + y + " " + z);
+    return new THREE.Vector3(x,y,z);
+}; 
+
+
+////draw the original logo in 2D
 var addLogoObject = function( group, svgObject ) {
     var i,j, len, len1;
     
@@ -356,59 +473,16 @@ var addLogoObject = function( group, svgObject ) {
         var line = new THREE.Geometry();
         var pointsGeometry = new THREE.Geometry();
         for (j = 0; j < len1; j++ ){
+            
+           // line.vertices.push(new THREE.Vector3(points[j].x, points[j].y , 0));
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
-            pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
+            //pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
         }
         //TODO close the line ? 
         line.vertices.push(line.vertices[0]);
 
         group.add(new THREE.Line(line, lineDashedMaterial));
         // group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
-    }
-    // debugger;
-};
-
-//back broject the logo into zigzag lines 
-var addLineObject = function( group, svgObject ) {
-    var i,j, len, len1;
-    
-    var thePaths = svgObject.paths;
-    var theAmounts = svgObject.amounts;
-    var theColors = svgObject.colors;
-    var theCenter = svgObject.center;
-
-    var x, y, z, scale; 
-
-    len = thePaths.length;
-    var lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-    var pointsMaterial = new THREE.PointsMaterial( {
-        color: 0x0080ff,
-        size: 5,
-        alphaTest: 0.5
-    } );
-    for (i = 0; i < len; ++i) {
-        path = $d3g.transformSVGPath( thePaths[i] );
-        var points = path.getPoints(5); //reduce amount of points on curves..
-        len1 = points.length;
-
-        var line = new THREE.Geometry();
-        var pointsGeometry = new THREE.Geometry();
-        for (j = 0; j < len1; j++ ){
-            x = points[j].x - theCenter.x; 
-            y = -points[j].y + theCenter.y; 
-            z = getRandomInt(100,-200);
-            scale = (CAMERA_Z-z)/CAMERA_Z; 
-            x = x*scale;
-            y = y*scale;
-            line.vertices.push(new THREE.Vector3(x, y, z));
-            pointsGeometry.vertices.push (new THREE.Vector3(x, y, z));
-
-        }
-        //TODO close the line ? 
-        line.vertices.push(line.vertices[0]);
-
-        group.add(new THREE.Line(line, lineMaterial));
-        group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
     }
     // debugger;
 };
@@ -420,7 +494,7 @@ var initSVGObject = function() {
     obj.paths = ["M330.08,247.72H147.42L213.34,0H79.14L2.61,287.91c-11.44,43.3,15.85,78.74,60.64,78.74H146.5L93.25,568.28Z"];
     //a2.37,2.37,0,0,0,4.18,2L334.78,257.17A5.89,5.89,0,0,0,330.08,247.72ZM57.6,309.46l75.88-282.2h11.28l-73,271.3H232.08a5.45,5.45,0,0,1,5.45,5.45h0a5.45,5.45,0,0,1-5.45,5.45Z
     
-    obj.amounts = [ 0, 20, 21 ];
+    obj.amounts = [ 1, 20, 21 ];
     obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
     obj.center = { x:168, y:285.5 };
 
