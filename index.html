@@ -28,25 +28,24 @@
           <button id="greeting-button" class="w3-btn" type="submit" onClick="$(window).scrollTo($('#form'),1000);">Let's do it!</button>
         </div>
       </div>
-      <div class="w3-row w3-col s12" id="form">
-        <form class="nl-form" action="https://script.google.com/macros/s/AKfycbz5AdFxHmrX4_xpqxwQnBVkNm1pqw-64VH32VtdslW416itf8Ad/exec" method="POST" id="nl-form">
-          <br />
-          I'm 
-          <input type="text" name="Name" id="fullname" autocomplete="off" placeholder="Name, ex. Sam Walton"/>
-	      <br /> based in
-          <input type="text" name="Location" size="25" id="employeelocation" placeholder="Location, ex. Bentonville, AR"/>
-          ,<br />
-          and my super power is
-          <div class="nobr">
-            <input type="text" name="Super Power" size="48" id="superpower" placeholder="Special skill or business function, ex. Entrepreneurship"/>.
-          </div>
-	      <div class="nl-submit-wrap">
-		    <button class="nl-button w3-button w3-round-large w3-xxlarge w3-border" type="submit">Make my bolt</button>
-	      </div>
-	      <div class="nl-overlay"></div>
-        </form>
+      <div class="bottom">
+        <div class="w3-row w3-half" id="form">
+          <form class="nl-form" action="https://script.google.com/macros/s/AKfycbz5AdFxHmrX4_xpqxwQnBVkNm1pqw-64VH32VtdslW416itf8Ad/exec" method="POST" id="nl-form">
+            I'm 
+            <span class="nobr"><input type="text" name="Name" size="16" id="fullname" autocomplete="off" placeholder="Sam Walton"/>.</span>
+            <br />
+            My super power is
+            <span class="nobr"> <input type="text" name="Super Power" size="15" id="superpower" placeholder="entrepreneurship"/>,</span>
+	        and my home base is at/closest to
+            <span class="nobr"><input type="text" name="Location" size="2" id="employeelocation" placeholder="AR"/>.</span>
+	        <div class="nl-submit-wrap">
+		      <button class="w3-btn" id="nl-button" type="submit">Get me there!</button>
+	        </div>
+	        <div class="nl-overlay"></div>
+          </form>
+        </div>
       </div>
-      <div id="canvas">
+      <div class="canvas" id="canvas">
         <script type="text/javascript" src="js/third-party/threejs/three.js"></script>
         <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
         <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
