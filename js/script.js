@@ -152,26 +152,28 @@ function getControlParams() {
 }
 
 //TODO how to trigger this with space bar
-function scroll(){
+$(document).ready(function(){
+    $( "#greeting-button" ).click(function scroll(){
   
-  //take 1 second to scroll down 
-  $(window).scrollTo($('#form'),1000);
+        //take 1 second to scroll down 
+        $(window).scrollTo($('#form'),1000);
 
-  // var logo = scene.getObjectByName("logo3D"); 
-  // logo.traverse( function ( object ) { 
-  //   object.visible = true; 
-  // } );
+        // var logo = scene.getObjectByName("logo3D"); 
+        // logo.traverse( function ( object ) { 
+        //   object.visible = true; 
+        // } );
 
-  for(var i = 0 ; i <materials.length; i++){
-      new TWEEN.Tween( materials[i] ).to( 
-        {
-          opacity: 0.4,
+        for(var i = 0 ; i <materials.length; i++){
+            new TWEEN.Tween( materials[i] ).to( 
+                {
+                    opacity: 0.4,
+                }
+                , 2000 )
+                .start();
         }
-        , 2000 )
-      .start();
-  }
+    });
+});
 
-}
 
 function animate() {
   //transform the 3d logo 
