@@ -276,8 +276,6 @@ var addTriangleObjects = function( group, svgObject ) {
     var newFace = new THREE.Face3();
 
     len = thePaths.length; //multiple paths ]
-
-    //color.fromArray(hslToRgb(Math.random(),0.5,0.5));
     
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
@@ -301,7 +299,10 @@ var addTriangleObjects = function( group, svgObject ) {
                 //pick one layer of the triangles 
                 if (vertices[faces[k].a].z == 0
                  && vertices[faces[k].b].z == 0 
-                 && vertices[faces[k].c].z == 0 ){                  
+                 && vertices[faces[k].c].z == 0 ){ 
+                // if (vertices[faces[k].a].z ==  vertices[faces[k].b].z 
+                //  && vertices[faces[k].b].z == vertices[faces[k].c].z
+                //   ){                  
                    //     console.log("face " + k + " index: a " + faces[k].a  + ". b " + faces[k].b + ". c " +faces[k].c);
                    //   console.log("coordinate for a: x" + vertices[faces[k].a].x +" y"+vertices[faces[k].a].y + " z " +vertices[faces[k].a].z );
 

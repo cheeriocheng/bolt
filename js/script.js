@@ -73,6 +73,8 @@ function init() {
 
   
   //3D
+  defaultColor = new THREE.Color(0x4c00b4);
+
   materials = [
         new THREE.MeshBasicMaterial( { 
                 // color: 0xffffff, 
@@ -197,9 +199,28 @@ function animate() {
           // .easing(TWEEN.Easing.Circular.Out)
           .start();
      
-
-    // logo.rotation.x += 0.01;
-    // logo.rotation.y += 0.1;
+  //   var targetColor = new THREE.Color( s.hashCode()%100/100,  materials[0].color.getHSL().s, materials[0].color.getHSL().l);
+  //   var alpha = 0;
+    
+  //   new TWEEN.Tween(alpha)
+  //   .to({
+  //     alpha:1 
+  //   }, 500)
+  // //  .easing(TWEEN.Easing.Quartic.In)
+  //   .onUpdate(
+  //       function()
+  //       {
+  //           materials[0].color.copy( defaultColor.lerp(targetColor, alpha));
+  //           // materials[0].color.setHSV(this.h, this.s, this.v);
+  //          // // materials[0].color.fromArray(hslToRgb(this.h, this.s, this.l));
+  //          // materials[0].color.setHSL(this.h, this.s, this.l  );
+  //          // console.log(hue+" "+ materials[0].color.r
+  //          //  + " " + materials[0].color.g
+  //          //  + " " + materials[0].color.b)
+  //          // debugger
+  //       }
+  //   )
+  //   .start();
 
 
     // var logoObj = scene.getObjectByName( "logo" );
