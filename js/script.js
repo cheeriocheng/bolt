@@ -8,7 +8,7 @@ var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
 var CAMERA_Z;
 var moon; 
-var typedVal = 0;
+// var typedVal = 0;
 var materials; 
 
 init();
@@ -75,17 +75,19 @@ function init() {
   //3D
   materials = [
         new THREE.MeshBasicMaterial( { 
+                // color: 0xffffff, 
                 color: 0x4c00b4, 
                 opacity:0, //0.2
                 side: THREE.DoubleSide ,
                 transparent: true,
                 blending: THREE.AdditiveBlending ,
-                needsUpdate: true
+               // needsUpdate: true
         } ),
 
         new THREE.MeshBasicMaterial( { 
             color: 0xffffff, 
             wireframe: true, 
+            opacity:0, 
             transparent: true ,
             needsUpdate: true 
         } )
@@ -156,19 +158,15 @@ function scroll(){
   // var logo = scene.getObjectByName("logo3D"); 
   // logo.traverse( function ( object ) { 
   //   object.visible = true; 
-
   // } );
 
-  
-  
-
   for(var i = 0 ; i <materials.length; i++){
-   // materials[i].opacity = 0.5;  // Math.sin(new Date().getTime() * .0025); ;
       new TWEEN.Tween( materials[i] ).to( 
-        {opacity: 0.5}
+        {
+          opacity: 0.4,
+        }
         , 2000 )
-      .easing( TWEEN.Easing.Elastic.Out).start();
-      
+      .start();
   }
 
 }
@@ -176,8 +174,33 @@ function scroll(){
 function animate() {
   //transform the 3d logo 
   if(typed){
-    scene.getObjectByName("logo3D").rotateY(-10*Math.random()*Math.PI/180.0);
-    scene.getObjectByName("logo3D").rotateX( 4 *(Math.random()-0.5)*Math.PI/180.0)
+    var logo = scene.getObjectByName("logo3D");
+    var s = $("#fullname").val();
+    
+    var rad = degToRad((s.hashCode()/1000)%60)
+    // console.log($("#fullname").val(), h )
+    new TWEEN.Tween( logo.rotation ).to( {
+            x: rad,
+            y: rad/10
+            
+            }, 8000 )
+          .easing( TWEEN.Easing.Elastic.Out)
+          // .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
+    var scale = (s.length%40)/10+1;
+    new TWEEN.Tween( logo.scale ).to( {
+            x: scale,
+            y: scale,
+            z: scale
+          }, 1000 )
+          // .easing(TWEEN.Easing.Circular.Out)
+          .start();
+     
+
+    // logo.rotation.x += 0.01;
+    // logo.rotation.y += 0.1;
+
 
     // var logoObj = scene.getObjectByName( "logo" );
     // var mod = 0.5;
