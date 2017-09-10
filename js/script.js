@@ -8,7 +8,8 @@ var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
 var CAMERA_Z;
 var moon; 
-var typedVal = 0;
+// var typedVal = 0;
+var materials; 
 
 init();
 animate();
@@ -59,17 +60,47 @@ function init() {
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
 
-  //// svg 
- /// Global : group
-  group = new THREE.Group();
-  scene.add( group );
 
+  //// svg 
   var obj = initSVGObject();
- // addLogoObject(group, obj);
-  //addLineObject( group, obj );
-  addGeoObject( group, obj );
+
+  ///// add the svg to 2 groups so they can manipulated differently
+  ///2D 
+  var group2D = new THREE.Group();
+  group2D.name = "logo2D";
+  scene.add( group2D);  
+  addLogoObject(group2D, obj);
+
   
-  //createPlanet();
+  //3D
+  defaultColor = new THREE.Color(0x4c00b4);
+
+  materials = [
+        new THREE.MeshBasicMaterial( { 
+                // color: 0xffffff, 
+                color: 0x4c00b4, 
+                opacity:0, //0.2
+                side: THREE.DoubleSide ,
+                transparent: true,
+                blending: THREE.AdditiveBlending ,
+               // needsUpdate: true
+        } ),
+
+        new THREE.MeshBasicMaterial( { 
+            color: 0xffffff, 
+            wireframe: true, 
+            opacity:0, 
+            transparent: true ,
+            needsUpdate: true 
+        } )
+    ];
+  var triangles = new THREE.Group();
+  triangles.name = "logo3D"; 
+  scene.add(triangles);
+ // triangles.traverse( function ( object ) { object.visible = false; } );
+  addTriangleObjects(triangles, obj);
+
+  
 
 }
 function createLights() {
@@ -86,39 +117,6 @@ function createLights() {
   scene.add( lights[0] );
   scene.add( lights[1] );
   scene.add( lights[2] );
-    
-
-}
-
-
-function createPlanet(){
-  // moonMat =  new THREE.MeshLambertMaterial ({
-  //   color: 0x4c00b4,
-  //   wireframe: false,
-  //   shading:THREE.FlatShading
-  // });
-  
-  var materials = [
-    new THREE.MeshPhongMaterial( { color: 0x4c00b4, flatShading: true, vertexColors: THREE.VertexColors, shininess: 0 } ),
-    new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true, transparent: true } )
-  ];
-
-  var moonGeometry = new THREE.IcosahedronGeometry(30, 1 );
-  moon =  new THREE.SceneUtils.createMultiMaterialObject(moonGeometry, materials);
-  moon.translateZ(-20);
-  scene.add( moon );
-  // debugger;
-}
-
-function animateMoon(){
-  var mod = 0.5;
-  for (var i = 0; i < moon.children[0].geometry.vertices.length; i++) {
-      var v = moon.children[0].geometry.vertices[i];
-      v.x += (Math.random() - .5) * mod
-      v.y += (Math.random() - .5) * mod
-      v.z += (Math.random() - .5) * mod
-  }
-  moon.children[0].geometry.verticesNeedUpdate=true;
 }
 
 function buildScene() {
@@ -153,15 +151,76 @@ function getControlParams() {
   };
 }
 
+//TODO how to trigger this with space bar
+function scroll(){
+  
+  //take 1 second to scroll down 
+  $(window).scrollTo($('#form'),1000);
+
+  // var logo = scene.getObjectByName("logo3D"); 
+  // logo.traverse( function ( object ) { 
+  //   object.visible = true; 
+  // } );
+
+  for(var i = 0 ; i <materials.length; i++){
+      new TWEEN.Tween( materials[i] ).to( 
+        {
+          opacity: 0.4,
+        }
+        , 2000 )
+      .start();
+  }
+
+}
+
 function animate() {
+  //transform the 3d logo 
   if(typed){
-    scene.rotateY(-10*Math.random()*Math.PI/180.0);
-    scene.rotateX( 4 *(Math.random()-0.5)*Math.PI/180.0)
-    // var t = typedVal/10;
-    // camera.position.z = CAMERA_Z ;
-    // camera.position.x += t
-    // camera.position.y += t 
-    // camera.lookAt( scene.position );
+    var logo = scene.getObjectByName("logo3D");
+    var s = $("#fullname").val();
+    
+    var rad = degToRad((s.hashCode()/1000)%60)
+    // console.log($("#fullname").val(), h )
+    new TWEEN.Tween( logo.rotation ).to( {
+            x: rad,
+            y: rad/10
+            
+            }, 8000 )
+          .easing( TWEEN.Easing.Elastic.Out)
+          // .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
+    var scale = (s.length%40)/10+1;
+    new TWEEN.Tween( logo.scale ).to( {
+            x: scale,
+            y: scale,
+            z: scale
+          }, 1000 )
+          // .easing(TWEEN.Easing.Circular.Out)
+          .start();
+     
+  //   var targetColor = new THREE.Color( s.hashCode()%100/100,  materials[0].color.getHSL().s, materials[0].color.getHSL().l);
+  //   var alpha = 0;
+    
+  //   new TWEEN.Tween(alpha)
+  //   .to({
+  //     alpha:1 
+  //   }, 500)
+  // //  .easing(TWEEN.Easing.Quartic.In)
+  //   .onUpdate(
+  //       function()
+  //       {
+  //           materials[0].color.copy( defaultColor.lerp(targetColor, alpha));
+  //           // materials[0].color.setHSV(this.h, this.s, this.v);
+  //          // // materials[0].color.fromArray(hslToRgb(this.h, this.s, this.l));
+  //          // materials[0].color.setHSL(this.h, this.s, this.l  );
+  //          // console.log(hue+" "+ materials[0].color.r
+  //          //  + " " + materials[0].color.g
+  //          //  + " " + materials[0].color.b)
+  //          // debugger
+  //       }
+  //   )
+  //   .start();
 
 
     // var logoObj = scene.getObjectByName( "logo" );
@@ -174,15 +233,14 @@ function animate() {
     // }
     // logoObj.children[0].geometry.verticesNeedUpdate=true;
     typed = false ;
-
   }
- 
   
   requestAnimationFrame(animate);
   render();
 }
 
 function render() {
+  TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
 }

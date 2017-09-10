@@ -6,14 +6,16 @@ $(".nl-submit").on("click", function() {
 var typed = false; 
 
 $("#fullname").keyup(function() {
-    typedVal = 0;
-    var s = $("#fullname").val();
-    for(var i = 0; i < s.length-1; i++) {
+  typed = true; 
+    // typedVal = 0;
+    // var s = $("#fullname").val();
+    // console.log(s);
+    // for(var i = 0; i < s.length-1; i++) {
 
-        typedVal += s.charCodeAt(i);
-        typed = true;
-        // typedVal = s.charCodeAt(i);
-    }
+    //     typedVal += s.charCodeAt(i);
+    //     typed = true;
+    //     // typedVal = s.charCodeAt(i);
+    // }
    
     // camera.rotationZ = rotationZ;
 
