@@ -57,7 +57,13 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
         return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
     xhr.send(encoded);
-    window.location=`https://careers.walmart.com/results?q=${$('#superpower').val()}&sort=rank&jobState=${$('#location').val()}`;
+    var superpower = $( '#superpowers ul li.selected a' );
+    var location = $( '#locations ul li.selected a' );
+    if(superpower.attr("class") == "jobDepartmentCode") {
+        window.location=`https://careers.walmart.com/results?q=*&jobDepartmentCode=${ $( superpower ).attr("id")}&sort=rank&jobState=${$( location ).attr("id")}`;
+    } else {
+        window.location=`https://careers.walmart.com/results?q=${$( superpower ).attr("id")}&sort=rank&jobState=${$( location ).attr("id")}`;
+    }
 }
 
 jQuery(document).ready(function loaded() {
