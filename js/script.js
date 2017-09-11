@@ -156,7 +156,7 @@ $(document).ready(function(){
     $( "#greeting-button" ).click(function scroll(){
   
         //take 1 second to scroll down 
-        $(window).scrollTo($('#form'),1000);
+        $('#greeting').slideUp(1000);
 
         // var logo = scene.getObjectByName("logo3D"); 
         // logo.traverse( function ( object ) { 

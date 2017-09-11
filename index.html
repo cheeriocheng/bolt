@@ -10,7 +10,6 @@
     <link href="./css/style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
     <script src="./js/submitform.js"></script>
     <script src="./js/nl-form.js"></script>
     <script>
@@ -20,7 +19,7 @@
   
   <body>
     <div class="w3-container">
-      <div class="greeting">
+      <div class="greeting" id="greeting">
         <div class="bigger w3-row w3-col s8">
           Hello, Recruit!
         </div>
@@ -40,7 +39,7 @@
                 I'm 
                 </div>
               <div class="nl-input">
-                <span class="nobr"><input autocomplete="off" type="text" name="Name" size="16" id="fullname" autocomplete="off" placeholder="Sam Walton"/>.</span>
+                <span class="nobr"><input autocomplete="off" type="text" name="Name" id="fullname" autocomplete="off" placeholder="Sam Walton"/>.</span>
               </div>
             </div>
             <div class="nl-entry">
@@ -50,10 +49,10 @@
               <!-- <span class="nobr"> <input autocomplete="off" type="text" name="Super Power" size="15" id="superpower" placeholder="entrepreneurship"/>,</span> -->
               <div class="nl-input">
                 <div id="superpowers" class="nl-dropdown-content">
-                  <span class="nobr"><input type="button" name="Super Power" id="superpower" onClick="dropDown(this)" class="nl-dropbtn" value="entrepreneurship"/>,</span>
+                  <span class="nobr"><input type="button" name="Super Power" id="superpower" class="nl-dropbtn" value="entrepreneurship"/>,</span>
                   <ul>
-                    <li><a data-value="entrepreneurship" onClick="dropDownSelect('superpower', this)">entrepreneurship</a></li>
-                    <li><a data-value="flying" onClick="dropDownSelect('superpower', this)">flying</a></li>
+                    <li class="selected"><a data-value="entrepreneurship">entrepreneurship</a></li>
+                    <li><a data-value="flying" >flying</a></li>
                   </ul>
                 </div>
               </div>
@@ -65,59 +64,59 @@
               <!-- <span class="nobr"><input autocomplete="off" type="text" name="Location" size="2" id="employeelocation" placeholder="AR"/>.</span> -->
               <div class="nl-input">
                 <div id="locations" class="nl-dropdown-content">
-                  <span class="nobr"><input type="button" name="Location" id="location" onClick="dropDown(this)" class="nl-dropbtn" value="AR"/>.</span>
+                  <span class="nobr"><input type="button" name="Location" id="location" class="nl-dropbtn" value="AR"/>.</span>
                   <ul>
-                    <li><a data-value="AL" onClick="dropDownSelect('location', this)">AL</a></li>
-                    <li><a data-value="AK" onClick="dropDownSelect('location', this)">AK</a></li>
-                    <li><a data-value="AR" onClick="dropDownSelect('location', this)">AR</a></li>
-                    <li><a data-value="AZ" onClick="dropDownSelect('location', this)">AZ</a></li>
-                    <li><a data-value="CA" onClick="dropDownSelect('location', this)">CA</a></li>
-                    <li><a data-value="CO" onClick="dropDownSelect('location', this)">CO</a></li>
-                    <li><a data-value="CT" onClick="dropDownSelect('location', this)">CT</a></li>
-                    <li><a data-value="DC" onClick="dropDownSelect('location', this)">DC</a></li>
-                    <li><a data-value="DE" onClick="dropDownSelect('location', this)">DE</a></li>
-                    <li><a data-value="FL" onClick="dropDownSelect('location', this)">FL</a></li>
-                    <li><a data-value="GA" onClick="dropDownSelect('location', this)">GA</a></li>
-                    <li><a data-value="HI" onClick="dropDownSelect('location', this)">HI</a></li>
-                    <li><a data-value="IA" onClick="dropDownSelect('location', this)">IA</a></li>
-                    <li><a data-value="ID" onClick="dropDownSelect('location', this)">ID</a></li>
-                    <li><a data-value="IL" onClick="dropDownSelect('location', this)">IL</a></li>
-                    <li><a data-value="IN" onClick="dropDownSelect('location', this)">IN</a></li>
-                    <li><a data-value="KS" onClick="dropDownSelect('location', this)">KS</a></li>
-                    <li><a data-value="KY" onClick="dropDownSelect('location', this)">KY</a></li>
-                    <li><a data-value="LA" onClick="dropDownSelect('location', this)">LA</a></li>
-                    <li><a data-value="MA" onClick="dropDownSelect('location', this)">MA</a></li>
-                    <li><a data-value="MD" onClick="dropDownSelect('location', this)">MD</a></li>
-                    <li><a data-value="ME" onClick="dropDownSelect('location', this)">ME</a></li>
-                    <li><a data-value="MI" onClick="dropDownSelect('location', this)">MI</a></li>
-                    <li><a data-value="MN" onClick="dropDownSelect('location', this)">MN</a></li>
-                    <li><a data-value="MO" onClick="dropDownSelect('location', this)">MO</a></li>
-                    <li><a data-value="MS" onClick="dropDownSelect('location', this)">MS</a></li>
-                    <li><a data-value="MT" onClick="dropDownSelect('location', this)">MT</a></li>
-                    <li><a data-value="NC" onClick="dropDownSelect('location', this)">NC</a></li>
-                    <li><a data-value="NE" onClick="dropDownSelect('location', this)">NE</a></li>
-                    <li><a data-value="NH" onClick="dropDownSelect('location', this)">NH</a></li>
-                    <li><a data-value="NJ" onClick="dropDownSelect('location', this)">NJ</a></li>
-                    <li><a data-value="NM" onClick="dropDownSelect('location', this)">NM</a></li>
-                    <li><a data-value="NV" onClick="dropDownSelect('location', this)">NV</a></li>
-                    <li><a data-value="NY" onClick="dropDownSelect('location', this)">NY</a></li>
-                    <li><a data-value="ND" onClick="dropDownSelect('location', this)">ND</a></li>
-                    <li><a data-value="OH" onClick="dropDownSelect('location', this)">OH</a></li>
-                    <li><a data-value="OK" onClick="dropDownSelect('location', this)">OK</a></li>
-                    <li><a data-value="OR" onClick="dropDownSelect('location', this)">OR</a></li>
-                    <li><a data-value="PA" onClick="dropDownSelect('location', this)">PA</a></li>
-                    <li><a data-value="RI" onClick="dropDownSelect('location', this)">RI</a></li>
-                    <li><a data-value="SC" onClick="dropDownSelect('location', this)">SC</a></li>
-                    <li><a data-value="SD" onClick="dropDownSelect('location', this)">SD</a></li>
-                    <li><a data-value="TN" onClick="dropDownSelect('location', this)">TN</a></li>
-                    <li><a data-value="TX" onClick="dropDownSelect('location', this)">TX</a></li>
-                    <li><a data-value="UT" onClick="dropDownSelect('location', this)">UT</a></li>
-                    <li><a data-value="VT" onClick="dropDownSelect('location', this)">VT</a></li>
-                    <li><a data-value="VA" onClick="dropDownSelect('location', this)">VA</a></li>
-                    <li><a data-value="WA" onClick="dropDownSelect('location', this)">WA</a></li>
-                    <li><a data-value="WI" onClick="dropDownSelect('location', this)">WI</a></li>
-                    <li><a data-value="WV" onClick="dropDownSelect('location', this)">WV</a></li>
-                    <li><a data-value="WY" onClick="dropDownSelect('location', this)">WY</a></li>
+                    <li><a data-value="AL">AL</a></li>
+                    <li><a data-value="AK">AK</a></li>
+                    <li class="selected"><a data-value="AR">AR</a></li>
+                    <li><a data-value="AZ">AZ</a></li>
+                    <li><a data-value="CA">CA</a></li>
+                    <li><a data-value="CO">CO</a></li>
+                    <li><a data-value="CT">CT</a></li>
+                    <li><a data-value="DC">DC</a></li>
+                    <li><a data-value="DE">DE</a></li>
+                    <li><a data-value="FL">FL</a></li>
+                    <li><a data-value="GA">GA</a></li>
+                    <li><a data-value="HI">HI</a></li>
+                    <li><a data-value="IA">IA</a></li>
+                    <li><a data-value="ID">ID</a></li>
+                    <li><a data-value="IL">IL</a></li>
+                    <li><a data-value="IN">IN</a></li>
+                    <li><a data-value="KS">KS</a></li>
+                    <li><a data-value="KY">KY</a></li>
+                    <li><a data-value="LA">LA</a></li>
+                    <li><a data-value="MA">MA</a></li>
+                    <li><a data-value="MD">MD</a></li>
+                    <li><a data-value="ME">ME</a></li>
+                    <li><a data-value="MI">MI</a></li>
+                    <li><a data-value="MN">MN</a></li>
+                    <li><a data-value="MO">MO</a></li>
+                    <li><a data-value="MS">MS</a></li>
+                    <li><a data-value="MT">MT</a></li>
+                    <li><a data-value="NC">NC</a></li>
+                    <li><a data-value="NE">NE</a></li>
+                    <li><a data-value="NH">NH</a></li>
+                    <li><a data-value="NJ">NJ</a></li>
+                    <li><a data-value="NM">NM</a></li>
+                    <li><a data-value="NV">NV</a></li>
+                    <li><a data-value="NY">NY</a></li>
+                    <li><a data-value="ND">ND</a></li>
+                    <li><a data-value="OH">OH</a></li>
+                    <li><a data-value="OK">OK</a></li>
+                    <li><a data-value="OR">OR</a></li>
+                    <li><a data-value="PA">PA</a></li>
+                    <li><a data-value="RI">RI</a></li>
+                    <li><a data-value="SC">SC</a></li>
+                    <li><a data-value="SD">SD</a></li>
+                    <li><a data-value="TN">TN</a></li>
+                    <li><a data-value="TX">TX</a></li>
+                    <li><a data-value="UT">UT</a></li>
+                    <li><a data-value="VT">VT</a></li>
+                    <li><a data-value="VA">VA</a></li>
+                    <li><a data-value="WA">WA</a></li>
+                    <li><a data-value="WI">WI</a></li>
+                    <li><a data-value="WV">WV</a></li>
+                    <li><a data-value="WY">WY</a></li>
                   </ul>
                 </div>
               </div>
