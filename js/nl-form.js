@@ -1,4 +1,5 @@
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+var typed = false; 
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -31,12 +32,17 @@ window.onclick = function(event) {
     }
 };
 
+
+
 $(document).ready(function () {
     $( 'input[type="text"]' )
     // event handler
         .keyup(resizeInput)
     // resize on page load
         .each(resizeInput);
+    $("#fullname").keyup(function() {
+        typed = true; 
+    });
     $( '#superpower' ).click(function() {
         dropDown($( this ));
     });

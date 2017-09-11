@@ -10,6 +10,8 @@ var CAMERA_Z;
 var moon; 
 // var typedVal = 0;
 var materials; 
+var triangleMaterial; 
+var colors; 
 
 init();
 animate();
@@ -73,7 +75,24 @@ function init() {
 
   
   //3D
-  defaultColor = new THREE.Color(0x4c00b4);
+//  defaultColor = new THREE.Color(0x4c00b4);
+  // colors 
+//   [
+// {"color": "#00ff88", "word":"Present"},
+// {"color": "#FF8D8D", "word":"Disruptive" },
+//  {"color": "#2CFCFD", "word":"Critical" },
+//  {"color": "#22aadd", "word":"Balanced" },
+//  {"color": "#f6e937", "word":"Open-minded" },
+//  {"color": "#FFAA11", "word":"Creative" },
+//  {"color": "#FF5533", "word":"Adventurous" },
+//  {"color": "#EA3040", "word":"Fearless" },
+//  {"color": "#D948D6", "word":"Inclusive" },
+//  {"color": "#8F319A", "word":"Thoughtful" },
+//  {"color": "#C991D3", "word":"Analytical" },
+//  {"color": "#864bff", "word":"Inquisitive" },
+//  {"color": "#5C33FB", "word":"Curious" },
+//  {"color": "#99BBEE", "word":"Experiential"}
+// ]
 
   materials = [
         new THREE.MeshBasicMaterial( { 
@@ -94,6 +113,17 @@ function init() {
             needsUpdate: true 
         } )
     ];
+
+  triangleMaterial = new THREE.MeshBasicMaterial({
+            vertexColors: THREE.FaceColors,
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+            //wireframe: true
+            opacity: 0.1,
+            transparent: true,
+            blending: THREE.AdditiveBlending ,
+        })
+
   var triangles = new THREE.Group();
   triangles.name = "logo3D"; 
   scene.add(triangles);
@@ -163,14 +193,20 @@ $(document).ready(function(){
         //   object.visible = true; 
         // } );
 
-        for(var i = 0 ; i <materials.length; i++){
-            new TWEEN.Tween( materials[i] ).to( 
-                {
-                    opacity: 0.4,
-                }
-                , 2000 )
-                .start();
-        }
+        // for(var i = 0 ; i <materials.length; i++){
+        //     new TWEEN.Tween( materials[i] ).to( 
+        //         {
+        //             opacity: 0.4,
+        //         }
+        //         , 2000 )
+        //         .start();
+        // }
+        new TWEEN.Tween(triangleMaterial).to(
+        {
+          opacity: 0.3
+        }, 2000)
+        .start();
+      
     });
 });
 
@@ -187,12 +223,12 @@ function animate() {
             x: rad,
             y: rad/10
             
-            }, 8000 )
+            }, 3000 )
           .easing( TWEEN.Easing.Elastic.Out)
           // .easing(TWEEN.Easing.Circular.Out)
           .start();
 
-    var scale = (s.length%40)/10+1;
+    var scale = (s.length%40)/8+1;
     new TWEEN.Tween( logo.scale ).to( {
             x: scale,
             y: scale,

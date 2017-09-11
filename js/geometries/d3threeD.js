@@ -260,7 +260,7 @@ var addTriangleObjects = function( group, svgObject ) {
     //var materials; 
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
-    var theColors = svgObject.colors;
+ //   var theColors = svgObject.colors;
     var theCenter = svgObject.center;
 
     var x, y , z , v; 
@@ -316,9 +316,11 @@ var addTriangleObjects = function( group, svgObject ) {
                     geom.vertices.push(v2);
                     geom.vertices.push(v3);
 
-                    newFace = new  THREE.Face3( ind, ind+1, ind+2 );
-                    // newFace.color = hslToRgb(Math.random(),0.5,0.5) ;
-                    // console.log(newFace.color);
+                    newFace = new  THREE.Face3( ind+2, ind+1, ind);
+                    newFace.color.setHex( 0xF38630 );
+                  //  newFace.color.setHSL(Math.random()*0.5, 0.5, 0.5);
+
+                    console.log(newFace.color);
                     geom.faces.push( newFace );
                     geom.computeFaceNormals();
 
@@ -331,7 +333,9 @@ var addTriangleObjects = function( group, svgObject ) {
         }
     }
 
-    mesh = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
+     mesh = new THREE.Mesh(geom,  triangleMaterial );
+
+    // mesh = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
     group.add(mesh);
 };
 
@@ -356,7 +360,7 @@ var addLogoObject = function( group, svgObject ) {
     
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
-    var theColors = svgObject.colors;
+   // var theColors = svgObject.colors;
     var theCenter = svgObject.center;
     
     len = thePaths.length;
@@ -402,7 +406,7 @@ var initSVGObject = function() {
     //a2.37,2.37,0,0,0,4.18,2L334.78,257.17A5.89,5.89,0,0,0,330.08,247.72ZM57.6,309.46l75.88-282.2h11.28l-73,271.3H232.08a5.45,5.45,0,0,1,5.45,5.45h0a5.45,5.45,0,0,1-5.45,5.45Z
     
     obj.amounts = [ 1, 20, 21 ];
-    obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
+  //  obj.colors =  [ 0xC07000, 0xC08000, 0xC0A000 ];
     obj.center = { x:168, y:285.5 };
 
     return obj;
