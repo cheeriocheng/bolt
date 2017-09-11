@@ -1,5 +1,6 @@
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
-
+var typed = false; 
+var newPowerSelected = -1 ;
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function dropDown(dropList) {
@@ -34,12 +35,17 @@ window.onclick = function(event) {
     }
 };
 
+
+
 $(document).ready(function () {
     $( 'input[type="text"]' )
     // event handler
         .keyup(resizeInput)
     // resize on page load
         .each(resizeInput);
+    $("#fullname").keyup(function() {
+        typed = true; 
+    });
     $( '#superpower' ).click(function() {
         dropDown($( this ));
     });
@@ -48,6 +54,7 @@ $(document).ready(function () {
     });
     $( '#superpowers ul li a' ).click(function() {
         dropDownSelect('superpower', $( this ));
+        newPowerSelected= $(this).parent().index(); 
     });
     $( '#locations ul li a' ).click(function() {
         dropDownSelect('location', $( this ));
