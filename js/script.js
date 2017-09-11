@@ -82,6 +82,11 @@ function init() {
     new THREE.Color(0x22aadd),
     new THREE.Color(0xf6e937),
     new THREE.Color(0xFFAA11),
+    new THREE.Color(0xFF5533),
+    new THREE.Color(0xEA3040),
+    new THREE.Color(0xD948D6),
+    new THREE.Color(0x8F319A),
+    new THREE.Color(0xC991D3),
 
     ];
 //   [
@@ -283,7 +288,7 @@ function animate() {
   if(newPowerSelected != -1){
      var logo = scene.getObjectByName("logo3D");
      for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
-          logo.children[0].geometry.faces[ i ].color = colors[newPowerSelected%(colors.length)] ;
+          logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
       }
       logo.children[0].geometry.colorsNeedUpdate = true;
       
