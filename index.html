@@ -5,16 +5,14 @@
     <meta charset="utf-8">
     <meta property="og:type" content="website"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="./css/w3.css"> 
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="./css/w3.css"> 
     <link href="./css/style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
     <script src="./js/submitform.js"></script>
     <script src="./js/nl-form.js"></script>
-    <script>
-      $(document).ready(function() {});
-    </script>
+    <script src="./js/jquery.custom-scrollbar.min.js"></script>
   </head>
   
   <body>
@@ -31,7 +29,7 @@
           <input type="button" id="greeting-button" class="w3-btn" type="submit" value="Let's do it!"/>
         </div>
       </div>
-      <div class="bottom">
+      <div class="bottom" id="bottom">
         <div class="w3-row w3-half" id="form">
           <form class="nl-form" action="https://script.google.com/macros/s/AKfycbz5AdFxHmrX4_xpqxwQnBVkNm1pqw-64VH32VtdslW416itf8Ad/exec" method="POST" id="nl-form">
             <div class="nl-entry">
@@ -46,7 +44,6 @@
               <div class="nl-text">
                 My super power is 
               </div>
-              <!-- <span class="nobr"> <input autocomplete="off" type="text" name="Super Power" size="15" id="superpower" placeholder="entrepreneurship"/>,</span> -->
               <div class="nl-input">
                 <div id="superpowers" class="nl-dropdown-content">
                   <span class="nobr"><input type="button" name="Super Power" id="superpower" class="nl-dropbtn" value="entrepreneurship"/>,</span>
@@ -61,7 +58,6 @@
               <div class="nl-text">
 	            and my home base is at/closest to
               </div>
-              <!-- <span class="nobr"><input autocomplete="off" type="text" name="Location" size="2" id="employeelocation" placeholder="AR"/>.</span> -->
               <div class="nl-input">
                 <div id="locations" class="nl-dropdown-content">
                   <span class="nobr"><input type="button" name="Location" id="location" class="nl-dropbtn" value="AR"/>.</span>
