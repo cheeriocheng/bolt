@@ -234,7 +234,6 @@ function animate() {
     new TWEEN.Tween( logo.rotation ).to( {
             x: rad,
             y: rad/10
-            
             }, 3000 )
           .easing( TWEEN.Easing.Elastic.Out)
           // .easing(TWEEN.Easing.Circular.Out)
@@ -249,39 +248,7 @@ function animate() {
           // .easing(TWEEN.Easing.Circular.Out)
           .start();
      
-  //   var targetColor = new THREE.Color( s.hashCode()%100/100,  materials[0].color.getHSL().s, materials[0].color.getHSL().l);
-  //   var alpha = 0;
-    
-  //   new TWEEN.Tween(alpha)
-  //   .to({
-  //     alpha:1 
-  //   }, 500)
-  // //  .easing(TWEEN.Easing.Quartic.In)
-  //   .onUpdate(
-  //       function()
-  //       {
-  //           materials[0].color.copy( defaultColor.lerp(targetColor, alpha));
-  //           // materials[0].color.setHSV(this.h, this.s, this.v);
-  //          // // materials[0].color.fromArray(hslToRgb(this.h, this.s, this.l));
-  //          // materials[0].color.setHSL(this.h, this.s, this.l  );
-  //          // console.log(hue+" "+ materials[0].color.r
-  //          //  + " " + materials[0].color.g
-  //          //  + " " + materials[0].color.b)
-  //          // debugger
-  //       }
-  //   )
-  //   .start();
-
-
-    // var logoObj = scene.getObjectByName( "logo" );
-    // var mod = 0.5;
-    // for (var i = 0; i < logoObj.children[0].geometry.vertices.length; i++) {
-    //     var v = logoObj.children[0].geometry.vertices[i];
-    //     v.x += t * mod
-    //     v.y += t * mod
-    //     v.z += t * mod
-    // }
-    // logoObj.children[0].geometry.verticesNeedUpdate=true;
+  
     typed = false ;
   }
 
@@ -293,6 +260,21 @@ function animate() {
       logo.children[0].geometry.colorsNeedUpdate = true;
       
       newPowerSelected = -1 ; 
+  }
+
+  if(newLocationSelected != -1){
+    var logo = scene.getObjectByName("logo3D");
+    //TODO use origin 
+    var mod = newLocationSelected/51+1;
+    for (var i = 0; i < logo.children[0].geometry.vertices.length; i++) {
+        var v = logo.children[0].geometry.vertices[i];
+        v.x *=  mod
+        v.y *=  mod
+        v.z *=  mod
+
+    }
+    logo.children[0].geometry.verticesNeedUpdate=true;
+    newLocationSelected = -1 ; 
   }
   
   requestAnimationFrame(animate);

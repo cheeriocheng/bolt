@@ -1,6 +1,7 @@
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 var typed = false; 
 var newPowerSelected = -1 ;
+var newLocationSelected = -1;
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function dropDown(dropList) {
@@ -58,5 +59,6 @@ $(document).ready(function () {
     });
     $( '#locations ul li a' ).click(function() {
         dropDownSelect('location', $( this ));
+        newLocationSelected = $(this).parent().index(); 
     });
 });

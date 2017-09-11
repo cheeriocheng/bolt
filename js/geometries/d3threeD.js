@@ -320,7 +320,7 @@ var addTriangleObjects = function( group, svgObject ) {
                     newFace.color.setHex( 0xF38630 );
                   //  newFace.color.setHSL(Math.random()*0.5, 0.5, 0.5);
 
-                    console.log(newFace.color);
+                    // console.log(newFace.color);
                     geom.faces.push( newFace );
                     geom.computeFaceNormals();
 
