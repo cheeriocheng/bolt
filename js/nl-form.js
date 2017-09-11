@@ -4,7 +4,10 @@ var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 toggle between hiding and showing the dropdown content */
 function dropDown(dropList) {
     $( dropList ).css("color", "white");
-    $( dropList ).parent().next().toggle();
+    $( '.nl-dropdown-content ul' ).not(this).each(function() {
+        $(this).slideUp(300);
+    });
+    $( dropList ).parent().next().slideDown(300);
 }
 
 function dropDownSelect(optionSet, optionClicked) {
@@ -15,8 +18,8 @@ function dropDownSelect(optionSet, optionClicked) {
 }
 
 function closeAllDropDowns() {
-    $('.nl-dropdown-content ul').each(function() {
-        $( this ).hide();
+    $( '.nl-dropdown-content ul' ).each(function() {
+        $( this ).slideUp(300);
     });
 }
 
