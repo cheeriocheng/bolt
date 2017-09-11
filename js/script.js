@@ -76,7 +76,14 @@ function init() {
   
   //3D
 //  defaultColor = new THREE.Color(0x4c00b4);
-  // colors 
+   colors = [ new THREE.Color(0x00ff88) ,
+    new THREE.Color(0xFF8D8D),
+    new THREE.Color(0x2CFCFD),
+    new THREE.Color(0x22aadd),
+    new THREE.Color(0xf6e937),
+    new THREE.Color(0xFFAA11),
+
+    ];
 //   [
 // {"color": "#00ff88", "word":"Present"},
 // {"color": "#FF8D8D", "word":"Disruptive" },
@@ -94,25 +101,25 @@ function init() {
 //  {"color": "#99BBEE", "word":"Experiential"}
 // ]
 
-  materials = [
-        new THREE.MeshBasicMaterial( { 
-                // color: 0xffffff, 
-                color: 0x4c00b4, 
-                opacity:0, //0.2
-                side: THREE.DoubleSide ,
-                transparent: true,
-                blending: THREE.AdditiveBlending ,
-               // needsUpdate: true
-        } ),
+  // materials = [
+  //       new THREE.MeshBasicMaterial( { 
+  //               // color: 0xffffff, 
+  //               color: 0x4c00b4, 
+  //               opacity:0, //0.2
+  //               side: THREE.DoubleSide ,
+  //               transparent: true,
+  //               blending: THREE.AdditiveBlending ,
+  //              // needsUpdate: true
+  //       } ),
 
-        new THREE.MeshBasicMaterial( { 
-            color: 0xffffff, 
-            wireframe: true, 
-            opacity:0, 
-            transparent: true ,
-            needsUpdate: true 
-        } )
-    ];
+  //       new THREE.MeshBasicMaterial( { 
+  //           color: 0xffffff, 
+  //           wireframe: true, 
+  //           opacity:0, 
+  //           transparent: true ,
+  //           needsUpdate: true 
+  //       } )
+  //   ];
 
   triangleMaterial = new THREE.MeshBasicMaterial({
             vertexColors: THREE.FaceColors,
@@ -271,6 +278,16 @@ function animate() {
     // }
     // logoObj.children[0].geometry.verticesNeedUpdate=true;
     typed = false ;
+  }
+
+  if(newPowerSelected != -1){
+     var logo = scene.getObjectByName("logo3D");
+     for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
+          logo.children[0].geometry.faces[ i ].color = colors[newPowerSelected%(colors.length)] ;
+      }
+      logo.children[0].geometry.colorsNeedUpdate = true;
+      
+      newPowerSelected = -1 ; 
   }
   
   requestAnimationFrame(animate);
