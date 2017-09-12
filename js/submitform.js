@@ -43,7 +43,7 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
     var data = getFormData();      // get the values submitted in the form
     var url = event.target.action;  //
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
+    xhr.open('POST', url, false);
     // xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
@@ -56,7 +56,7 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
     var encoded = Object.keys(data).map(function(k) {
         return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
     }).join('&');
-    xhr.send(encoded);
+    xhr.send(encoded,"actionCode=2");
     var superpower = $( '#superpowers ul li.selected a' );
     var location = $( '#locations ul li.selected a' );
     if(superpower.attr("class") == "jobDepartmentCode") {
