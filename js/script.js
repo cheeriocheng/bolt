@@ -226,12 +226,13 @@ var lastTypedString ;
 var nameArray = []; 
 
 function animate() {
+
   //transform the 3d logo 
   if(typed){
     var logo = scene.getObjectByName("logo3D");
     var s = $("#fullname").val();
     //add a letter 
-    nameArray.push(new Letter('a',0));
+    nameArray.push(new Letter(s[s.length -1],s.length));
 
     
     var rad = degToRad((s.hashCode()/1000)%60)
@@ -253,7 +254,7 @@ function animate() {
           // .easing(TWEEN.Easing.Circular.Out)
           .start();
      
-  
+    // scene.rotation.x+=0.1;
     typed = false ;
   }
 
