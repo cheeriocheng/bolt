@@ -43,6 +43,8 @@ function handleFormSubmit(event) { // handles form submit withtout any jquery
     var data = getFormData();      // get the values submitted in the form
     var url = event.target.action;  //
     var xhr = new XMLHttpRequest();
+    //TODO this request shouldn't be syncrhonus (false) but doesn't work
+    //in firefox without it. Needs debugging.
     xhr.open('POST', url, false);
     // xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
