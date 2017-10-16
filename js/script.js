@@ -222,12 +222,17 @@ $(document).ready(function(){
     });
 });
 
+var lastTypedString ; 
+var nameArray = []; 
 
 function animate() {
   //transform the 3d logo 
   if(typed){
     var logo = scene.getObjectByName("logo3D");
     var s = $("#fullname").val();
+    //add a letter 
+    nameArray.push(new Letter('a',0));
+
     
     var rad = degToRad((s.hashCode()/1000)%60)
     // console.log($("#fullname").val(), h )
