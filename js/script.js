@@ -12,6 +12,8 @@ var moon;
 var materials; 
 var triangleMaterial; 
 var colors; 
+var imgData;
+var getImageData = false;
 
 init();
 animate();
@@ -241,23 +243,23 @@ function animate() {
   if(typed){
     var logo = scene.getObjectByName("logo3D");
     var s = $("#fullname").val();
+    //backspace handling
     if (s) {
       if (s.substr(0,(s.length-1)) === lastTypedString) {
         //a letter was added to the end
         nameArray.push(new Letter(s[s.length -1],s.length));
       } else if (lastTypedString.substr(0, (lastTypedString.length-1)) === s) {
-        //one letter was deleted from the end
+        //a letter was deleted from the end
         nameArray.pop();
         //TODO delete the animation artifacts
       } else if (s !== lastTypedString) {
-        //
+        //letters were deleted or added midword
         nameArray.forEach(function(element) {
           //TODO delete the animation artifacts
           nameArray.pop();
         });
         for (let i=0; i < s.length; i++) {
           nameArray.push(new Letter(s[i], i+1));
-          console.log(s[i]);
         }
       }
     }
@@ -321,4 +323,9 @@ function render() {
   TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
+  if (getImageData) {
+    renderer.render(scene, camera);
+    imgData = renderer.domElement.toDataURL();
+    getImageData = false;
+  }
 }
