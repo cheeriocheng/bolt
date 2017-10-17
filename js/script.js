@@ -88,6 +88,17 @@ function init() {
     new THREE.Color(0x8F319A),
     new THREE.Color(0xC991D3),
 
+    new THREE.Color(0xE90030),
+    new THREE.Color(0xC91FFA),
+    new THREE.Color(0x0901A9),
+    new THREE.Color(0xF99FDF),
+    new THREE.Color(0xA92ADA),
+    new THREE.Color(0x00A0F0),
+    new THREE.Color(0xC900FA),
+    new THREE.Color(0x09017A),
+    new THREE.Color(0xF90F43),
+    new THREE.Color(0x099ADA),
+
     ];
 //   [
 // {"color": "#00ff88", "word":"Present"},
@@ -299,6 +310,8 @@ function animate() {
     logo.children[0].geometry.verticesNeedUpdate=true;
     newLocationSelected = -1 ; 
   }
+
+  scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
