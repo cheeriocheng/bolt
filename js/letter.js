@@ -8,26 +8,61 @@ class Letter {
 
 
     constructor(c,ind) {
-        this.char = c;
-        this.ind = ind; 
+        this.char = c; 
+        this.ind = ind; //0-20
+        this.ascii = c.charCodeAt(0)  ; //40-100
 
-        this.totalDots = c.charCodeAt(0);
         this.group = new THREE.Group();
         scene.add(this.group);
 
-        var dotsGeometry = new THREE.Geometry();
+        var materials = [
+              new THREE.MeshBasicMaterial( { 
+                      color: colors[this.ascii%(colors.length)],
+                      // color: 0xffffff, 
+                      // color: 0x4c00b4, 
+                      opacity:0.3,
+                      side: THREE.DoubleSide ,
+                      transparent: true,
+                      blending: THREE.AdditiveBlending ,
+                     
+              } ),
+
+              new THREE.MeshBasicMaterial( { 
+                  color: 0xffffff, 
+                  wireframe: true, 
+                  opacity:0.4, 
+                  transparent: true ,
+                  needsUpdate: true 
+              } )
+          ];
+      
+        this.totalDots = this.ascii; 
+        this.size = 8+this.ind;
+
+       // var dotsGeometry = new THREE.Geometry();
         for ( var i = 0; i < this.totalDots; i ++ ) {
             var dot = new THREE.Vector3();
-            var r = 70 + this.ind * 5; 
-            var theta= degToRad(i*5*this.ind);
-            var phi = degToRad( this.totalDots%5*i );
+            var r = 120 + this.ind * 20 ; 
+            var theta= degToRad(i*10.1*this.ind);
+            var phi = degToRad( this.totalDots%5.1*i );
             var spherical = new THREE.Spherical(r, phi, theta) ;
             dot.setFromSpherical( spherical );
-            dotsGeometry.vertices.push(dot);
-          }
+          //  dotsGeometry.vertices.push(dot);
 
-        var dotsMaterial = new THREE.PointsMaterial( { color: 0x880000, size:20 } );
-        this.group.add( new THREE.Points( dotsGeometry, dotsMaterial));
+            var object = new THREE.SceneUtils.createMultiMaterialObject( new THREE.TetrahedronGeometry( this.size, 0 ), materials );
+
+            object.position.set( dot.x, dot.y, dot.z );
+            
+            object.rotation.x = Math.random() * 20 - 10;
+
+            this.group.add( object );
+        }  
+    //    this.group.add( new THREE.Points( dotsGeometry, dotsMaterial));
+       this.group.position.z += 10*Math.sin(this.ascii); 
+       this.group.scale.set(0.1,0.1,0.1);
+        // debugger
+    
+
 
         this.animateAppear();
 
@@ -35,13 +70,18 @@ class Letter {
 
     animateAppear() {
         new TWEEN.Tween( this.group.scale ).to( {
-            x: 2,
-            y: 2,
-            z: 2
-            }, 1000 )
-          // .easing( TWEEN.Easing.Elastic.Out)
-          .easing(TWEEN.Easing.Circular.Out)
+            x: 1,
+            y: 1,
+            z: 1
+            }, 5000 )
+           //.easing( TWEEN.Easing.Elastic.Out)
+           .easing(TWEEN.Easing.Circular.Out)
           .start();
+    }
+
+    //do this before deleting 
+    animateDisappear(){
+
     }
 
   // Getter
