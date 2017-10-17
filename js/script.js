@@ -222,50 +222,67 @@ $(document).ready(function(){
     });
 });
 
-var lastTypedString ; 
+var lastTypedString = "";
 var nameArray = []; 
 
 function animate() {
-
   //transform the 3d logo 
   if(typed){
     var logo = scene.getObjectByName("logo3D");
     var s = $("#fullname").val();
-    //add a letter 
-    nameArray.push(new Letter(s[s.length -1],s.length));
-
+    if (s) {
+      if (s.substr(0,(s.length-1)) === lastTypedString) {
+        //a letter was added to the end
+        nameArray.push(new Letter(s[s.length -1],s.length));
+      } else if (lastTypedString.substr(0, (lastTypedString.length-1)) === s) {
+        //one letter was deleted from the end
+        nameArray.pop();
+        //TODO delete the animation artifacts
+      } else if (s !== lastTypedString) {
+        //
+        nameArray.forEach(function(element) {
+          //TODO delete the animation artifacts
+          nameArray.pop();
+        });
+        for (let i=0; i < s.length; i++) {
+          nameArray.push(new Letter(s[i], i+1));
+          console.log(s[i]);
+        }
+      }
+    }
+    lastTypedString = s;
     
     var rad = degToRad((s.hashCode()/1000)%60)
     // console.log($("#fullname").val(), h )
     new TWEEN.Tween( logo.rotation ).to( {
-            x: rad,
-            y: rad/10
-            }, 3000 )
-          .easing( TWEEN.Easing.Elastic.Out)
-          // .easing(TWEEN.Easing.Circular.Out)
-          .start();
+      x: rad,
+      y: rad/10
+    }, 3000 )
+      .easing( TWEEN.Easing.Elastic.Out)
+    // .easing(TWEEN.Easing.Circular.Out)
+      .start();
 
     var scale = (s.length%40)/8+1;
     new TWEEN.Tween( logo.scale ).to( {
-            x: scale,
-            y: scale,
-            z: scale
-          }, 1000 )
-          // .easing(TWEEN.Easing.Circular.Out)
-          .start();
-     
+      x: scale,
+      y: scale,
+      z: scale
+    }, 1000 )
+    // .easing(TWEEN.Easing.Circular.Out)
+      .start();
+    
     // scene.rotation.x+=0.1;
     typed = false ;
   }
 
   if(newPowerSelected != -1){
-     var logo = scene.getObjectByName("logo3D");
-     for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
-          logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
-      }
-      logo.children[0].geometry.colorsNeedUpdate = true;
-      
-      newPowerSelected = -1 ; 
+    var logo = scene.getObjectByName("logo3D");
+    for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
+      logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
+    }
+    logo.children[0].geometry.colorsNeedUpdate = true;
+    
+    newPowerSelected = -1 ; 
   }
 
   if(newLocationSelected != -1){
@@ -273,10 +290,10 @@ function animate() {
     //TODO use origin 
     var mod = newLocationSelected/51+1;
     for (var i = 0; i < logo.children[0].geometry.vertices.length; i++) {
-        var v = logo.children[0].geometry.vertices[i];
-        v.x *=  mod
-        v.y *=  mod
-        v.z *=  mod
+      var v = logo.children[0].geometry.vertices[i];
+      v.x *=  mod
+      v.y *=  mod
+      v.z *=  mod
 
     }
     logo.children[0].geometry.verticesNeedUpdate=true;
