@@ -21,8 +21,8 @@ class Letter {
         this.logo = scene.getObjectByName("logo3D");
         this.triangleInd = this.ascii % (this.logo.children.length);
 
-        // this.group = new THREE.Group();
-        // this.group.add(logo.children[this.triangleInd]);
+        this.geom = new THREE.Geometry();
+        this.geom  = this.logo.children[this.triangleInd];
         this.scale = ind+1.1; 
         this.animateAppear();
 
@@ -104,7 +104,7 @@ class Letter {
          console.log("changing " + this.triangleInd + " to scale " + this.scale);
          // debugger
 
-        new TWEEN.Tween( this.logo.children[this.triangleInd].scale ).to( {
+        new TWEEN.Tween( this.geom.scale ).to( {
             x: this.scale,
             y: this.scale,
             z: this.scale
@@ -113,7 +113,13 @@ class Letter {
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
-          
+        new TWEEN.Tween( this.geom.position).to( {
+            z: -100
+            }, 5000 )
+           //.easing( TWEEN.Easing.Elastic.Out)
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
 
 
     }
