@@ -69,13 +69,18 @@ function init() {
   var obj = initSVGObject();
 
   ///// add the svg to 2 groups so they can manipulated differently
-  ///2D 
+  /// outline 
   var group2D = new THREE.Group();
   group2D.name = "logo2D";
   scene.add( group2D);  
   addLogoObject(group2D, obj);
 
-  
+  /// triangles 
+  var groupTriangles = new THREE.Group();
+  groupTriangles.name = "2Dtriangles";
+  scene.add( groupTriangles);  
+  addTrianglesFromLogo(groupTriangles, obj);
+
   //3D
 //  defaultColor = new THREE.Color(0x4c00b4);
    colors = [ new THREE.Color(0x00ff88) ,
@@ -100,51 +105,14 @@ function init() {
     new THREE.Color(0x09017A),
     new THREE.Color(0xF90F43),
     new THREE.Color(0x099ADA),
-
     ];
-//   [
-// {"color": "#00ff88", "word":"Present"},
-// {"color": "#FF8D8D", "word":"Disruptive" },
-//  {"color": "#2CFCFD", "word":"Critical" },
-//  {"color": "#22aadd", "word":"Balanced" },
-//  {"color": "#f6e937", "word":"Open-minded" },
-//  {"color": "#FFAA11", "word":"Creative" },
-//  {"color": "#FF5533", "word":"Adventurous" },
-//  {"color": "#EA3040", "word":"Fearless" },
-//  {"color": "#D948D6", "word":"Inclusive" },
-//  {"color": "#8F319A", "word":"Thoughtful" },
-//  {"color": "#C991D3", "word":"Analytical" },
-//  {"color": "#864bff", "word":"Inquisitive" },
-//  {"color": "#5C33FB", "word":"Curious" },
-//  {"color": "#99BBEE", "word":"Experiential"}
-// ]
 
-  // materials = [
-  //       new THREE.MeshBasicMaterial( { 
-  //               // color: 0xffffff, 
-  //               color: 0x4c00b4, 
-  //               opacity:0, //0.2
-  //               side: THREE.DoubleSide ,
-  //               transparent: true,
-  //               blending: THREE.AdditiveBlending ,
-  //              // needsUpdate: true
-  //       } ),
-
-  //       new THREE.MeshBasicMaterial( { 
-  //           color: 0xffffff, 
-  //           wireframe: true, 
-  //           opacity:0, 
-  //           transparent: true ,
-  //           needsUpdate: true 
-  //       } )
-  //   ];
-
-  triangleMaterial = new THREE.MeshBasicMaterial({
+ triangleMaterial = new THREE.MeshBasicMaterial({
             vertexColors: THREE.FaceColors,
             color: 0xffffff,
             side: THREE.DoubleSide,
             //wireframe: true
-            opacity: 0.1,
+            opacity: 0.5,
             transparent: true,
             blending: THREE.AdditiveBlending ,
         })
@@ -153,8 +121,8 @@ function init() {
   triangles.name = "logo3D"; 
   scene.add(triangles);
  // triangles.traverse( function ( object ) { object.visible = false; } );
-  addTriangleObjects(triangles, obj);
-
+  //addTriangleObjects(triangles, obj);
+  addTrianglesFromLogo(triangles,obj);
   
 
 }
@@ -265,24 +233,24 @@ function animate() {
     }
     lastTypedString = s;
     
-    var rad = degToRad((s.hashCode()/1000)%60)
-    // console.log($("#fullname").val(), h )
-    new TWEEN.Tween( logo.rotation ).to( {
-      x: rad,
-      y: rad/10
-    }, 3000 )
-      .easing( TWEEN.Easing.Elastic.Out)
-    // .easing(TWEEN.Easing.Circular.Out)
-      .start();
+    // var rad = degToRad((s.hashCode()/1000)%60)
+    // // console.log($("#fullname").val(), h )
+    // new TWEEN.Tween( logo.rotation ).to( {
+    //   x: rad,
+    //   y: rad/10
+    // }, 3000 )
+    //   .easing( TWEEN.Easing.Elastic.Out)
+    // // .easing(TWEEN.Easing.Circular.Out)
+    //   .start();
 
-    var scale = (s.length%40)/8+1;
-    new TWEEN.Tween( logo.scale ).to( {
-      x: scale,
-      y: scale,
-      z: scale
-    }, 1000 )
-    // .easing(TWEEN.Easing.Circular.Out)
-      .start();
+    // var scale = (s.length%40)/8+1;
+    // new TWEEN.Tween( logo.scale ).to( {
+    //   x: scale,
+    //   y: scale,
+    //   z: scale
+    // }, 1000 )
+    // // .easing(TWEEN.Easing.Circular.Out)
+    //   .start();
     
     // scene.rotation.x+=0.1;
     typed = false ;
@@ -313,7 +281,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  scene.rotation.y+=0.001;
+  // scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
