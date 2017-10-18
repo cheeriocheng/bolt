@@ -16,14 +16,20 @@ class Letter {
     constructor(c,ind) {
         this.char = c; 
         this.ind = ind; //0-20
-        this.ascii = c.charCodeAt(0)  ; //40-100
+        this.ascii = c.charCodeAt(0)  ; //65-90 A-Z  97-122 a-z space 32 
 
-        debugger;
-        var logo = scene.getObjectByName("logo3D");
+        this.logo = scene.getObjectByName("logo3D");
+        this.triangleInd = this.ascii % (this.logo.children.length);
 
-        // logo.children.forEach(function(child){
-        //   child.Geometry.faces[0].
-        // });
+        // this.group = new THREE.Group();
+        // this.group.add(logo.children[this.triangleInd]);
+        this.scale = ind+1.1; 
+        this.animateAppear();
+
+
+
+
+
 
 
     //     this.group = new THREE.Group();
@@ -82,16 +88,36 @@ class Letter {
 
     }
 
+    // animateAppear() {
+    //     new TWEEN.Tween( this.group.scale ).to( {
+    //         x: 1,
+    //         y: 1,
+    //         z: 1
+    //         }, 5000 )
+    //        //.easing( TWEEN.Easing.Elastic.Out)
+    //        .easing(TWEEN.Easing.Circular.Out)
+    //       .start();
+    // }
+
     animateAppear() {
-        new TWEEN.Tween( this.group.scale ).to( {
-            x: 1,
-            y: 1,
-            z: 1
+
+         console.log("changing " + this.triangleInd + " to scale " + this.scale);
+         // debugger
+
+        new TWEEN.Tween( this.logo.children[this.triangleInd].scale ).to( {
+            x: this.scale,
+            y: this.scale,
+            z: this.scale
             }, 5000 )
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
+
+          
+
+
     }
+
 
     //do this before deleting 
     animateDisappear(){

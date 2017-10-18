@@ -75,11 +75,11 @@ function init() {
   scene.add( group2D);  
   addLogoObject(group2D, obj);
 
-  /// triangles 
-  var groupTriangles = new THREE.Group();
-  groupTriangles.name = "2Dtriangles";
-  scene.add( groupTriangles);  
-  addTrianglesFromLogo(groupTriangles, obj);
+  // /// triangles 
+  // var groupTriangles = new THREE.Group();
+  // groupTriangles.name = "2Dtriangles";
+  // scene.add( groupTriangles);  
+  // addTrianglesFromLogo(groupTriangles, obj);
 
   //3D
 //  defaultColor = new THREE.Color(0x4c00b4);
@@ -251,17 +251,16 @@ function animate() {
     // }, 1000 )
     // // .easing(TWEEN.Easing.Circular.Out)
     //   .start();
-    
-    // scene.rotation.x+=0.1;
+  
     typed = false ;
   }
 
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
     for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
-      logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
+      // logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
     }
-    logo.children[0].geometry.colorsNeedUpdate = true;
+    // logo.children[0].geometry.colorsNeedUpdate = true;
     
     newPowerSelected = -1 ; 
   }
@@ -281,7 +280,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  // scene.rotation.y+=0.001;
+  scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
