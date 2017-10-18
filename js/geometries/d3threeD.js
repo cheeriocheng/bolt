@@ -394,7 +394,7 @@ var addLogoObject = function( group, svgObject ) {
 
 ////add 2d triangles
 var addTrianglesFromLogo = function( group, svgObject ) {
-    var i,j, len, len1;
+    var i, ind , len, len1;
     
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
@@ -424,7 +424,7 @@ var addTrianglesFromLogo = function( group, svgObject ) {
     // meshGroup.position.y += theCenter.y;
 
     //create a triangular geometry
-    var geom = new THREE.Geometry();
+
     var v1 = new THREE.Vector3();
     var v2 = new THREE.Vector3();
     var v3 = new THREE.Vector3();
@@ -432,14 +432,16 @@ var addTrianglesFromLogo = function( group, svgObject ) {
         // console.log(child);
         var vertices = child.geometry.vertices; 
         var faces =  child.geometry.faces; 
+
         //for each tiangle face
         faces.forEach(function(face, k){
-        // debugger;
+            var geom = new THREE.Geometry();
+
              v1 = vertices[faces[k].a].clone();
              v2 = vertices[faces[k].b].clone();
              v3 = vertices[faces[k].c].clone();
                 
-             ind = geom.vertices.length;
+             ind = 0; //geom.vertices.length;
              geom.vertices.push(v1);
              geom.vertices.push(v2);
              geom.vertices.push(v3);
@@ -451,14 +453,14 @@ var addTrianglesFromLogo = function( group, svgObject ) {
 
              geom.faces.push( newFace );
              geom.computeFaceNormals();
-
+             group.add( new THREE.Mesh( geom, triangleMaterial ) );
         }) 
     });
 
 
 
   
-    group.add( new THREE.Mesh( geom, triangleMaterial ) );
+    // group.add( new THREE.Mesh( geom, triangleMaterial ) );
 
     group.rotation.x = Math.PI;
     group.position.x -= theCenter.x;
