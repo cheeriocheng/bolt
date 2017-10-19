@@ -254,23 +254,10 @@ d3threeD($d3g);
 
 
 
-//take a vector (v) at z=0, project to a new depth, while maitaining the same contour giving current camera
-var unprojectVector = function( v, theCenter ){
-    var x, y , z; 
-    x = v.x - theCenter.x; 
-    y = -v.y + theCenter.y; 
-    // if(z==amount)
-    z = getRandomInt(100,-200);
-    scale = (CAMERA_Z-z)/CAMERA_Z; 
-    x = x*scale;
-    y = y*scale;
-   // console.log ("old " + v.x + "" + v.y  , " new " + x + " " + y + " " + z);
-    return new THREE.Vector3(x,y,z);
-}; 
-
-
 ////draw the original logo in 2D
 var addLogoOutline = function( group, svgObject ) {
+    var ifAddPoints = false; 
+    var ifAddNumbers = false; 
     var i,j, len, len1;
     var path;
     var thePaths = svgObject.paths;
@@ -301,23 +288,28 @@ var addLogoOutline = function( group, svgObject ) {
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
             pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
 
-            var label = makeTextSprite(j, {textColor:"#0000ff"});
-            label.position.x= points[j].x - theCenter.x/2;
-            label.position.y= -points[j].y + theCenter.y;
-            label.position.z= 0;
-            group.add(label);
+            if(ifAddNumbers){
+                //this chunk of code labels the points with the index 
+                var label = makeTextSprite(j, {textColor:"#0000ff"});
+                label.position.x= points[j].x - theCenter.x/2;
+                label.position.y= -points[j].y + theCenter.y;
+                label.position.z= 0;
+                group.add(label);
+            }
         }
         
         line.vertices.push(line.vertices[0]);
 
         group.add(new THREE.Line(line, lineDashedMaterial));
-        group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
+        if(ifAddPoints){
+            group.add(new THREE.Points( pointsGeometry, pointsMaterial ) );
+        }
     }
     //debugger;
 };
 
 
-////add 2d triangles
+////add triangles
 var addTrianglesFromLogo = function( group, svgObject ) {
     var i, ind , len, len1;
     
@@ -357,6 +349,8 @@ var addTrianglesFromLogo = function( group, svgObject ) {
         [1,7,22],
         [7,8,21],
         [8,15,21],
+        [7,15,11],
+        [17,19,22],
         [21,22,7],
         [1,22,49],
         [22,23,49],
@@ -370,6 +364,8 @@ var addTrianglesFromLogo = function( group, svgObject ) {
     var v1 = new THREE.Vector3();
     var v2 = new THREE.Vector3();
     var v3 = new THREE.Vector3();
+
+   
 
     meshGroup.children.forEach(function(child){ 
         // console.log(child);
@@ -401,6 +397,23 @@ var addTrianglesFromLogo = function( group, svgObject ) {
 
         //this one loads the triangles selected manually 
         selfDefinedFaces.forEach(function(face) {
+            //create a new material for each triangle 
+            var faceMaterial = new THREE.MeshBasicMaterial({
+                vertexColors: THREE.FaceColors,
+                color: 0xffffff,
+                side: THREE.DoubleSide,
+                //wireframe: true
+                opacity: 0.2,
+                transparent: true,
+                blending: THREE.AdditiveBlending ,
+            })
+            var edgeMaterial =  new THREE.MeshBasicMaterial( {
+                color: 0xffffff,
+                // color: 0X666666,
+                opacity: 0, //0.7
+                wireframe: true
+             } )
+
             var geom = new THREE.Geometry();
             v1 = vertices[face[0]].clone();
             v2 = vertices[face[1]].clone();
@@ -413,7 +426,8 @@ var addTrianglesFromLogo = function( group, svgObject ) {
             newFace = new THREE.Face3( ind+2, ind+1, ind);
             geom.faces.push( newFace );
             geom.computeFaceNormals();
-             group.add( new THREE.Mesh( geom, triangleMaterial ) );
+             group.add( new THREE.Mesh( geom, faceMaterial ) );
+             group.add( new THREE.Mesh( geom, edgeMaterial ) );
             
         });
 

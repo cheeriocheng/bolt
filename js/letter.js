@@ -17,13 +17,14 @@ class Letter {
         this.char = c; 
         this.ind = ind; //0-20
         this.ascii = c.charCodeAt(0)  ; //65-90 A-Z  97-122 a-z space 32 
+        this.colorInd = this.ascii%(colors.length);
 
         this.logo = scene.getObjectByName("logo3D");
         this.triangleInd = (this.ascii + this.ind) % (this.logo.children.length);
 
         this.geom = new THREE.Geometry();
         this.geom  = this.logo.children[this.triangleInd];
-        this.scale = ind/10+1.1; 
+        this.scale = ind/40+1; 
         this.animateAppear();
 
 
@@ -100,22 +101,47 @@ class Letter {
     // }
 
     animateAppear() {
+        // var aNew = new THREE.Vector3();
+        // var a= this.geom.geometry.vertices[0];
+        // aNew  = unprojectVectorToZ(a, 100);
+        // this.geom.geometry.vertices[0] = aNew; 
 
-         console.log("changing " + this.triangleInd + " to scale " + this.scale);
-         // debugger
-
+        // this.geom.geometry.verticesNeedUpdate = true;
+        
         new TWEEN.Tween( this.geom.scale ).to( {
             x: this.scale,
             y: this.scale,
             z: this.scale
-            }, 5000 )
+            }, 1500 )
+           //.easing( TWEEN.Easing.Elastic.Out)
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
+        
+        // this.geom.material.color = colors[this.colorInd];
+        // this.geom.geometry.colorsNeedUpdate = true;
+        
+        new TWEEN.Tween(this.geom.material).to(
+        {
+          opacity: 0.4
+        }, 1000)
+        .start();
+
+        var mod = 0.01;
+        new TWEEN.Tween( this.geom.rotation ).to( {
+            x: mod,
+            y: mod,
+            z: -mod
+            }, 500 )
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
         new TWEEN.Tween( this.geom.position).to( {
-            z: -this.ind 
-            }, 5000 )
+            x: -this.ascii/10,
+            y: -this.ascii/5,
+            z: this.ind*5 + 1 
+            }, 1000 )
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
@@ -135,4 +161,5 @@ class Letter {
     return this.char();
   } 
 }
+
 

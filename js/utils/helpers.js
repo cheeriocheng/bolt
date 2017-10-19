@@ -11,16 +11,16 @@
     new THREE.Color(0x8F319A),
     new THREE.Color(0xC991D3),
 
-    new THREE.Color(0xE90030),
-    new THREE.Color(0xC91FFA),
-    new THREE.Color(0x0901A9),
-    new THREE.Color(0xF99FDF),
-    new THREE.Color(0xA92ADA),
-    new THREE.Color(0x00A0F0),
-    new THREE.Color(0xC900FA),
-    new THREE.Color(0x09017A),
-    new THREE.Color(0xF90F43),
-    new THREE.Color(0x099ADA),
+    // new THREE.Color(0xE90030),
+    // new THREE.Color(0xC91FFA),
+    // new THREE.Color(0x0901A9),
+    // new THREE.Color(0xF99FDF),
+    // new THREE.Color(0xA92ADA),
+    // new THREE.Color(0x00A0F0),
+    // new THREE.Color(0xC900FA),
+    // new THREE.Color(0x09017A),
+    // new THREE.Color(0xF90F43),
+    // new THREE.Color(0x099ADA),
     ];
 
 
@@ -41,6 +41,36 @@ function createLights() {
   scene.add( lights[1] );
   scene.add( lights[2] );
 }
+
+
+
+//take a vector (v) at z=0, project to a new depth, while maitaining the same contour giving current camera
+var unprojectVector = function( v, theCenter ){
+    var x, y , z; 
+    x = v.x - theCenter.x; 
+    y = -v.y + theCenter.y; 
+    // if(z==amount)
+    z = getRandomInt(100,-200);
+    scale = (CAMERA_Z-z)/CAMERA_Z; 
+    x = x*scale;
+    y = y*scale;
+   // console.log ("old " + v.x + "" + v.y  , " new " + x + " " + y + " " + z);
+    return new THREE.Vector3(x,y,z);
+}; 
+
+var unprojectVectorToZ = function (v,z) {
+    var x, y , z; 
+    x = v.x ; 
+    y = v.y; 
+    
+    scale = (CAMERA_Z-z)/CAMERA_Z; 
+    x = x*scale;
+    y = y*scale;
+   // console.log ("old " + v.x + "" + v.y  , " new " + x + " " + y + " " + z);
+    return new THREE.Vector3(x,y,z);
+}
+
+
 
 function makeTextSprite( message, parameters )
 {

@@ -50,9 +50,9 @@ function init() {
   
   //helpers
   // backgroup grids
-  // var helper = new THREE.GridHelper( 80, 10 );
-  // helper.rotation.x = Math.PI / 2;
-  // scene.add( helper );
+  var helper = new THREE.GridHelper( 80, 10 );
+  helper.rotation.x = Math.PI / 2;
+  scene.add( helper );
 
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
@@ -66,7 +66,7 @@ function init() {
   var group2D = new THREE.Group();
   group2D.name = "logo2D";
   scene.add( group2D);  
-  addLogoOutline(group2D, obj);
+ addLogoOutline(group2D, obj);
 
   //3D
   triangleMaterial = new THREE.MeshBasicMaterial({
@@ -87,9 +87,9 @@ function init() {
   addTrianglesFromLogo(triangles,obj);
   
   //logo
-  var extrudedLogo = new THREE.Group(); 
-   scene.add(extrudedLogo); 
-   extrudeLogo(extrudedLogo, obj);
+  // var extrudedLogo = new THREE.Group(); 
+  //  scene.add(extrudedLogo); 
+  //  extrudeLogo(extrudedLogo, obj);
 
   }
 
@@ -200,7 +200,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  // scene.rotation.y+=0.001;
+  scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
