@@ -253,82 +253,6 @@ var $d3g = {};
 d3threeD($d3g);
 
 
-// var addTriangleObjects = function( group, svgObject ) {
-//      var i,j,k, len, len1, len2;
-//     var scale = 1; 
-//     var path, mesh, amount, simpleShapes, simpleShape, shape3d;
-//     //var materials; 
-//     var thePaths = svgObject.paths;
-//     var theAmounts = svgObject.amounts;
-//  //   var theColors = svgObject.colors;
-//     var theCenter = svgObject.center;
-
-//     var x, y , z , v; 
-
-// //for tirangles 
-//     var vertices, faces;
-//     var geom = new THREE.Geometry(); ;
-//     var v1 = new THREE.Vector3();
-//     var v2 = new THREE.Vector3();
-//     var v3 = new THREE.Vector3();
-//     var ind; 
-//     var color  = new THREE.Color();
-//     var newFace = new THREE.Face3();
-
-//     len = thePaths.length; //multiple paths ]
-    
-//     for (i = 0; i < len; ++i) {
-//         path = $d3g.transformSVGPath( thePaths[i] );
-//       //  color = new THREE.Color( theColors[i] ); 
-//         amount = theAmounts[i]; //integer. Depth to extrude the shape
-//         simpleShapes = path.toShapes(true);
-
-//         len1 = simpleShapes.length;
-//         for (j = 0; j < len1; ++j) {
-//             simpleShape = simpleShapes[j];
-//             shape3d = simpleShape.extrude({
-//                 amount: amount,
-//                 bevelEnabled: false
-//             });
-            
-//             //for each tiangles on shape3d
-//             vertices = shape3d.vertices; 
-//             faces = shape3d.faces; 
-//             len2 = faces.length;
-//             for (k = 0; k < len2; k++) {
-//                 //pick one layer of the triangles 
-//                 if (vertices[faces[k].a].z == 0
-//                  && vertices[faces[k].b].z == 0 
-//                  && vertices[faces[k].c].z == 0 ){ 
-             
-//                     v1 = unprojectVector(vertices[faces[k].a], theCenter);
-//                     v2 = unprojectVector(vertices[faces[k].b],theCenter);
-//                     v3 = unprojectVector(vertices[faces[k].c],theCenter);
-                         
-//                      //v    console.log("coordinate v1" + v1.x +" "+ v1.y + " z " +v1.z );
-//                     ind = geom.vertices.length;
-//                     geom.vertices.push(v1);
-//                     geom.vertices.push(v2);
-//                     geom.vertices.push(v3);
-
-//                     newFace = new  THREE.Face3( ind+2, ind+1, ind);
-//                     newFace.color.setHex( 0xF38630 );
-//                   //  newFace.color.setHSL(Math.random()*0.5, 0.5, 0.5);
-
-//                     // console.log(newFace.color);
-//                     geom.faces.push( newFace );
-//                     geom.computeFaceNormals();
-
-//                 }
-//             }     
-//         }
-//     }
-
-//     mesh = new THREE.Mesh(geom,  triangleMaterial );
-
-//     // mesh = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
-//     group.add(mesh);
-// };
 
 //take a vector (v) at z=0, project to a new depth, while maitaining the same contour giving current camera
 var unprojectVector = function( v, theCenter ){
@@ -467,6 +391,40 @@ var addTrianglesFromLogo = function( group, svgObject ) {
 
 };
 
+
+//create a 3d extrusion of the logo 
+var extrudeLogo = function( group, svgObject ) {
+    var i, ind , len, len1;
+    var path;
+    var thePaths = svgObject.paths;
+    var theAmounts = svgObject.amounts;
+   // var theColors = svgObject.colors;
+    var theCenter = svgObject.center;
+    var newFace = new THREE.Face3();
+    var meshGroup = new THREE.Group();
+    
+    len = thePaths.length;
+
+    var material = new THREE.MeshBasicMaterial( { 
+            color: 0xff0000 ,
+            wireframe: true
+        } );
+
+    
+    for (i = 0; i < len; ++i) {
+        path = $d3g.transformSVGPath( thePaths[i] );
+        var geometry = new THREE.ShapeGeometry(path,1);
+       
+        var mesh = new THREE.Mesh( geometry, material ) ;
+        group.add( mesh );
+
+    }
+
+    group.rotation.x = Math.PI;
+    group.position.x -= theCenter.x;
+    group.position.y += theCenter.y;
+    
+}
 
 
 

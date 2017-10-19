@@ -124,6 +124,10 @@ function init() {
   //addTriangleObjects(triangles, obj);
   addTrianglesFromLogo(triangles,obj);
   
+ 
+var extrudedLogo = new THREE.Group(); 
+ scene.add(extrudedLogo); 
+ extrudeLogo(extrudedLogo, obj);
 
 }
 function createLights() {

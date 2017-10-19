@@ -19,11 +19,11 @@ class Letter {
         this.ascii = c.charCodeAt(0)  ; //65-90 A-Z  97-122 a-z space 32 
 
         this.logo = scene.getObjectByName("logo3D");
-        this.triangleInd = this.ascii % (this.logo.children.length);
+        this.triangleInd = (this.ascii + this.ind) % (this.logo.children.length);
 
         this.geom = new THREE.Geometry();
         this.geom  = this.logo.children[this.triangleInd];
-        this.scale = ind+1.1; 
+        this.scale = ind/10+1.1; 
         this.animateAppear();
 
 
@@ -114,7 +114,7 @@ class Letter {
           .start();
 
         new TWEEN.Tween( this.geom.position).to( {
-            z: -100
+            z: -this.ind 
             }, 5000 )
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
