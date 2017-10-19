@@ -270,9 +270,9 @@ var unprojectVector = function( v, theCenter ){
 
 
 ////draw the original logo in 2D
-var addLogoObject = function( group, svgObject ) {
+var addLogoOutline = function( group, svgObject ) {
     var i,j, len, len1;
-    
+    var path;
     var thePaths = svgObject.paths;
     var theAmounts = svgObject.amounts;
    // var theColors = svgObject.colors;
@@ -288,7 +288,7 @@ var addLogoObject = function( group, svgObject ) {
     } );
     var pointsMaterial = new THREE.PointsMaterial( {
             color: 0x0080ff,
-            size: 5,
+            size: 10,
             alphaTest: 0.5
         } );
     for (i = 0; i < len; ++i) {
@@ -300,8 +300,14 @@ var addLogoObject = function( group, svgObject ) {
         for (j = 0; j < len1; j++ ){
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
             pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
+
+            var label = makeTextSprite(j, {textColor:"#0000ff"});
+            label.position.x= points[j].x - theCenter.x/2;
+            label.position.y= -points[j].y + theCenter.y;
+            label.position.z= 0;
+            group.add(label);
         }
-        //TODO close the line ? 
+        
         line.vertices.push(line.vertices[0]);
 
         group.add(new THREE.Line(line, lineDashedMaterial));
@@ -342,38 +348,81 @@ var addTrianglesFromLogo = function( group, svgObject ) {
     // meshGroup.position.x -= theCenter.x;
     // meshGroup.position.y += theCenter.y;
 
+     var selfDefinedFaces = [
+        [2,3,4],
+        [1,2,4],
+        [1,4,7],
+        [7,4,5],
+        [7,5,6],
+        [1,7,22],
+        [7,8,21],
+        [8,15,21],
+        [21,22,7],
+        [1,22,49],
+        [22,23,49],
+        [23,25,49],
+        [1,49,55]
+    ]
+
+
     //create a triangular geometry
 
     var v1 = new THREE.Vector3();
     var v2 = new THREE.Vector3();
     var v3 = new THREE.Vector3();
+
     meshGroup.children.forEach(function(child){ 
         // console.log(child);
         var vertices = child.geometry.vertices; 
         var faces =  child.geometry.faces; 
 
-        //for each tiangle face
-        faces.forEach(function(face, k){
-            var geom = new THREE.Geometry();
+        // //this one loads each tiangle face generated as part of the mesh
+        //// problem is that some of them are small
+        // faces.forEach(function(face, k){
+        //     var geom = new THREE.Geometry();
 
-             v1 = vertices[faces[k].a].clone();
-             v2 = vertices[faces[k].b].clone();
-             v3 = vertices[faces[k].c].clone();
+        //      v1 = vertices[faces[k].a].clone();
+        //      v2 = vertices[faces[k].b].clone();
+        //      v3 = vertices[faces[k].c].clone();
                 
-             ind = 0; //geom.vertices.length;
-             geom.vertices.push(v1);
-             geom.vertices.push(v2);
-             geom.vertices.push(v3);
+        //      ind = 0; //geom.vertices.length;
+        //      geom.vertices.push(v1);
+        //      geom.vertices.push(v2);
+        //      geom.vertices.push(v3);
 
-             newFace = new THREE.Face3( ind+2, ind+1, ind);
-          //   newFace.color.setHex( 0xF38630 );
-           //  newFace.color.setHSL(Math.random()*0.5, 0.5, 0.5);
-             // console.log(newFace.color);
-             geom.faces.push( newFace );
-             geom.computeFaceNormals();
+        //      newFace = new THREE.Face3( ind+2, ind+1, ind);
+        //   //   newFace.color.setHex( 0xF38630 );
+        //    //  newFace.color.setHSL(Math.random()*0.5, 0.5, 0.5);
+        //      // console.log(newFace.color);
+        //      geom.faces.push( newFace );
+        //      geom.computeFaceNormals();
+        //      group.add( new THREE.Mesh( geom, triangleMaterial ) );
+        // }) 
+
+        //this one loads the triangles selected manually 
+        selfDefinedFaces.forEach(function(face) {
+            var geom = new THREE.Geometry();
+            v1 = vertices[face[0]].clone();
+            v2 = vertices[face[1]].clone();
+            v3 = vertices[face[2]].clone();
+            ind = 0; //geom.vertices.length;
+            geom.vertices.push(v1);
+            geom.vertices.push(v2);
+            geom.vertices.push(v3);
+
+            newFace = new THREE.Face3( ind+2, ind+1, ind);
+            geom.faces.push( newFace );
+            geom.computeFaceNormals();
              group.add( new THREE.Mesh( geom, triangleMaterial ) );
-        }) 
+            
+        });
+
+
     });
+
+   
+    
+
 
     group.rotation.x = Math.PI;
     group.position.x -= theCenter.x;

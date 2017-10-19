@@ -66,7 +66,7 @@ function init() {
   var group2D = new THREE.Group();
   group2D.name = "logo2D";
   scene.add( group2D);  
-  addLogoObject(group2D, obj);
+  addLogoOutline(group2D, obj);
 
   //3D
   triangleMaterial = new THREE.MeshBasicMaterial({
@@ -200,7 +200,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  scene.rotation.y+=0.001;
+  // scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
