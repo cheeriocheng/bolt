@@ -295,14 +295,9 @@ var addLogoObject = function( group, svgObject ) {
         path = $d3g.transformSVGPath( thePaths[i] );
         var points = path.getPoints();
         len1 = points.length;
-
-
-
         var line = new THREE.Geometry();
         var pointsGeometry = new THREE.Geometry();
         for (j = 0; j < len1; j++ ){
-            
-           // line.vertices.push(new THREE.Vector3(points[j].x, points[j].y , 0));
             line.vertices.push(new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
             pointsGeometry.vertices.push   (new THREE.Vector3(points[j].x - theCenter.x, -points[j].y + theCenter.y, 0));
         }
@@ -413,17 +408,16 @@ var extrudeLogo = function( group, svgObject ) {
     
     for (i = 0; i < len; ++i) {
         path = $d3g.transformSVGPath( thePaths[i] );
-        var geometry = new THREE.ShapeGeometry(path,1);
-       
+        var geometry = new THREE.ShapeGeometry(path,1);       
         var mesh = new THREE.Mesh( geometry, material ) ;
         group.add( mesh );
 
     }
-
+    //transform from SVG coordinate to THREE coordinate
     group.rotation.x = Math.PI;
     group.position.x -= theCenter.x;
     group.position.y += theCenter.y;
-    
+
 }
 
 

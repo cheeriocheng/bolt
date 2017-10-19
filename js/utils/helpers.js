@@ -1,3 +1,49 @@
+//  defaultColor = new THREE.Color(0x4c00b4);
+   colors = [ new THREE.Color(0x00ff88) ,
+    new THREE.Color(0xFF8D8D),
+    new THREE.Color(0x2CFCFD),
+    new THREE.Color(0x22aadd),
+    new THREE.Color(0xf6e937),
+    new THREE.Color(0xFFAA11),
+    new THREE.Color(0xFF5533),
+    new THREE.Color(0xEA3040),
+    new THREE.Color(0xD948D6),
+    new THREE.Color(0x8F319A),
+    new THREE.Color(0xC991D3),
+
+    new THREE.Color(0xE90030),
+    new THREE.Color(0xC91FFA),
+    new THREE.Color(0x0901A9),
+    new THREE.Color(0xF99FDF),
+    new THREE.Color(0xA92ADA),
+    new THREE.Color(0x00A0F0),
+    new THREE.Color(0xC900FA),
+    new THREE.Color(0x09017A),
+    new THREE.Color(0xF90F43),
+    new THREE.Color(0x099ADA),
+    ];
+
+
+function createLights() {
+  // var ambientLight = new THREE.AmbientLight(0x999999 );
+  // scene.add(ambientLight);
+  
+  var ambientLight = new THREE.AmbientLight( 0x333333 ); // soft white light  
+  scene.add( ambientLight );
+  var lights = [];
+  lights[0] = new THREE.DirectionalLight( 0xffffff, 1 );
+  lights[0].position.set( 1, 0, 0 );
+  lights[1] = new THREE.DirectionalLight( 0x11E8BB, 1 );
+  lights[1].position.set( 0.75, 1, 0.5 );
+  lights[2] = new THREE.DirectionalLight( 0x8200C9, 1 );
+  lights[2].position.set( -0.75, -1, 0.5 );
+  scene.add( lights[0] );
+  scene.add( lights[1] );
+  scene.add( lights[2] );
+}
+
+
+
 function setOrientationControls(e) {
     if (!e.alpha) {
         return;
