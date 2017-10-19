@@ -22,6 +22,8 @@ class Letter {
         this.logo = scene.getObjectByName("logo3D");
         this.triangleInd = (this.ascii + this.ind) % (this.logo.children.length);
 
+        this.sign = 1;
+        if(this.ascii%2){this.sign = -1 ;}
         this.geom = new THREE.Geometry();
         this.geom  = this.logo.children[this.triangleInd];
         this.scale = ind/40+1; 
@@ -127,20 +129,20 @@ class Letter {
         }, 1000)
         .start();
 
-        var mod = 0.01;
+        var mod = 0.05;
         new TWEEN.Tween( this.geom.rotation ).to( {
             x: mod,
-            y: mod,
-            z: -mod
-            }, 500 )
-           //.easing( TWEEN.Easing.Elastic.Out)
+            y: -this.sign*mod,
+            z: this.sign* mod
+            }, 5000 )
+           // .easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
         new TWEEN.Tween( this.geom.position).to( {
             x: -this.ascii/10,
             y: -this.ascii/5,
-            z: this.ind*5 + 1 
+            z: this.sign*(this.ind*3 + 1 )
             }, 1000 )
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
