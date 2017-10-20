@@ -14,12 +14,13 @@ var camera;     //camera defines how we look at the scene
 var renderer;   //render the scence for the camera
 var controls;   //help rotate the scene with mouse 
 var CAMERA_Z;
-var moon; 
-// var typedVal = 0;
+
+
 var materials; 
 var triangleMaterial; 
 var colors; 
 var extrudedLogo = new THREE.Group(); 
+var particles; 
 
 init();
 animate();
@@ -60,8 +61,8 @@ function init() {
   // helper.rotation.x = Math.PI / 2;
   // scene.add( helper );
 
-  var axisHelper = new THREE.AxisHelper( 5 );
-  scene.add( axisHelper );
+  // var axisHelper = new THREE.AxisHelper( 5 );
+  // scene.add( axisHelper );
 
 
   //// load svg 
@@ -72,27 +73,21 @@ function init() {
   var group2D = new THREE.Group();
   group2D.name = "logo2D";
   scene.add( group2D);  
- addLogoOutline(group2D, obj);
-
-  //3D
-  triangleMaterial = new THREE.MeshBasicMaterial({
-            vertexColors: THREE.FaceColors,
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            //wireframe: true
-            opacity: 0.5,
-            transparent: true,
-            blending: THREE.AdditiveBlending ,
-        })
+  addLogoOutline(group2D, obj);
 
   var triangles = new THREE.Group();
   triangles.name = "logo3D"; 
   scene.add(triangles);
- // triangles.traverse( function ( object ) { object.visible = false; } );
-  //addTriangleObjects(triangles, obj);
+  triangles.traverse( function ( object ) { 
+    object.visible = false; 
+
+  } );
+  
   addTrianglesFromLogo(triangles,obj);
 
   extrudeLogo(extrudedLogo, obj);
+
+  addParticles();
 }
 
 
@@ -103,24 +98,29 @@ $(document).ready(function(){
         //take 1 second to scroll down 
         $('#greeting').slideUp(1000);
 
-        // var logo = scene.getObjectByName("logo3D"); 
-        // logo.traverse( function ( object ) { 
-        //   object.visible = true; 
-        // } );
+       var logo = scene.getObjectByName("logo3D"); 
+       logo.traverse( function ( object ) { 
+          object.visible = true; 
+       } );  
 
-        // for(var i = 0 ; i <materials.length; i++){
-        //     new TWEEN.Tween( materials[i] ).to( 
-        //         {
-        //             opacity: 0.4,
-        //         }
-        //         , 2000 )
-        //         .start();
-        // }
-        new TWEEN.Tween(triangleMaterial).to(
-        {
-          opacity: 0.3
-        }, 2000)
-        .start();
+       logo.children.forEach(function(mesh){      
+         new TWEEN.Tween( mesh.material ).to( {
+                opacity: 0.3
+                }, 500 )
+              .easing(TWEEN.Easing.Circular.In)
+              .start();     
+
+          mesh.geometry.colorsNeedUpdate = true;
+        });
+        // .onComplete(function(){
+        //   var logo = scene.getObjectByName("logo3D"); 
+        //   logo.traverse( function ( object ) { 
+        //     object.visible = true; 
+        //   } );
+        //   console.log("finished!");
+        // });
+
+
       
     });
 });
@@ -175,30 +175,29 @@ function animate() {
 
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
-    //change the colors
+    //change the colors 
     var colorInd = newPowerSelected%(colors.length);
-    logo.children.forEach(function(mesh){
-    
-// debugger
-    if(!mesh.material.wireframe){
-       new TWEEN.Tween( mesh.material.color ).to( {
-            r: colors[colorInd].r,
-            g: colors[colorInd].g,
-            b: colors[colorInd].b
-            }, 1500 )
-           .easing(TWEEN.Easing.Circular.Out)
-          .start();
-    
-      new TWEEN.Tween( mesh.material ).to( {
-            opacity: Math.random()*0.3+0.3
-            }, 750 )
-           .easing(TWEEN.Easing.Circular.Out)
-          .start();     
-      mesh.geometry.colorsNeedUpdate = true;
 
+    logo.children.forEach(function(mesh){
+      if(!mesh.material.wireframe){
+        new TWEEN.Tween( mesh.material.color ).to( {
+              r: colors[colorInd].r,
+              g: colors[colorInd].g,
+              b: colors[colorInd].b
+              }, 1500 )
+            .easing(TWEEN.Easing.Circular.Out)
+            .start();
+      
+        new TWEEN.Tween( mesh.material ).to( {
+              opacity: Math.random()*0.3+0.3
+              }, 750 )
+             .easing(TWEEN.Easing.Circular.Out)
+            .start();     
+
+        mesh.geometry.colorsNeedUpdate = true;
       }
 
-      });
+    });
     newPowerSelected = -1 ; 
   }
 
@@ -218,7 +217,7 @@ function animate() {
   }
 
   // scene.rotation.y+=0.001;
-  
+  particles.rotation.y += 0.001;
   requestAnimationFrame(animate);
   render();
 }

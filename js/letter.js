@@ -95,15 +95,11 @@ class Letter {
 
 
     animateColor(){
-      // debugger
-
-        new TWEEN.Tween( this.geom.material.color ).to( {
+         new TWEEN.Tween( this.geom.material.color ).to( {
             r: colors[this.colorInd].r,
             g: colors[this.colorInd].g,
             b: colors[this.colorInd].b
-
             }, 2000 )
-           //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
       // this.geom.material.color = colors[this.colorInd];

@@ -400,7 +400,7 @@ var addTrianglesFromLogo = function( group, svgObject ) {
                 color: 0xffffff,
                 side: THREE.DoubleSide,
                 //wireframe: true
-                opacity: 0.2,
+                opacity: 0,
                 transparent: true,
                 blending: THREE.AdditiveBlending ,
             })
