@@ -176,7 +176,7 @@ function animate() {
             .start();
       
         new TWEEN.Tween( mesh.material ).to( {
-              opacity: Math.random()*0.3+0.3
+              opacity: Math.random()*0.1+0.2
               }, 750 )
              .easing(TWEEN.Easing.Circular.Out)
             .start();     
@@ -189,21 +189,25 @@ function animate() {
   }
 
   if(newLocationSelected != -1){
-    var logo = scene.getObjectByName("logo3D");
-    //TODO use origin 
-    var mod = newLocationSelected/51+1;
-    for (var i = 0; i < logo.children[0].geometry.vertices.length; i++) {
-      var v = logo.children[0].geometry.vertices[i];
-      v.x *=  mod
-      v.y *=  mod
-      v.z *=  mod
+    new TWEEN.Tween(backgroundCube.rotation).to({
+      z: newLocationSelected/6
+    }, 1000)
+    .easing(TWEEN.Easing.Circular.Out)
+    .start();
+    new TWEEN.Tween(backgroundCube.position).to({
+      x: newLocationSelected*100
+    }, 1000)
+    .easing(TWEEN.Easing.Circular.Out)
+    .start();
 
-    }
-    logo.children[0].geometry.verticesNeedUpdate=true;
+    // backgroundCube.rotation.z = newLocationSelected;
+    // backgroundCube.position.x = newLocationSelected*10;
+
     newLocationSelected = -1 ; 
   }
 
   // scene.rotation.y+=0.001;
+
   particles.rotation.y += 0.001;
   requestAnimationFrame(animate);
   render();
@@ -246,6 +250,7 @@ function nameAnimation() {
 }
 
 function locationAnimation() {
+
   var texture = new THREE.TextureLoader().load(generateTexture(), function(){
     var material = new THREE.MeshBasicMaterial({
       map: texture
@@ -270,10 +275,15 @@ function generateTexture() {
   context.rect( 0, 0, size, size );
   var gradient = context.createLinearGradient( 0, 0, size, size );
   var gradientScale = Math.abs(Math.cos(newLocationSelected))/4;
-  gradient.addColorStop(0, '#d952d4'); // pink
-  gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
-  gradient.addColorStop(3*gradientScale, '#5bc678'); // green
-  gradient.addColorStop(4*gradientScale, '#0caff2'); // blue
+  
+  gradient.addColorStop(0, '#5f43c8'); // 
+  gradient.addColorStop(0.2, '#11e8bb'); // 
+  gradient.addColorStop(1, '#d952d4'); // pink
+
+  // gradient.addColorStop(0, '#d952d4'); // pink
+  // gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
+  // gradient.addColorStop(3*gradientScale, '#5bc678'); // green
+  // gradient.addColorStop(4*gradientScale, '#0caff2'); // blue
   // gradient.addColorStop(1, 'transparent');
   context.fillStyle = gradient;
   context.fill();
@@ -291,8 +301,8 @@ function createBackgroundCube() {
   var scale = (CAMERA_Z+600)/CAMERA_Z; 
   var x = size*scale;
   var y = size*scale;
-  var geometry = new THREE.BoxGeometry(x, y, 200);
-  geometry.translate(0,0,-500);
+  var geometry = new THREE.BoxGeometry(x, y, 1);
+  geometry.translate(0,0,-100);
   var mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
   return mesh;

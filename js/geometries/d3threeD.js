@@ -429,6 +429,7 @@ var addTrianglesFromLogo = function( group, svgObject ) {
             group.add( new THREE.Mesh( geom, faceMaterial ) );
             group.add( new THREE.Mesh( geom, edgeMaterial ) );
             
+            
         });
 
 
