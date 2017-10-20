@@ -165,19 +165,28 @@ function animate() {
     //change the colors 
     var colorInd = newPowerSelected%(colors.length);
 
+    //TODO center of rotation needs to shift 
+    // new TWEEN.Tween( logo.rotation ).to( {
+    //           y: logo.rotation.y+Math.PI*2
+    //           }, 1500 )
+    //         .easing(TWEEN.Easing.Circular.InOut)
+    //         .start();
+
+    //TODO this needs to be more obvious
+
     logo.children.forEach(function(mesh){
       if(!mesh.material.wireframe){
         new TWEEN.Tween( mesh.material.color ).to( {
               r: colors[colorInd].r,
               g: colors[colorInd].g,
               b: colors[colorInd].b
-              }, 1500 )
+              }, 2000 )
             .easing(TWEEN.Easing.Circular.Out)
             .start();
       
         new TWEEN.Tween( mesh.material ).to( {
               opacity: Math.random()*0.1+0.2
-              }, 750 )
+              }, 1500 )
              .easing(TWEEN.Easing.Circular.Out)
             .start();     
 
@@ -188,20 +197,20 @@ function animate() {
     newPowerSelected = -1 ; 
   }
 
+
   if(newLocationSelected != -1){
     new TWEEN.Tween(backgroundCube.rotation).to({
-      z: newLocationSelected/6
+      z: newLocationSelected/3
     }, 1000)
     .easing(TWEEN.Easing.Circular.Out)
     .start();
     new TWEEN.Tween(backgroundCube.position).to({
-      x: newLocationSelected*100
+      x: newLocationSelected*100,
+      y: newLocationSelected*120
+
     }, 1000)
     .easing(TWEEN.Easing.Circular.Out)
     .start();
-
-    // backgroundCube.rotation.z = newLocationSelected;
-    // backgroundCube.position.x = newLocationSelected*10;
 
     newLocationSelected = -1 ; 
   }
@@ -278,7 +287,7 @@ function generateTexture() {
   
   gradient.addColorStop(0, '#5f43c8'); // 
   gradient.addColorStop(0.2, '#11e8bb'); // 
-  gradient.addColorStop(1, '#d952d4'); // pink
+  gradient.addColorStop(0.8, '#d952d4'); // pink
 
   // gradient.addColorStop(0, '#d952d4'); // pink
   // gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
@@ -298,7 +307,7 @@ function createBackgroundCube() {
     opacity: 0
   });
   var size = Math.sqrt(Math.pow(window.innerWidth,2) + Math.pow(window.innerHeight,2));
-  var scale = (CAMERA_Z+600)/CAMERA_Z; 
+  var scale = (CAMERA_Z+700)/CAMERA_Z; 
   var x = size*scale;
   var y = size*scale;
   var geometry = new THREE.BoxGeometry(x, y, 1);
