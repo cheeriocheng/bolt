@@ -12,8 +12,7 @@ var moon;
 var materials; 
 var triangleMaterial; 
 var colors; 
-var imgData;
-var getImageData = false;
+var extrudedLogo = new THREE.Group(); 
 
 init();
 animate();
@@ -26,8 +25,8 @@ animate();
 function init() {
   renderer = new THREE.WebGLRenderer({
     antialias: true,
-     alpha: true
-  });
+    alpha: true
+    });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0.0);
@@ -50,9 +49,9 @@ function init() {
   
   //helpers
   // backgroup grids
-  var helper = new THREE.GridHelper( 80, 10 );
-  helper.rotation.x = Math.PI / 2;
-  scene.add( helper );
+  // var helper = new THREE.GridHelper( 80, 10 );
+  // helper.rotation.x = Math.PI / 2;
+  // scene.add( helper );
 
   var axisHelper = new THREE.AxisHelper( 5 );
   scene.add( axisHelper );
@@ -82,16 +81,28 @@ function init() {
   var triangles = new THREE.Group();
   triangles.name = "logo3D"; 
   scene.add(triangles);
-  // triangles.traverse( function ( object ) { object.visible = false; } );
+ // triangles.traverse( function ( object ) { object.visible = false; } );
   //addTriangleObjects(triangles, obj);
   addTrianglesFromLogo(triangles,obj);
-  
-  //logo
-  // var extrudedLogo = new THREE.Group(); 
-  //  scene.add(extrudedLogo); 
-  //  extrudeLogo(extrudedLogo, obj);
 
-  }
+  extrudeLogo(extrudedLogo, obj);
+}
+
+function createLights() {
+  var ambientLight = new THREE.AmbientLight(0x999999 );
+  scene.add(ambientLight);
+  
+  var lights = [];
+  lights[0] = new THREE.DirectionalLight( 0xffffff, 1 );
+  lights[0].position.set( 1, 0, 0 );
+  lights[1] = new THREE.DirectionalLight( 0x11E8BB, 1 );
+  lights[1].position.set( 0.75, 1, 0.5 );
+  lights[2] = new THREE.DirectionalLight( 0x8200C9, 1 );
+  lights[2].position.set( -0.75, -1, 0.5 );
+  scene.add( lights[0] );
+  scene.add( lights[1] );
+  scene.add( lights[2] );
+}
 
 
 //TODO how to trigger this with space bar
@@ -200,7 +211,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  scene.rotation.y+=0.001;
+  // scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
@@ -210,9 +221,4 @@ function render() {
   TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
-  if (getImageData) {
-    renderer.render(scene, camera);
-    imgData = renderer.domElement.toDataURL();
-    getImageData = false;
-  }
 }
