@@ -90,6 +90,8 @@ function init() {
   extrudeLogo(extrudedLogo, obj);
 
   addParticles();
+  // debugger
+  particles.position.y= -2000;
 }
 
 
@@ -100,6 +102,13 @@ $(document).ready(function(){
         //take 1 second to scroll down 
         $('#greeting').slideUp(1000);
 
+        new TWEEN.Tween(particles.position).to({
+          y:0
+        },1500)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+
+       
        var logo = scene.getObjectByName("logo3D"); 
        logo.traverse( function ( object ) { 
           object.visible = true; 
@@ -154,23 +163,43 @@ function animate() {
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
     //change the colors 
-    var colorInd = newPowerSelected%(colors.length);
+   var colorInd = newPowerSelected%(colors.length);
+
+    //TODO center of rotation needs to shift 
+    // new TWEEN.Tween( logo.rotation ).to( {
+    //           y: logo.rotation.y+Math.PI*2
+    //           }, 1500 )
+    //         .easing(TWEEN.Easing.Circular.InOut)
+    //         .start();
+
+    
 
     logo.children.forEach(function(mesh){
-      if(!mesh.material.wireframe){
-        new TWEEN.Tween( mesh.material.color ).to( {
+      // var colorInd = Math.floor((newPowerSelected+Math.random()*2)%(colors.length));
+
+      if(!mesh.material.wireframe){       
+
+      //make the change more obvious
+        new TWEEN.Tween( mesh.material ).to( {
+              opacity: 0
+              }, 400 )
+             .easing(TWEEN.Easing.Circular.In)
+            .start()
+            .onComplete(function(){
+              new TWEEN.Tween( mesh.material ).to( {
+              opacity: Math.random()*0.1+0.2
+              }, 1200 )
+             .easing(TWEEN.Easing.Circular.InOut)
+            .start();
+            new TWEEN.Tween( mesh.material.color ).to( {
               r: colors[colorInd].r,
               g: colors[colorInd].g,
               b: colors[colorInd].b
-              }, 1500 )
+              }, 2000 )
             .easing(TWEEN.Easing.Circular.Out)
-            .start();
-      
-        new TWEEN.Tween( mesh.material ).to( {
-              opacity: Math.random()*0.3+0.3
-              }, 750 )
-             .easing(TWEEN.Easing.Circular.Out)
-            .start();     
+            .start()
+
+            });     
 
         mesh.geometry.colorsNeedUpdate = true;
       }
@@ -179,22 +208,26 @@ function animate() {
     newPowerSelected = -1 ; 
   }
 
-  if(newLocationSelected != -1){
-    var logo = scene.getObjectByName("logo3D");
-    //TODO use origin 
-    var mod = newLocationSelected/51+1;
-    for (var i = 0; i < logo.children[0].geometry.vertices.length; i++) {
-      var v = logo.children[0].geometry.vertices[i];
-      v.x *=  mod
-      v.y *=  mod
-      v.z *=  mod
 
-    }
-    logo.children[0].geometry.verticesNeedUpdate=true;
+  if(newLocationSelected != -1){
+    new TWEEN.Tween(backgroundCube.rotation).to({
+      z: newLocationSelected/3
+    }, 1000)
+    .easing(TWEEN.Easing.Circular.Out)
+    .start();
+    new TWEEN.Tween(backgroundCube.position).to({
+      x: newLocationSelected*100,
+      y: newLocationSelected*120
+
+    }, 1000)
+    .easing(TWEEN.Easing.Circular.Out)
+    .start();
+
     newLocationSelected = -1 ; 
   }
 
   // scene.rotation.y+=0.001;
+
   particles.rotation.y += 0.001;
   requestAnimationFrame(animate);
   render();
@@ -237,6 +270,7 @@ function nameAnimation() {
 }
 
 function locationAnimation() {
+
   var texture = new THREE.TextureLoader().load(generateTexture(), function(){
     var material = new THREE.MeshBasicMaterial({
       map: texture
@@ -261,10 +295,15 @@ function generateTexture() {
   context.rect( 0, 0, size, size );
   var gradient = context.createLinearGradient( 0, 0, size, size );
   var gradientScale = Math.abs(Math.cos(newLocationSelected))/4;
-  gradient.addColorStop(0, '#d952d4'); // pink
-  gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
-  gradient.addColorStop(3*gradientScale, '#5bc678'); // green
-  gradient.addColorStop(4*gradientScale, '#0caff2'); // blue
+  
+  gradient.addColorStop(0, '#5f43c8'); // 
+  gradient.addColorStop(0.2, '#11e8bb'); // 
+  gradient.addColorStop(0.8, '#d952d4'); // pink
+
+  // gradient.addColorStop(0, '#d952d4'); // pink
+  // gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
+  // gradient.addColorStop(3*gradientScale, '#5bc678'); // green
+  // gradient.addColorStop(4*gradientScale, '#0caff2'); // blue
   // gradient.addColorStop(1, 'transparent');
   context.fillStyle = gradient;
   context.fill();
@@ -279,11 +318,11 @@ function createBackgroundCube() {
     opacity: 0
   });
   var size = Math.sqrt(Math.pow(window.innerWidth,2) + Math.pow(window.innerHeight,2));
-  var scale = (CAMERA_Z+600)/CAMERA_Z; 
+  var scale = (CAMERA_Z+700)/CAMERA_Z; 
   var x = size*scale;
   var y = size*scale;
-  var geometry = new THREE.BoxGeometry(x, y, 200);
-  geometry.translate(0,0,-500);
+  var geometry = new THREE.BoxGeometry(x, y, 1);
+  geometry.translate(0,0,-100);
   var mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
   return mesh;
