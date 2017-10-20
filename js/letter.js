@@ -135,7 +135,6 @@ class Letter {
             y: -this.sign*mod,
             z: this.sign* mod
             }, 5000 )
-           // .easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
