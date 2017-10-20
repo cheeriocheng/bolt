@@ -400,14 +400,17 @@ var addTrianglesFromLogo = function( group, svgObject ) {
                 color: 0xffffff,
                 side: THREE.DoubleSide,
                 //wireframe: true
-                opacity: 0.2,
+                opacity: 0,
                 transparent: true,
                 blending: THREE.AdditiveBlending ,
             })
+           
             var edgeMaterial =  new THREE.MeshBasicMaterial( {
-                color: 0xffffff,
-                // color: 0X666666,
+                // color: 0xffffff,
+                color: 0X666666,
+                side: THREE.DoubleSide,
                 opacity: 0, //0.7
+                blending: THREE.AdditiveBlending ,
                 wireframe: true
              } )
 
@@ -423,8 +426,8 @@ var addTrianglesFromLogo = function( group, svgObject ) {
             newFace = new THREE.Face3( ind+2, ind+1, ind);
             geom.faces.push( newFace );
             geom.computeFaceNormals();
-             group.add( new THREE.Mesh( geom, faceMaterial ) );
-             group.add( new THREE.Mesh( geom, edgeMaterial ) );
+            group.add( new THREE.Mesh( geom, faceMaterial ) );
+            group.add( new THREE.Mesh( geom, edgeMaterial ) );
             
         });
 

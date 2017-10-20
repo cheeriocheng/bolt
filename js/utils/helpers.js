@@ -25,11 +25,11 @@
 
 
 function createLights() {
-  // var ambientLight = new THREE.AmbientLight(0x999999 );
-  // scene.add(ambientLight);
+  var ambientLight = new THREE.AmbientLight(0x999999 );
+  scene.add(ambientLight);
   
-  var ambientLight = new THREE.AmbientLight( 0x333333 ); // soft white light  
-  scene.add( ambientLight );
+  // var ambientLight = new THREE.AmbientLight( 0x333333 ); // soft white light  
+  // scene.add( ambientLight );
   var lights = [];
   lights[0] = new THREE.DirectionalLight( 0xffffff, 1 );
   lights[0].position.set( 1, 0, 0 );

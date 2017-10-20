@@ -40,12 +40,12 @@ class Letter {
            .easing(TWEEN.Easing.Circular.Out)
           .start();
         //TODO MAKE THESE REVERSIBLE
-        // new TWEEN.Tween(this.geom.material).to(
-        // {
-        //   opacity: 0.4
-        // }, 400)
-        //    .easing( TWEEN.Easing.Elastic.In)
-        // .start();
+        new TWEEN.Tween(this.geom.material).to(
+        {
+          opacity: 0.4
+        }, 400)
+           .easing( TWEEN.Easing.Elastic.In)
+        .start();
 
         var mod = 0.05;
         new TWEEN.Tween( this.geom.rotation ).to( {
@@ -56,18 +56,18 @@ class Letter {
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
-        // new TWEEN.Tween( this.geom.position).to( {
-        //     x: -this.ascii/10,
-        //     y: -this.ascii/5,
-        //     z: this.sign*(this.ind*3 + 1 )
-        //     }, 1000 )
-        //    //.easing( TWEEN.Easing.Elastic.Out)
-        //    .easing(TWEEN.Easing.Circular.Out)
-        //   .start();
+        new TWEEN.Tween( this.geom.position).to( {
+            x: -this.ascii/10,
+            y: -this.ascii/5,
+            z: this.sign*(this.ind*3 + 1 )
+            }, 1000 )
+           //.easing( TWEEN.Easing.Elastic.Out)
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
 
-        //TODO USE THESE FOR OTHER CALLS 
-        // this.geom.material.color = colors[this.colorInd];
-        // this.geom.geometry.colorsNeedUpdate = true;
+        //testing for career 
+    //    this.animateColor()
+       
 
     }
 
@@ -91,9 +91,22 @@ class Letter {
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
-
     }
 
+
+    animateColor(){
+         new TWEEN.Tween( this.geom.material.color ).to( {
+            r: colors[this.colorInd].r,
+            g: colors[this.colorInd].g,
+            b: colors[this.colorInd].b
+            }, 2000 )
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+      // this.geom.material.color = colors[this.colorInd];
+      this.geom.geometry.colorsNeedUpdate = true;
+
+    }
+      
  
 }
 
