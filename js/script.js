@@ -170,25 +170,32 @@ function animate() {
     // // .easing(TWEEN.Easing.Circular.Out)
     //   .start();
 
-    // var scale = (s.length%40)/8+1;
-    // new TWEEN.Tween( logo.scale ).to( {
-    //   x: scale,
-    //   y: scale,
-    //   z: scale
-    // }, 1000 )
-    // // .easing(TWEEN.Easing.Circular.Out)
-    //   .start();
-  
     typed = false ;
   }
 
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
-    for ( var i = 0; i < logo.children[0].geometry.faces.length; i ++ ) {
-      // logo.children[0].geometry.faces[ i ].color.copy( colors[newPowerSelected%(colors.length)]);
-    }
-    // logo.children[0].geometry.colorsNeedUpdate = true;
-    
+
+    var colorInd = newPowerSelected%(colors.length);
+    logo.children.forEach(function(mesh){
+       new TWEEN.Tween( mesh.material.color ).to( {
+            r: colors[colorInd].r,
+            g: colors[colorInd].g,
+            b: colors[colorInd].b
+            }, 1500 )
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+     new TWEEN.Tween( mesh.material ).to( {
+            opacity: Math.random()*0.5+0.2
+            }, 1000 )
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+      
+      
+      logo.children[0].geometry.colorsNeedUpdate = true;
+
+    });
+    debugger;
     newPowerSelected = -1 ; 
   }
 
