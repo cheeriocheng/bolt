@@ -1,3 +1,55 @@
+// Based on the threejs postprocessing masking example
+// https://threejs.org/examples/?q=mask#webgl_postprocessing_masking
+function maskAndSave() {
+  // Capture current scene
+  renderer.render(scene, camera);
+  var imgData = renderer.domElement.toDataURL("image/png");
+  var textureLoader = new THREE.TextureLoader();
+  // Use captured scene as the texture, wait until it loads before masking
+  textureLoader.load(imgData, function(texture) {
+    var composerScene = new THREE.Scene();
+    composerScene.add(extrudedLogo); 
+    var clearMaskPass = new THREE.ClearMaskPass();
+    var maskPass = new THREE.MaskPass( composerScene, camera );
+    var texturePass = new THREE.TexturePass( texture );
+    var outputPass = new THREE.ShaderPass( THREE.CopyShader );
+    outputPass.renderToScreen = true;
+    renderer.autoClear = false;
+    var parameters = {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      format: THREE.RGBAFormat,
+      stencilBuffer: true
+    };
+    var renderTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, parameters );
+    var composer = new THREE.EffectComposer( renderer, renderTarget );
+    composer.addPass( maskPass );
+    composer.addPass( texturePass );
+    composer.addPass( clearMaskPass );
+    composer.addPass( outputPass );
+    renderer.clear();
+    composer.render();
+    imgData = renderer.domElement.toDataURL("image/png");
+    renderer.autoClear = true;
+    saveFile(imgData, "bolt");
+  });
+}
+
+// for reference:
+// https://stackoverflow.com/questions/26193702/three-js-how-can-i-make-a-2d-snapshot-of-a-scene-as-a-jpg-image
+function saveFile(strData, filename) {
+  var link = document.createElement('a');
+  if (typeof link.download === 'string') {
+    document.body.appendChild(link); //Firefox requires the link to be in the body
+    link.download = filename;
+    link.href = strData;
+    link.click();
+    document.body.removeChild(link); //remove the link when done
+  } else {
+    location.replace(uri);
+  }
+}
+
 // get all data in form and return object
 function getFormData() {
   var elements = document.getElementById("nl-form").elements; // all form elements
@@ -38,26 +90,10 @@ function getFormData() {
   return data;
 }
 
-// for reference:
-// https://stackoverflow.com/questions/26193702/three-js-how-can-i-make-a-2d-snapshot-of-a-scene-as-a-jpg-image
-function saveFile(strData, filename) {
-  var link = document.createElement('a');
-  if (typeof link.download === 'string') {
-    document.body.appendChild(link); //Firefox requires the link to be in the body
-    link.download = filename;
-    link.href = strData;
-    link.click();
-    document.body.removeChild(link); //remove the link when done
-  } else {
-    location.replace(uri);
-  }
-}
-
 function handleFormSubmit(event) {
   event.preventDefault();
-  getImageData = true;
-  render();
-  saveFile(imgData, "bolt");
+  maskAndSave();
+
   // we are submitting via xhr below
   // var data = getFormData();
   // var url = event.target.action;

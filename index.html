@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta property="og:type" content="website"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <link rel="stylesheet" href="./css/w3.css"> 
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="./css/w3.css">
     <link href="./css/style.css" type="text/css" rel="stylesheet"/>
     <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
@@ -33,7 +33,7 @@
           <form class="nl-form" action="https://script.google.com/macros/s/AKfycbz5AdFxHmrX4_xpqxwQnBVkNm1pqw-64VH32VtdslW416itf8Ad/exec" method="POST" id="nl-form">
             <div class="nl-entry">
               <div class="nl-text">
-                I'm 
+                I'm
                 </div>
               <div class="nl-input">
                 <span class="nobr"><input autocomplete="off" type="text" name="Name" id="fullname" autocomplete="off" placeholder="Sam Walton"/>.</span>
@@ -41,7 +41,7 @@
             </div>
             <div class="nl-entry">
               <div class="nl-text">
-                My super power is 
+                My super power is
               </div>
               <div class="nl-input">
                 <div id="superpowers" class="nl-dropdown-content">
@@ -146,12 +146,20 @@
         <script src="js/third-party/threejs/libs/tween.min.js"></script>
         <script type="text/javascript" src="js/third-party/threejs/controls/DeviceOrientationControls.js"></script>
         <script type="text/javascript" src="js/third-party/threejs/controls/OrbitControls.js"></script>
+		<script src="./js/third-party/threejs/shaders/CopyShader.js"></script>
+		<script src="./js/third-party/threejs/postprocessing/EffectComposer.js"></script>
+		<script src="./js/third-party/threejs/postprocessing/ClearPass.js"></script>
+		<script src="./js/third-party/threejs/postprocessing/TexturePass.js"></script>
+		<script src="./js/third-party/threejs/postprocessing/ShaderPass.js"></script>
+        <script src="./js/third-party/threejs/postprocessing/MaskPass.js"></script>
+        <script src="./js/third-party/threejs/postprocessing/SavePass.js"></script>
         <script type="text/javascript" src="js/utils/helpers.js"></script>
         <script type="text/javascript" src= "js/geometries/OBJExporter.js"></script>
         <script type="text/javascript" src= "js/geometries/d3threeD.js"></script>
         <script type="text/javascript" src = "js/letter.js"></script>
         <script type="text/javascript" src = "js/script.js"></script>
       </div>
+      </canvas>
     </div>
   </body>
 </html>

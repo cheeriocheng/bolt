@@ -12,8 +12,7 @@ var moon;
 var materials; 
 var triangleMaterial; 
 var colors; 
-var imgData;
-var getImageData = false;
+var extrudedLogo = new THREE.Group(); 
 
 init();
 animate();
@@ -26,12 +25,12 @@ animate();
 function init() {
   renderer = new THREE.WebGLRenderer({
     antialias: true,
-     alpha: true
-  });
+    alpha: true
+    });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0.0);
-   document.getElementById('canvas').appendChild(renderer.domElement);
+  document.getElementById('canvas').appendChild(renderer.domElement);
    // document.body.appendChild(renderer.domElement);
   
   //field of view, aspect ratio,  near and far clipping plane.
@@ -123,13 +122,10 @@ function init() {
  // triangles.traverse( function ( object ) { object.visible = false; } );
   //addTriangleObjects(triangles, obj);
   addTrianglesFromLogo(triangles,obj);
-  
- 
-var extrudedLogo = new THREE.Group(); 
- scene.add(extrudedLogo); 
- extrudeLogo(extrudedLogo, obj);
 
+  extrudeLogo(extrudedLogo, obj);
 }
+
 function createLights() {
   var ambientLight = new THREE.AmbientLight(0x999999 );
   scene.add(ambientLight);
@@ -284,7 +280,7 @@ function animate() {
     newLocationSelected = -1 ; 
   }
 
-  scene.rotation.y+=0.001;
+  // scene.rotation.y+=0.001;
   
   requestAnimationFrame(animate);
   render();
@@ -294,9 +290,4 @@ function render() {
   TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
-  if (getImageData) {
-    renderer.render(scene, camera);
-    imgData = renderer.domElement.toDataURL();
-    getImageData = false;
-  }
 }
