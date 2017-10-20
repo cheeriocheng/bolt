@@ -5,8 +5,7 @@ function maskAndSave() {
   var imgData;
   var textureLoader = new THREE.TextureLoader();
   html2canvas($('#canvas'), {
-    scale: 10,
-    dip: 600,
+    scale: 2,
     onrendered: function() {
       renderer.render(scene, camera);
       imgData = renderer.domElement.toDataURL("image/png");
