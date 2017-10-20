@@ -2,40 +2,52 @@
 // https://threejs.org/examples/?q=mask#webgl_postprocessing_masking
 function maskAndSave() {
   // Capture current scene
-  renderer.render(scene, camera);
-  var imgData = renderer.domElement.toDataURL("image/png");
+  var imgData;
   var textureLoader = new THREE.TextureLoader();
-  // Use captured scene as the texture, wait until it loads before masking
-  textureLoader.load(imgData, function(texture) {
-    var composerScene = new THREE.Scene();
-    composerScene.add(extrudedLogo); 
-    var clearMaskPass = new THREE.ClearMaskPass();
-    var maskPass = new THREE.MaskPass( composerScene, camera );
-    var texturePass = new THREE.TexturePass( texture );
-    var outputPass = new THREE.ShaderPass( THREE.CopyShader );
-    outputPass.renderToScreen = true;
-    renderer.autoClear = false;
-    var parameters = {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      format: THREE.RGBAFormat,
-      stencilBuffer: true
-    };
-    var renderTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, parameters );
-    var composer = new THREE.EffectComposer( renderer, renderTarget );
-    composer.addPass( maskPass );
-    composer.addPass( texturePass );
-    composer.addPass( clearMaskPass );
-    composer.addPass( outputPass );
-    renderer.clear();
-    composer.render();
-    imgData = renderer.domElement.toDataURL("image/png");
-    renderer.autoClear = true;
-    saveFile(imgData, "bolt");
+  html2canvas($('#canvas'), {
+    scale: 10,
+    dip: 600,
+    onrendered: function() {
+      renderer.render(scene, camera);
+      imgData = renderer.domElement.toDataURL("image/png");
+      saveFile(imgData, "boltBackground");
+      textureLoader.load(imgData, function (texture) {
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.anisotropy = renderer.getMaxAnisotropy();
+        var composerScene = new THREE.Scene();
+        composerScene.add(extrudedLogo); 
+        var clearMaskPass = new THREE.ClearMaskPass();
+        var maskPass = new THREE.MaskPass( composerScene, camera );
+        var texturePass = new THREE.TexturePass( texture );
+        var outputPass = new THREE.ShaderPass( THREE.CopyShader );
+        outputPass.renderToScreen = true;
+        renderer.autoClear = false;
+        var parameters = {
+          minFilter: THREE.LinearFilter,
+          magFilter: THREE.LinearFilter,
+          format: THREE.RGBAFormat,
+          stencilBuffer: true
+        };
+        var renderTarget = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, parameters );
+        var composer = new THREE.EffectComposer( renderer, renderTarget );
+        composer.addPass( maskPass );
+        composer.addPass( texturePass );
+        composer.addPass( clearMaskPass );
+        composer.addPass( outputPass );
+        renderer.clear();
+        composer.render();
+        imgData = renderer.domElement.toDataURL("image/png");
+        renderer.autoClear = true;
+        saveFile(imgData, "bolt");
+      });
+    }
   });
 }
 
-// for reference:
+// For reference:
 // https://stackoverflow.com/questions/26193702/three-js-how-can-i-make-a-2d-snapshot-of-a-scene-as-a-jpg-image
 function saveFile(strData, filename) {
   var link = document.createElement('a');
