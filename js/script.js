@@ -88,6 +88,8 @@ function init() {
   extrudeLogo(extrudedLogo, obj);
 
   addParticles();
+  // debugger
+  particles.position.y= -2000;
 }
 
 
@@ -98,6 +100,13 @@ $(document).ready(function(){
         //take 1 second to scroll down 
         $('#greeting').slideUp(1000);
 
+        new TWEEN.Tween(particles.position).to({
+          y:0
+        },1500)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+
+       
        var logo = scene.getObjectByName("logo3D"); 
        logo.traverse( function ( object ) { 
           object.visible = true; 

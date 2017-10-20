@@ -4,7 +4,7 @@ function addParticles(){
    scene.add(particles);
 
 
-   var geometry = new THREE.TetrahedronGeometry(4, 0);
+   var geometry = new THREE.TetrahedronGeometry(3, 0);
 
    var material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
@@ -21,7 +21,7 @@ function addParticles(){
    for (var i = 0; i < 220; i++) {
       var mesh = new THREE.Mesh(geometry, material);
       mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-      mesh.position.multiplyScalar(300 + (Math.random() * 700));
+      mesh.position.multiplyScalar(260 + (Math.random() * 700));
       mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
       particles.add(mesh);
    }
