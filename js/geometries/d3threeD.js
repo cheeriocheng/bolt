@@ -404,7 +404,7 @@ var addTrianglesFromLogo = function( group, svgObject ) {
                 transparent: true,
                 blending: THREE.AdditiveBlending ,
             })
-            // material = new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 1, linewidth: 3,
+           
             var edgeMaterial =  new THREE.MeshBasicMaterial( {
                 // color: 0xffffff,
                 color: 0X666666,

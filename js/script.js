@@ -175,9 +175,12 @@ function animate() {
 
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
-
+    //change the colors
     var colorInd = newPowerSelected%(colors.length);
     logo.children.forEach(function(mesh){
+    
+// debugger
+    if(!mesh.material.wireframe){
        new TWEEN.Tween( mesh.material.color ).to( {
             r: colors[colorInd].r,
             g: colors[colorInd].g,
@@ -185,17 +188,17 @@ function animate() {
             }, 1500 )
            .easing(TWEEN.Easing.Circular.Out)
           .start();
-     new TWEEN.Tween( mesh.material ).to( {
-            opacity: Math.random()*0.5+0.2
-            }, 1000 )
+    
+      new TWEEN.Tween( mesh.material ).to( {
+            opacity: Math.random()*0.3+0.3
+            }, 750 )
            .easing(TWEEN.Easing.Circular.Out)
-          .start();
-      
-      
-      logo.children[0].geometry.colorsNeedUpdate = true;
+          .start();     
+      mesh.geometry.colorsNeedUpdate = true;
 
-    });
-    debugger;
+      }
+
+      });
     newPowerSelected = -1 ; 
   }
 
