@@ -1,5 +1,7 @@
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 var typed = false; 
+var superPowered = false;
+var located = false;
 var newPowerSelected = -1 ;
 var newLocationSelected = -1;
 /* When the user clicks on the button,
@@ -39,26 +41,28 @@ window.onclick = function(event) {
 
 
 $(document).ready(function () {
-    $( 'input[type="text"]' )
-    // event handler
-        .keyup(resizeInput)
-    // resize on page load
-        .each(resizeInput);
-    $("#fullname").keyup(function() {
-        typed = true; 
-    });
-    $( '#superpower' ).click(function() {
-        dropDown($( this ));
-    });
-    $( '#location' ).click(function() {
-        dropDown($( this ));
-    });
-    $( '#superpowers ul li a' ).click(function() {
-        dropDownSelect('superpower', $( this ));
-        newPowerSelected= $(this).parent().index(); 
-    });
-    $( '#locations ul li a' ).click(function() {
-        dropDownSelect('location', $( this ));
-        newLocationSelected = $(this).parent().index(); 
-    });
+  $( 'input[type="text"]' )
+  // event handler
+    .keyup(resizeInput)
+  // resize on page load
+    .each(resizeInput);
+  $("#fullname").keyup(function() {
+    typed = true; 
+  });
+  $( '#superpower' ).click(function() {
+    dropDown($( this ));
+  });
+  $( '#location' ).click(function() {
+    dropDown($( this ));
+  });
+  $( '#superpowers ul li a' ).click(function() {
+    dropDownSelect('superpower', $( this ));
+    newPowerSelected= $(this).parent().index(); 
+    superPowered = true;
+  });
+  $( '#locations ul li a' ).click(function() {
+    dropDownSelect('location', $( this ));
+    newLocationSelected = $(this).parent().index(); 
+    located = true;
+  });
 });
