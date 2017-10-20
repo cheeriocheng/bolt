@@ -11,8 +11,6 @@ class Letter {
     //if area is small. enlarge
     //moves in z  
 
-
-
     constructor(c,ind) {
         this.char = c; 
         this.ind = ind; //0-20
@@ -26,90 +24,13 @@ class Letter {
         if(this.ascii%2){this.sign = -1 ;}
         this.geom = new THREE.Geometry();
         this.geom  = this.logo.children[this.triangleInd];
-        this.scale = ind/40+1; 
-        this.animateAppear();
-
-
-
-
-
-
-
-    //     this.group = new THREE.Group();
-    //     scene.add(this.group);
-
-    //     var materials = [
-    //           new THREE.MeshBasicMaterial( { 
-    //                   color: colors[this.ascii%(colors.length)],
-    //                   // color: 0xffffff, 
-    //                   // color: 0x4c00b4, 
-    //                   opacity:0.3,
-    //                   side: THREE.DoubleSide ,
-    //                   transparent: true,
-    //                   blending: THREE.AdditiveBlending ,
-                     
-    //           } ),
-
-    //           new THREE.MeshBasicMaterial( { 
-    //               color: 0xffffff, 
-    //               wireframe: true, 
-    //               opacity:0.4, 
-    //               transparent: true ,
-    //               needsUpdate: true 
-    //           } )
-    //       ];
-      
-    //     this.totalDots = this.ascii; 
-    //     this.size = 8+this.ind;
-
-    //    // var dotsGeometry = new THREE.Geometry();
-    //     for ( var i = 0; i < this.totalDots; i ++ ) {
-    //         var dot = new THREE.Vector3();
-    //         var r = 120 + this.ind * 20 ; 
-    //         var theta= degToRad(i*10.1*this.ind);
-    //         var phi = degToRad( this.totalDots%5.1*i );
-    //         var spherical = new THREE.Spherical(r, phi, theta) ;
-    //         dot.setFromSpherical( spherical );
-    //       //  dotsGeometry.vertices.push(dot);
-
-    //         var object = new THREE.SceneUtils.createMultiMaterialObject( new THREE.TetrahedronGeometry( this.size, 0 ), materials );
-
-    //         object.position.set( dot.x, dot.y, dot.z );
-            
-    //         object.rotation.x = Math.random() * 20 - 10;
-
-    //         this.group.add( object );
-    //     }  
-    // //    this.group.add( new THREE.Points( dotsGeometry, dotsMaterial));
-    //    this.group.position.z += 10*Math.sin(this.ascii); 
-    //    this.group.scale.set(0.1,0.1,0.1);
-    //     // debugger
-    
-
-
-    //     this.animateAppear();
-
+        this.scale = this.ind/40+1; 
+        // this.animate();
     }
 
-    // animateAppear() {
-    //     new TWEEN.Tween( this.group.scale ).to( {
-    //         x: 1,
-    //         y: 1,
-    //         z: 1
-    //         }, 5000 )
-    //        //.easing( TWEEN.Easing.Elastic.Out)
-    //        .easing(TWEEN.Easing.Circular.Out)
-    //       .start();
-    // }
 
-    animateAppear() {
-        // var aNew = new THREE.Vector3();
-        // var a= this.geom.geometry.vertices[0];
-        // aNew  = unprojectVectorToZ(a, 100);
-        // this.geom.geometry.vertices[0] = aNew; 
+    animateName() {
 
-        // this.geom.geometry.verticesNeedUpdate = true;
-        
         new TWEEN.Tween( this.geom.scale ).to( {
             x: this.scale,
             y: this.scale,
@@ -118,17 +39,13 @@ class Letter {
            //.easing( TWEEN.Easing.Elastic.Out)
            .easing(TWEEN.Easing.Circular.Out)
           .start();
-
-        
-        // this.geom.material.color = colors[this.colorInd];
-        // this.geom.geometry.colorsNeedUpdate = true;
-        
-        new TWEEN.Tween(this.geom.material).to(
-        {
-          opacity: 0.4
-        }, 400)
-           .easing( TWEEN.Easing.Elastic.In)
-        .start();
+        //TODO MAKE THESE REVERSIBLE
+        // new TWEEN.Tween(this.geom.material).to(
+        // {
+        //   opacity: 0.4
+        // }, 400)
+        //    .easing( TWEEN.Easing.Elastic.In)
+        // .start();
 
         var mod = 0.05;
         new TWEEN.Tween( this.geom.rotation ).to( {
@@ -139,29 +56,45 @@ class Letter {
            .easing(TWEEN.Easing.Circular.Out)
           .start();
 
-        new TWEEN.Tween( this.geom.position).to( {
-            x: -this.ascii/10,
-            y: -this.ascii/5,
-            z: this.sign*(this.ind*3 + 1 )
-            }, 1000 )
-           //.easing( TWEEN.Easing.Elastic.Out)
-           .easing(TWEEN.Easing.Circular.Out)
-          .start();
+        // new TWEEN.Tween( this.geom.position).to( {
+        //     x: -this.ascii/10,
+        //     y: -this.ascii/5,
+        //     z: this.sign*(this.ind*3 + 1 )
+        //     }, 1000 )
+        //    //.easing( TWEEN.Easing.Elastic.Out)
+        //    .easing(TWEEN.Easing.Circular.Out)
+        //   .start();
 
-
+        //TODO USE THESE FOR OTHER CALLS 
+        // this.geom.material.color = colors[this.colorInd];
+        // this.geom.geometry.colorsNeedUpdate = true;
 
     }
 
 
     //do this before deleting 
-    animateDisappear(){
+    undoAnimateName(){
+      new TWEEN.Tween( this.geom.scale ).to( {
+            x: 1,
+            y: 1,
+            z: 1
+            }, 500 )
+           //.easing( TWEEN.Easing.Elastic.Out)
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
+       new TWEEN.Tween( this.geom.rotation ).to( {
+            x: 0,
+            y: 0,
+            z: 0
+            }, 500 )
+           .easing(TWEEN.Easing.Circular.Out)
+          .start();
+
 
     }
 
-  // Getter
-  get letter() {
-    return this.char();
-  } 
+ 
 }
 
 

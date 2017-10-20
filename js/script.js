@@ -1,3 +1,10 @@
+/*todo 
+add flashing effect to bolt 'turn on'
+
+
+create floating geometries with the same projected line 
+
+ */
 /*
  * run this script when the page is loaded 
 */
@@ -127,22 +134,27 @@ function animate() {
     var logo = scene.getObjectByName("logo3D");
     var s = $("#fullname").val();
     //backspace handling
+    //TODO THE FIRST LETTER TYPED ISN'T REVERSED
     if (s) {
       if (s.substr(0,(s.length-1)) === lastTypedString) {
         //a letter was added to the end
         nameArray.push(new Letter(s[s.length -1],s.length));
+        nameArray[nameArray.length-1].animateName();
       } else if (lastTypedString.substr(0, (lastTypedString.length-1)) === s) {
+        //undo the animation artifacts 
+         nameArray[nameArray.length-1].undoAnimateName();
         //a letter was deleted from the end
         nameArray.pop();
-        //TODO delete the animation artifacts
       } else if (s !== lastTypedString) {
         //letters were deleted or added midword
         nameArray.forEach(function(element) {
-          //TODO delete the animation artifacts
+          //delete the animation artifacts
+          element.undoAnimateName();
           nameArray.pop();
         });
         for (let i=0; i < s.length; i++) {
           nameArray.push(new Letter(s[i], i+1));
+          nameArray[nameArray.length-1].animateName();
         }
       }
     }
