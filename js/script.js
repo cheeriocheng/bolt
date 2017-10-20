@@ -163,7 +163,7 @@ function animate() {
   if(newPowerSelected != -1){
     var logo = scene.getObjectByName("logo3D");
     //change the colors 
-    var colorInd = newPowerSelected%(colors.length);
+   var colorInd = newPowerSelected%(colors.length);
 
     //TODO center of rotation needs to shift 
     // new TWEEN.Tween( logo.rotation ).to( {
@@ -172,23 +172,34 @@ function animate() {
     //         .easing(TWEEN.Easing.Circular.InOut)
     //         .start();
 
-    //TODO this needs to be more obvious
+    
 
     logo.children.forEach(function(mesh){
-      if(!mesh.material.wireframe){
-        new TWEEN.Tween( mesh.material.color ).to( {
+      // var colorInd = Math.floor((newPowerSelected+Math.random()*2)%(colors.length));
+
+      if(!mesh.material.wireframe){       
+
+      //make the change more obvious
+        new TWEEN.Tween( mesh.material ).to( {
+              opacity: 0
+              }, 400 )
+             .easing(TWEEN.Easing.Circular.In)
+            .start()
+            .onComplete(function(){
+              new TWEEN.Tween( mesh.material ).to( {
+              opacity: Math.random()*0.1+0.2
+              }, 1200 )
+             .easing(TWEEN.Easing.Circular.InOut)
+            .start();
+            new TWEEN.Tween( mesh.material.color ).to( {
               r: colors[colorInd].r,
               g: colors[colorInd].g,
               b: colors[colorInd].b
               }, 2000 )
             .easing(TWEEN.Easing.Circular.Out)
-            .start();
-      
-        new TWEEN.Tween( mesh.material ).to( {
-              opacity: Math.random()*0.1+0.2
-              }, 1500 )
-             .easing(TWEEN.Easing.Circular.Out)
-            .start();     
+            .start()
+
+            });     
 
         mesh.geometry.colorsNeedUpdate = true;
       }
