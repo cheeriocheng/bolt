@@ -20,6 +20,7 @@ var materials;
 var triangleMaterial; 
 var colors; 
 var extrudedLogo = new THREE.Group(); 
+var backgroundCube;
 
 init();
 animate();
@@ -53,6 +54,7 @@ function init() {
   scene = new THREE.Scene();
  
   createLights();
+  backgroundCube = createBackgroundCube();
   
   //helpers
   // backgroup grids
@@ -82,8 +84,8 @@ function init() {
             //wireframe: true
             opacity: 0.5,
             transparent: true,
-            blending: THREE.AdditiveBlending ,
-        })
+            blending: THREE.AdditiveBlending 
+  });
 
   var triangles = new THREE.Group();
   triangles.name = "logo3D"; 
@@ -131,35 +133,8 @@ var nameArray = [];
 function animate() {
   //transform the 3d logo 
   if(typed){
-    var logo = scene.getObjectByName("logo3D");
-    var s = $("#fullname").val();
-    //backspace handling
-    //TODO THE FIRST LETTER TYPED ISN'T REVERSED
-    if (s) {
-      if (s.substr(0,(s.length-1)) === lastTypedString) {
-        //a letter was added to the end
-        nameArray.push(new Letter(s[s.length -1],s.length));
-        nameArray[nameArray.length-1].animateName();
-      } else if (lastTypedString.substr(0, (lastTypedString.length-1)) === s) {
-        //undo the animation artifacts 
-         nameArray[nameArray.length-1].undoAnimateName();
-        //a letter was deleted from the end
-        nameArray.pop();
-      } else if (s !== lastTypedString) {
-        //letters were deleted or added midword
-        nameArray.forEach(function(element) {
-          //delete the animation artifacts
-          element.undoAnimateName();
-          nameArray.pop();
-        });
-        for (let i=0; i < s.length; i++) {
-          nameArray.push(new Letter(s[i], i+1));
-          nameArray[nameArray.length-1].animateName();
-        }
-      }
-    }
-    lastTypedString = s;
-    
+    nameAnimation();
+    typed = false;
     // var rad = degToRad((s.hashCode()/1000)%60)
     // // console.log($("#fullname").val(), h )
     // new TWEEN.Tween( logo.rotation ).to( {
@@ -178,8 +153,10 @@ function animate() {
     // }, 1000 )
     // // .easing(TWEEN.Easing.Circular.Out)
     //   .start();
-  
-    typed = false ;
+  }
+  if(located) {
+    locationAnimation();
+    located = false;
   }
 
   if(newPowerSelected != -1){
@@ -217,4 +194,87 @@ function render() {
   TWEEN.update();
   controls.update();
   renderer.render(scene, camera);
+}
+
+function nameAnimation() {
+  var s = $("#fullname").val();
+  //backspace handling
+  //TODO THE FIRST LETTER TYPED ISN'T REVERSED
+  if (s) {
+    if (s.substr(0,(s.length-1)) === lastTypedString) {
+      //a letter was added to the end
+      nameArray.push(new Letter(s[s.length -1],s.length));
+      nameArray[nameArray.length-1].animateName();
+    } else if (lastTypedString.substr(0, (lastTypedString.length-1)) === s) {
+      //undo the animation artifacts 
+      nameArray[nameArray.length-1].undoAnimateName();
+      //a letter was deleted from the end
+      nameArray.pop();
+    } else if (s !== lastTypedString) {
+      //letters were deleted or added midword
+      nameArray.forEach(function(element) {
+        //delete the animation artifacts
+        element.undoAnimateName();
+        nameArray.pop();
+      });
+      for (let i=0; i < s.length; i++) {
+        nameArray.push(new Letter(s[i], i+1));
+        nameArray[nameArray.length-1].animateName();
+      }
+    }
+  }
+  lastTypedString = s;
+}
+
+function locationAnimation() {
+  var texture = new THREE.TextureLoader().load(generateTexture(), function(){
+    var material = new THREE.MeshBasicMaterial({
+      map: texture
+    });
+    backgroundCube.material = material;
+    backgroundCube.material.needsUpdated = true;
+  });
+}
+
+function generateTexture() {
+  var size = Math.sqrt(Math.pow(window.innerWidth,2) + Math.pow(window.innerHeight,2));
+  var canvas = document.createElement( 'canvas' );
+  canvas.id = "gradient";
+  document.body.appendChild(canvas);
+  canvas.width = size;
+  canvas.height = size;
+
+  // get context
+  var context = canvas.getContext( '2d' );
+
+  // draw gradient
+  context.rect( 0, 0, size, size );
+  var gradient = context.createLinearGradient( 0, 0, size, size );
+  var gradientScale = Math.abs(Math.cos(newLocationSelected))/4;
+  gradient.addColorStop(0, '#d952d4'); // pink
+  gradient.addColorStop(2*gradientScale, '#ffc120'); // yellow
+  gradient.addColorStop(3*gradientScale, '#5bc678'); // green
+  gradient.addColorStop(4*gradientScale, '#0caff2'); // blue
+  // gradient.addColorStop(1, 'transparent');
+  context.fillStyle = gradient;
+  context.fill();
+  var texture = canvas.toDataURL("image/png");
+  document.getElementById("gradient").remove();
+  return texture;
+}
+
+function createBackgroundCube() {
+  var material = new THREE.MeshBasicMaterial({
+    transparent: true,
+    opacity: 0
+  });
+  var size = Math.sqrt(Math.pow(window.innerWidth,2) + Math.pow(window.innerHeight,2));
+  var scale = (CAMERA_Z+600)/CAMERA_Z; 
+  var x = size*scale;
+  var y = size*scale;
+  var geometry = new THREE.BoxGeometry(x, y, 200);
+  geometry.translate(0,0,-500);
+  var mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+  return mesh;
 }
