@@ -126,7 +126,8 @@ class Letter {
         new TWEEN.Tween(this.geom.material).to(
         {
           opacity: 0.4
-        }, 1000)
+        }, 400)
+           .easing( TWEEN.Easing.Elastic.In)
         .start();
 
         var mod = 0.05;
