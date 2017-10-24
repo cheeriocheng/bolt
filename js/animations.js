@@ -17,21 +17,28 @@ function nameAnimation() {
       nameArray.pop();
     } else if (s !== lastTypedString) {
       //letters were deleted or added midword
-      nameArray.forEach(function(element) {
+      for (let i=(nameArray.length-1); i >= 0; i--) {
         //delete the animation artifacts
-        element.undoAnimateName();
-        nameArray.pop();
-      });
+        if(nameArray[i].char !== s[i] && nameArray[i].ind !== i) {
+          nameArray[i].undoAnimateName();
+          nameArray.pop();
+        }
+      }
       for (let i=0; i < s.length; i++) {
-        nameArray.push(new Letter(s[i], i+1));
-        nameArray[nameArray.length-1].animateName();
+        if(!nameArray[i]) {
+          nameArray.push(new Letter(s[i], i+1));
+          nameArray[i].animateName();
+        }
       }
     }
     lastTypedString = s;
   } else if (lastTypedString) {
-    //the only letter was deleted
-    nameArray[nameArray.length-1].undoAnimateName();
-    nameArray.pop();
+    //all of the letters were deleted
+    for (let i=(nameArray.length-1); i >= 0; i--) {
+      //delete the animation artifacts
+      nameArray[i].undoAnimateName();
+      nameArray.pop();
+    }
     lastTypedString = "";
   }
 }
